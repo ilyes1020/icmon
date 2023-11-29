@@ -1,0 +1,29 @@
+package ch.epfl.cs107.icmon.area.maps;
+/*
+ *	Author:      Ilyes Rouibi
+ *	Date:        29/11/2023
+ */
+
+import ch.epfl.cs107.icmon.area.ICMonArea;
+import ch.epfl.cs107.play.engine.actor.Background;
+import ch.epfl.cs107.play.engine.actor.Foreground;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
+
+public final class Town extends ICMonArea {
+
+    @Override
+    public String getTitle() {
+        return "town";
+    }
+
+    @Override
+    protected void createArea() {
+        registerActor(new Background(this));
+        registerActor(new Foreground(this));
+    }
+
+    @Override
+    public DiscreteCoordinates getPlayerSpawnPosition() {
+        return null;
+    }
+}
