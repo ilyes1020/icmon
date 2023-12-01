@@ -4,7 +4,7 @@ package ch.epfl.cs107.icmon;
  *	Date:        19/11/2023
  */
 
-import ch.epfl.cs107.icmon.actor.ICMonPlayer;
+import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.icmon.area.maps.Town;
 import ch.epfl.cs107.play.areagame.AreaGame;
@@ -54,10 +54,10 @@ public final class ICmon extends AreaGame {
 
     private void initArea(String areaKey) {
         ICMonArea area = (ICMonArea) setCurrentArea(areaKey, true);
-//        DiscreteCoordinates coords = area.getPlayerSpawnPosition();
-//        player = new ICMonPlayer(area, Orientation.DOWN, coords, "ghost.1");
-//        player.enterArea(area, coords);
-//        player.centerCamera();
+        DiscreteCoordinates coords = area.getPlayerSpawnPosition();
+        player = new ICMonPlayer(area, Orientation.DOWN, coords, "player");
+        player.enterArea(area, coords);
+        player.centerCamera();
     }
 
 //    private void switchArea() {
