@@ -6,14 +6,18 @@ package ch.epfl.cs107.icmon.actor.player;
 
 import ch.epfl.cs107.icmon.actor.ICMonActor;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Button;
+import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
 public class ICMonPlayer extends ICMonActor{
 
-    private final static int MOVE_DURATION = 8;
+    private final static int ANIMATION_DURATION = 8;
+
+    private OrientedAnimation orientedAnimation;
     /**
      * Default MovableAreaEntity constructor
      *
@@ -22,7 +26,8 @@ public class ICMonPlayer extends ICMonActor{
      * @param position    (Coordinate): Initial position of the entity. Not null
      */
     public ICMonPlayer(Area area, Orientation orientation, DiscreteCoordinates position, String spriteName) {
-        super(area, orientation, position, spriteName);
+        super(area, orientation, position);
+        orientedAnimation = new OrientedAnimation(spriteName, ANIMATION_DURATION /2, Orientation.DOWN, this);
 
     }
     @Override
@@ -33,6 +38,12 @@ public class ICMonPlayer extends ICMonActor{
         moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
         moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        if (isDisplacementOccurs()){
+            orientedAnimation.update(ANIMATION_DURATION);       //update l'animation si ya un déplacement
+        }
+        else {
+            orientedAnimation.reset();      //reset l'animation quand on ne bouge pas
+        }
         super.update(deltaTime);
     }
 
@@ -40,7 +51,10 @@ public class ICMonPlayer extends ICMonActor{
         if (b.isDown()) {
             if (!isDisplacementOccurs()) {
                 orientate(orientation);
-                move(MOVE_DURATION);
+                move(ANIMATION_DURATION);
+            }
+            else {
+                orientedAnimation.orientate(orientation); //oriente le perso quand on bouge
             }
         }
     }
@@ -49,6 +63,13 @@ public class ICMonPlayer extends ICMonActor{
         getOwnerArea().setViewCandidate(this);
     }
 
+    @Override
+    public boolean takeCellSpace() {
+        return true;
+    } //ne soit pas traversable
 
-
+    @Override
+    public void draw(Canvas canvas) {
+        orientedAnimation.draw(canvas);
+    }
 }

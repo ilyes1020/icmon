@@ -17,7 +17,6 @@ import java.util.List;
 
 public class ICMonActor extends MovableAreaEntity {
 
-    private final Sprite sprite;
     /**
      * Default MovableAreaEntity constructor
      *
@@ -25,9 +24,8 @@ public class ICMonActor extends MovableAreaEntity {
      * @param orientation (Orientation): Initial orientation of the entity. Not null
      * @param position    (Coordinate): Initial position of the entity. Not null
      */
-    public ICMonActor(Area area, Orientation orientation, DiscreteCoordinates position,String spriteName) {
+    public ICMonActor(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
-        sprite = new Sprite(spriteName, 1.f, 1.f, this);
     }
 
     @Override
@@ -69,6 +67,5 @@ public class ICMonActor extends MovableAreaEntity {
 
     @Override
     public void draw(Canvas canvas) {
-
     }
 }
