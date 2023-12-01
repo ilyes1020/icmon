@@ -39,7 +39,8 @@ public class ICMonPlayer extends ICMonActor{
         moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
         if (isDisplacementOccurs()){
-            orientedAnimation.update(ANIMATION_DURATION);       //update l'animation si ya un déplacement
+            orientedAnimation.update(deltaTime);       //update l'animation si ya un déplacement
+            orientedAnimation.orientate(getOrientation());  //oriente le perso
         }
         else {
             orientedAnimation.reset();      //reset l'animation quand on ne bouge pas
@@ -52,9 +53,6 @@ public class ICMonPlayer extends ICMonActor{
             if (!isDisplacementOccurs()) {
                 orientate(orientation);
                 move(ANIMATION_DURATION);
-            }
-            else {
-                orientedAnimation.orientate(orientation); //oriente le perso quand on bouge
             }
         }
     }
