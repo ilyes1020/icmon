@@ -101,6 +101,10 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      */
     @Override
     public boolean wantsViewInteraction() {
+        Keyboard keyboard = getOwnerArea().getKeyboard();
+        if (keyboard.get(Keyboard.L).isPressed()){
+            return true;
+        }
         return false;
     }
 
