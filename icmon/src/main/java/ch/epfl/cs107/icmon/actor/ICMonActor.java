@@ -48,7 +48,7 @@ public class ICMonActor extends MovableAreaEntity {
     @Override
     public boolean takeCellSpace() {
         return false;
-    } //est-ce que tous les acteurs sont non traversables de base ?
+    }
 
     @Override
     public boolean isCellInteractable() {
