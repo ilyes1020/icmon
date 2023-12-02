@@ -17,8 +17,8 @@ public final class ICMonBehavior extends AreaBehavior {
      * @param name   (String): name of the behavior image, not null
      */
     public ICMonBehavior(Window window, String name) {
-        sut height = getHeight();
-        inper(window, name);
+        super(window, name);
+        int height = getHeight();
         int width = getWidth();
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
