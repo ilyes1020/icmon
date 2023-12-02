@@ -65,6 +65,7 @@ public final class ICmon extends AreaGame {
         player = new ICMonPlayer(area, Orientation.DOWN, coords, "actors/player");
         player.enterArea(area, coords);
         player.centerCamera();
+        player.leaveArea();
     }
 
 //    private void switchArea() {

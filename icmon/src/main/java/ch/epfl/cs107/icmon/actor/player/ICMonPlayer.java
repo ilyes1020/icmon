@@ -5,6 +5,8 @@ package ch.epfl.cs107.icmon.actor.player;
  */
 
 import ch.epfl.cs107.icmon.actor.ICMonActor;
+import ch.epfl.cs107.play.areagame.actor.Interactable;
+import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -13,7 +15,10 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
-public class ICMonPlayer extends ICMonActor{
+import java.util.Collections;
+import java.util.List;
+
+public class ICMonPlayer extends ICMonActor implements Interactor {
 
     private final static int ANIMATION_DURATION = 8;
 
@@ -61,6 +66,8 @@ public class ICMonPlayer extends ICMonActor{
         getOwnerArea().setViewCandidate(this);
     }
 
+
+
     @Override
     public boolean takeCellSpace() {
         return true;
@@ -70,4 +77,43 @@ public class ICMonPlayer extends ICMonActor{
     public void draw(Canvas canvas) {
         orientedAnimation.draw(canvas);
     }
+
+    /**
+     * Get this Interactor's current field of view cells coordinates
+     *
+     * @return (List of DiscreteCoordinates). May be empty but not null
+     */
+    @Override
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        return Collections.singletonList(getCurrentMainCellCoordinates ().jump( getOrientation (). toVector ()));
+    }
+
+    /**
+     * @return (boolean): true if this require cell interaction
+     */
+    @Override
+    public boolean wantsCellInteraction() {
+        return true;
+    }
+
+    /**
+     * @return (boolean): true if this require view interaction
+     */
+    @Override
+    public boolean wantsViewInteraction() {
+        return false;
+    }
+
+    /**
+     * Do this Interactor interact with the given Interactable
+     * The interaction is implemented on the interactor side !
+     *
+     * @param other             (Interactable). Not null
+     * @param isCellInteraction True if this is a cell interaction
+     */
+    @Override
+    public void interactWith(Interactable other, boolean isCellInteraction) {
+
+    }
+    //no need to Override the getCurrentCell method, same as super
 }
