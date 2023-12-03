@@ -5,6 +5,9 @@ package ch.epfl.cs107.icmon.actor.player;
  */
 
 import ch.epfl.cs107.icmon.actor.ICMonActor;
+import ch.epfl.cs107.icmon.actor.items.ICBall;
+import ch.epfl.cs107.icmon.area.maps.ICMonBehavior;
+import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -14,15 +17,20 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.Collections;
 import java.util.List;
 
 public class ICMonPlayer extends ICMonActor implements Interactor {
 
+    private final ICMonPlayerInteractionHandler handler;
+
     private final static int ANIMATION_DURATION = 8;
 
-    private OrientedAnimation orientedAnimation;
+    private final OrientedAnimation walkingAnimation;
+    private final OrientedAnimation surfingAnimation;
+    private OrientedAnimation currentAnimation;
     /**
      * Default MovableAreaEntity constructor
      *
@@ -30,10 +38,12 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      * @param orientation (Orientation): Initial orientation of the entity. Not null
      * @param position    (Coordinate): Initial position of the entity. Not null
      */
-    public ICMonPlayer(Area area, Orientation orientation, DiscreteCoordinates position, String spriteName) {
+    public ICMonPlayer(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
-        orientedAnimation = new OrientedAnimation(spriteName, ANIMATION_DURATION /2, Orientation.DOWN, this);
-
+        walkingAnimation = new OrientedAnimation("actors/player", ANIMATION_DURATION /2, Orientation.DOWN, this);
+        surfingAnimation = new OrientedAnimation("actors/player_water", ANIMATION_DURATION /2, Orientation.DOWN, this);
+        currentAnimation = walkingAnimation;
+        handler = new ICMonPlayerInteractionHandler();
     }
     @Override
     public void update(float deltaTime) {
@@ -44,11 +54,11 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
         if (isDisplacementOccurs()){
-            orientedAnimation.update(deltaTime);       //update l'animation si ya un déplacement
-            orientedAnimation.orientate(getOrientation());  //oriente le perso
+            currentAnimation.update(deltaTime);       //update l'animation si ya un déplacement
+            currentAnimation.orientate(getOrientation());  //oriente le perso
         }
         else {
-            orientedAnimation.reset();      //reset l'animation quand on ne bouge pas
+            currentAnimation.reset();      //reset l'animation quand on ne bouge pas
         }
         super.update(deltaTime);
     }
@@ -75,7 +85,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
 
     @Override
     public void draw(Canvas canvas) {
-        orientedAnimation.draw(canvas);
+        currentAnimation.draw(canvas);
     }
 
     /**
@@ -117,7 +127,28 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      */
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
-
+        other.acceptInteraction(handler , isCellInteraction);
     }
     //no need to Override the getCurrentCell method, same as super
+
+    private class ICMonPlayerInteractionHandler implements ICMonInteractionVisitor{ //jsp si c'est vrm privé
+        @Override
+        public void interactWith(ICBall ball, boolean isCellInteraction) {  //ramasser la balle
+            if (!isCellInteraction && wantsCellInteraction()){
+                ball.collect();
+            }
+        }
+        @Override
+        public void interactWith(ICMonBehavior.ICMonCell cell, boolean isCellInteraction) {
+            //System.out.println(cell.getType().getWalkingType() == ICMonBehavior.AllowedWalkingType.FEET);
+            if (isCellInteraction){
+                if (cell.getType().getWalkingType() == ICMonBehavior.AllowedWalkingType.FEET){ //est-ce qu'il y a plus simple que de créer des getter ?
+                    currentAnimation = walkingAnimation;
+                }
+                if (cell.getType().getWalkingType() == ICMonBehavior.AllowedWalkingType.SURF){
+                    currentAnimation = surfingAnimation;
+                }
+            }
+        }
+    }
 }

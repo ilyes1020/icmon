@@ -4,6 +4,7 @@ package ch.epfl.cs107.icmon.area.maps;
  *	Date:        29/11/2023
  */
 
+import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.AreaBehavior;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
@@ -55,6 +56,10 @@ public final class ICMonBehavior extends AreaBehavior {
             this.walkingType = walkingType;
         }
 
+        public AllowedWalkingType getWalkingType() { //j'ai crée ce getter pour ICMonPlayer
+            return walkingType;
+        }
+
         public static ICMonCellType toType(int type) {
             for (ICMonCellType ict : ICMonCellType.values()) {
                 if (ict.type == type)
@@ -82,6 +87,10 @@ public final class ICMonBehavior extends AreaBehavior {
             this.type = type;
         }
 
+        public ICMonCellType getType() { //j'ai crée ce getter pour ICMonPlayer
+            return type;
+        }
+
         @Override
         protected boolean canLeave(Interactable entity) {
             return true;
@@ -104,7 +113,8 @@ public final class ICMonBehavior extends AreaBehavior {
 
         @Override
         public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-
+            ((ICMonInteractionVisitor) v).interactWith(this , isCellInteraction);
         }
+
     }
 }

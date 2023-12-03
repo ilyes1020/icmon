@@ -4,6 +4,7 @@ package ch.epfl.cs107.icmon.actor.items;
  *	Date:        1/12/2023
  */
 
+import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -31,11 +32,16 @@ public class ICBall extends ICMonItem{
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-
+        ((ICMonInteractionVisitor) v).interactWith(this , isCellInteraction);
     }
+
 
     @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
+    }
+
+    private class ICBallHandler implements ICMonInteractionVisitor{
+
     }
 }
