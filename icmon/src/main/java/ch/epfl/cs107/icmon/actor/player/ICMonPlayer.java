@@ -11,6 +11,7 @@ import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -129,6 +130,11 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         other.acceptInteraction(handler , isCellInteraction);
     }
     //no need to Override the getCurrentCell method, same as super
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        (( ICMonInteractionVisitor ) v). interactWith (this , isCellInteraction );
+    }
 
     private class ICMonPlayerInteractionHandler implements ICMonInteractionVisitor{ //jsp si c'est vrm privé
         @Override

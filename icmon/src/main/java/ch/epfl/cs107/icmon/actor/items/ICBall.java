@@ -26,7 +26,7 @@ public class ICBall extends ICMonItem{
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
-
+    //no need to override isCellInteractable(), same as super
     @Override
     public boolean isViewInteractable() {
         return true;
