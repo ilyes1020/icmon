@@ -49,15 +49,15 @@ public final class ICMonBehavior extends AreaBehavior {
 
 
         final int type;
-        final AllowedWalkingType walkingType;
+        final AllowedWalkingType isWalkable;
 
-        ICMonCellType(int type, AllowedWalkingType walkingType) {
+        ICMonCellType(int type, AllowedWalkingType isWalkable) {
             this.type = type;
-            this.walkingType = walkingType;
+            this.isWalkable = isWalkable;
         }
 
-        public AllowedWalkingType getWalkingType() { //j'ai crée ce getter pour ICMonPlayer
-            return walkingType;
+        public AllowedWalkingType getIsWalkable() { //j'ai crée ce getter pour ICMonPlayer
+            return isWalkable;
         }
 
         public static ICMonCellType toType(int type) {
@@ -98,7 +98,12 @@ public final class ICMonBehavior extends AreaBehavior {
 
         @Override
         protected boolean canEnter(Interactable entity) {
-            return entity.takeCellSpace();      //pas sur (ptt il faut retourner l'inverse)
+
+            for (Interactable interactable: entities){
+                return interactable.takeCellSpace() != entity.takeCellSpace();
+            }
+
+            return type.isWalkable != AllowedWalkingType.NONE;
         }
 
         @Override

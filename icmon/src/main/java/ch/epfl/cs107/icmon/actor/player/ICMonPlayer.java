@@ -76,8 +76,6 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         getOwnerArea().setViewCandidate(this);
     }
 
-
-
     @Override
     public boolean takeCellSpace() {
         return true;
@@ -147,10 +145,10 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         public void interactWith(ICMonBehavior.ICMonCell cell, boolean isCellInteraction) {
             //System.out.println(cell.getType().getWalkingType() == ICMonBehavior.AllowedWalkingType.FEET);
             if (isCellInteraction){
-                if (cell.getType().getWalkingType() == ICMonBehavior.AllowedWalkingType.FEET){ //est-ce qu'il y a plus simple que de créer des getter ?
+                if (cell.getType().getIsWalkable() == ICMonBehavior.AllowedWalkingType.FEET){ //est-ce qu'il y a plus simple que de créer des getter ?
                     currentAnimation = walkingAnimation;
                 }
-                if (cell.getType().getWalkingType() == ICMonBehavior.AllowedWalkingType.SURF){
+                if (cell.getType().getIsWalkable() == ICMonBehavior.AllowedWalkingType.SURF){
                     currentAnimation = surfingAnimation;
                 }
             }
