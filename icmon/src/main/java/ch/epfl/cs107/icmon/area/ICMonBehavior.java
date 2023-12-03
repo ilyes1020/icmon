@@ -1,4 +1,4 @@
-package ch.epfl.cs107.icmon.area.maps;
+package ch.epfl.cs107.icmon.area;
 /*
  *	Author:      Ilyes Rouibi
  *	Date:        29/11/2023

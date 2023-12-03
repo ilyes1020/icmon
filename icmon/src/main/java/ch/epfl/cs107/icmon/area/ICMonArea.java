@@ -5,7 +5,6 @@ package ch.epfl.cs107.icmon.area;
  */
 
 import ch.epfl.cs107.icmon.ICmon;
-import ch.epfl.cs107.icmon.area.maps.ICMonBehavior;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
