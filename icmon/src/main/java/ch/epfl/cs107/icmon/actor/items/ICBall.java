@@ -15,8 +15,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class ICBall extends ICMonItem{
-    public ICBall(Area area, Orientation orientation, DiscreteCoordinates position, String spriteName) {
-        super(area, orientation, position, spriteName);
+
+
+    public ICBall(Area area, DiscreteCoordinates position, String spriteName) {
+        super(area, position, spriteName);
     }
 
     @Override

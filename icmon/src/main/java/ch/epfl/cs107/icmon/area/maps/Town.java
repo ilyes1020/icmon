@@ -22,7 +22,7 @@ public final class Town extends ICMonArea {
     protected void createArea() {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
-        registerActor(new ICBall(this, Orientation.DOWN, new DiscreteCoordinates(6,6),"items/icball"));
+        registerActor(new ICBall(this, new DiscreteCoordinates(6,6),"items/icball"));
     }
 
     @Override

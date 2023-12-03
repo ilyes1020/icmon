@@ -15,10 +15,6 @@ import ch.epfl.cs107.play.signal.logic.Or;
 public abstract class ICMonItem extends CollectableAreaEntity {
     Sprite sprite;
 
-    public ICMonItem(Area area, Orientation orientation, DiscreteCoordinates position, String spriteName) {
-        super(area, orientation, position);
-        sprite = new RPGSprite(spriteName,1f,1f,this);
-    }
     public ICMonItem(Area area, DiscreteCoordinates position, String spriteName) {
         super(area, Orientation.DOWN, position);
         sprite = new RPGSprite(spriteName,1f,1f,this);
