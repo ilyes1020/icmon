@@ -11,10 +11,10 @@ public class ICMonEvent implements Updatable {
     private boolean started;
     private boolean completed;
     private boolean suspended;
-    private ArrayList<Action> ActionsOnStart;
-    private ArrayList<Action> ActionsOnComplete;
-    private ArrayList<Action> ActionsOnSuspend;
-    private ArrayList<Action> ActionsOnResume;
+    private ArrayList<Action> ActionsOnStart = new ArrayList<Action>();
+    private ArrayList<Action> ActionsOnComplete = new ArrayList<Action>();
+    private ArrayList<Action> ActionsOnSuspend = new ArrayList<Action>();
+    private ArrayList<Action> ActionsOnResume = new ArrayList<Action>();
 
     public ICMonEvent(){
         started = false;

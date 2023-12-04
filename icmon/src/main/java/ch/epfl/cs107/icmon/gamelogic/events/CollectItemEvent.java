@@ -7,7 +7,6 @@ public class CollectItemEvent extends ICMonEvent{
     public CollectItemEvent(ICMonItem item){
         this.item = item;
     }
-
     @Override
     public void update(float deltaTime) { //pas sûr ici sur cette redefinition
         if (item.isCollected()){
