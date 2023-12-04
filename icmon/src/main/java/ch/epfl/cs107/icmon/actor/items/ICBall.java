@@ -26,7 +26,6 @@ public class ICBall extends ICMonItem{
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
-    //no need to override isCellInteractable(), same as super
     @Override
     public boolean isViewInteractable() {
         return true;
@@ -37,13 +36,17 @@ public class ICBall extends ICMonItem{
         ((ICMonInteractionVisitor) v).interactWith(this , isCellInteraction);
     }
 
-
     @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
     }
 
     private class ICBallHandler implements ICMonInteractionVisitor{
+
+
+    //no need to override isCellInteractable(), same as super
+
+    //no need to override collect(), same as super
 
     }
 }
