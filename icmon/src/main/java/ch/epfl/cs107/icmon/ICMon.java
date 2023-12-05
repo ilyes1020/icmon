@@ -97,11 +97,10 @@ public final class ICMon extends AreaGame {
          * @param interactable un interactable avec qui le personnage veut interagir, type interactable
          * @param isCellInteraction interaction de contact, type boolean
          */
-        public void acceptInteraction (Interactable interactable , boolean isCellInteraction ){
+        public void acceptInteraction (Interactable interactable, boolean isCellInteraction ){
             for(var event : ICMon.this.eventList)
-                interactable . acceptInteraction (event , isCellInteraction);
+                interactable.acceptInteraction(event , isCellInteraction);
         }
-
     }
 
 //    private void switchArea() {

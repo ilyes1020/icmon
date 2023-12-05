@@ -117,11 +117,15 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         return keyboard.get(Keyboard.L).isPressed();
     }
 
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        ((ICMonInteractionVisitor) v).interactWith (this , isCellInteraction);
+    }
     /**
      * Do this Interactor interact with the given Interactable
      * The interaction is implemented on the interactor side !
      *
-     * @param other             (Interactable). Not null
+     * @param other (Interactable). Not null
      * @param isCellInteraction True if this is a cell interaction
      */
     @Override
@@ -130,11 +134,6 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         gameState.acceptInteraction(other, isCellInteraction);
     }
     //no need to Override the getCurrentCell method, same as super
-
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-        (( ICMonInteractionVisitor ) v). interactWith (this , isCellInteraction );
-    }
 
     private class ICMonPlayerInteractionHandler implements ICMonInteractionVisitor{
         @Override

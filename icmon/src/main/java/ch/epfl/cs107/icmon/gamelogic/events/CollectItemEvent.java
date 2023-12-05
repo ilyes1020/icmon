@@ -19,5 +19,4 @@ public class CollectItemEvent extends ICMonEvent{
     public void interactWith(ICShopAssistant assistant , boolean isCellInteraction){
         System.out.println("This is an interaction between the player and ICShopAssistant based on events !");
     }
-
 }
