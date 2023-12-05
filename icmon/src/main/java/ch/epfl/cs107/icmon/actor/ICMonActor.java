@@ -15,7 +15,7 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.Collections;
 import java.util.List;
 
-public class ICMonActor extends MovableAreaEntity {
+public abstract class ICMonActor extends MovableAreaEntity {
 
     /**
      * Default MovableAreaEntity constructor
@@ -48,7 +48,7 @@ public class ICMonActor extends MovableAreaEntity {
     @Override
     public boolean takeCellSpace() {
         return false;
-    }
+    } //traversable
 
     @Override
     public boolean isCellInteractable() {

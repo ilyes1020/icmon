@@ -134,7 +134,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         (( ICMonInteractionVisitor ) v). interactWith (this , isCellInteraction );
     }
 
-    private class ICMonPlayerInteractionHandler implements ICMonInteractionVisitor{ //jsp si c'est vrm privé
+    private class ICMonPlayerInteractionHandler implements ICMonInteractionVisitor{
         @Override
         public void interactWith(ICBall ball, boolean isCellInteraction) {  //ramasser la balle
             if (!isCellInteraction && wantsCellInteraction()){

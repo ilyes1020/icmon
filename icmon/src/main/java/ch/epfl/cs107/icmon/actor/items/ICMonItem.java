@@ -29,4 +29,9 @@ public abstract class ICMonItem extends CollectableAreaEntity {
     public boolean isCellInteractable() {
         return true;
     }
+
+    @Override
+    public boolean isViewInteractable() { //contact uniquement (page 10)
+        return false;
+    }
 }

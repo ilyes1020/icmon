@@ -4,7 +4,7 @@ package ch.epfl.cs107.icmon.area;
  *	Date:        29/11/2023
  */
 
-import ch.epfl.cs107.icmon.ICmon;
+import ch.epfl.cs107.icmon.ICMon;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -28,7 +28,7 @@ public abstract class ICMonArea extends Area {
 
     @Override
     public final float getCameraScaleFactor() {
-        return ICmon.CAMERA_SCALE_FACTOR;
+        return ICMon.CAMERA_SCALE_FACTOR;
     }
 
 }
