@@ -13,6 +13,7 @@ import ch.epfl.cs107.icmon.gamelogic.actions.RegisterinAreaAction;
 import ch.epfl.cs107.icmon.gamelogic.events.CollectItemEvent;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
 import ch.epfl.cs107.play.areagame.AreaGame;
+import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -34,6 +35,7 @@ public final class ICMon extends AreaGame {
     private int areaIndex;
 
     private ICMonEvent event;
+    private ICMonGameState gameState = new ICMonGameState();
 
     private void createAreas() {
         addArea(new Town());
@@ -75,15 +77,30 @@ public final class ICMon extends AreaGame {
 
     @Override
     public String getTitle() {
-        return "ICmon";
+        return "ICMon";
     }
 
     private void initArea(String areaKey) {
         ICMonArea area = (ICMonArea) setCurrentArea(areaKey, true);
         DiscreteCoordinates coords = area.getPlayerSpawnPosition();
-        player = new ICMonPlayer(area, Orientation.DOWN, coords);
+        player = new ICMonPlayer(area, Orientation.DOWN, coords, gameState);
         player.enterArea(area, coords);
         player.centerCamera();
+
+    }
+    public class ICMonGameState{
+        private ICMonGameState(){};
+
+        /**
+         * demande à interactable d’accepter de voir ses
+         * interactions (avec le personnage) gérée par les événements qui constituent l’état du jeu
+         * @param interactable un interactable avec qui le personnage veut interagir, type interactable
+         * @param isCellInteraction interaction de contact, type boolean
+         */
+        public void acceptInteraction (Interactable interactable , boolean isCellInteraction ){
+            for(var event : ICMon.this.eventList)
+                interactable . acceptInteraction (event , isCellInteraction);
+        }
 
     }
 

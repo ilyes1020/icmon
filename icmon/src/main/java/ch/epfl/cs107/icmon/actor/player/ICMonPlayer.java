@@ -4,6 +4,7 @@ package ch.epfl.cs107.icmon.actor.player;
  *	Date:        29/11/2023
  */
 
+import ch.epfl.cs107.icmon.ICMon;
 import ch.epfl.cs107.icmon.actor.ICMonActor;
 import ch.epfl.cs107.icmon.actor.items.ICBall;
 import ch.epfl.cs107.icmon.area.ICMonBehavior;
@@ -31,6 +32,8 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private final OrientedAnimation walkingAnimation;
     private final OrientedAnimation surfingAnimation;
     private OrientedAnimation currentAnimation;
+    private ICMon.ICMonGameState gameState;
+
     /**
      * Default MovableAreaEntity constructor
      *
@@ -38,12 +41,13 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      * @param orientation (Orientation): Initial orientation of the entity. Not null
      * @param position    (Coordinate): Initial position of the entity. Not null
      */
-    public ICMonPlayer(Area area, Orientation orientation, DiscreteCoordinates position) {
+    public ICMonPlayer(Area area, Orientation orientation, DiscreteCoordinates position, ICMon.ICMonGameState gameState) {
         super(area, orientation, position);
         walkingAnimation = new OrientedAnimation("actors/player", ANIMATION_DURATION /2, Orientation.DOWN, this);
         surfingAnimation = new OrientedAnimation("actors/player_water", ANIMATION_DURATION /2, Orientation.DOWN, this);
         currentAnimation = walkingAnimation;
         handler = new ICMonPlayerInteractionHandler();
+        this.gameState = gameState;
     }
     @Override
     public void update(float deltaTime) {
@@ -110,10 +114,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     @Override
     public boolean wantsViewInteraction() {
         Keyboard keyboard = getOwnerArea().getKeyboard();
-        if (keyboard.get(Keyboard.L).isPressed()){
-            return true;
-        }
-        return false;
+        return keyboard.get(Keyboard.L).isPressed();
     }
 
     /**
@@ -125,7 +126,8 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      */
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
-        other.acceptInteraction(handler , isCellInteraction);
+        other.acceptInteraction(handler, isCellInteraction);
+        gameState.acceptInteraction(other, isCellInteraction);
     }
     //no need to Override the getCurrentCell method, same as super
 
