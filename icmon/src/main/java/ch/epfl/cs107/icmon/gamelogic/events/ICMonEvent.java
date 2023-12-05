@@ -22,7 +22,7 @@ public abstract class ICMonEvent implements Updatable, ICMonInteractionVisitor {
         started = false;
         completed = false;
         suspended = false;
-        this.player=player;
+        this.player = player;
     }
 
     /**

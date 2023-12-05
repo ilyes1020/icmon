@@ -19,7 +19,6 @@ import ch.epfl.cs107.play.math.Orientation;
 
 public final class Town extends ICMonArea {
 
-    private ICMonEvent event;
 
     @Override
     public String getTitle() {

@@ -26,8 +26,7 @@ public abstract class NPCActor extends ICMonActor {
      */
     public NPCActor(Area area, Orientation orientation, DiscreteCoordinates position, String sprite_name) {
         super(area, orientation, position);
-        sprite = new RPGSprite(sprite_name , 1, 1.3125f, this , new RegionOfInterest(0, 0, 16,
-                21));
+        sprite = new RPGSprite(sprite_name , 1, 1.3125f, this , new RegionOfInterest(0, 0, 16, 21));
     }
 
     @Override
@@ -45,9 +44,5 @@ public abstract class NPCActor extends ICMonActor {
         return true;
     }
 
-    @Override
-    public List<DiscreteCoordinates> getCurrentCells() {
-        return super.getCurrentCells();
-    }
     //no need to Override the getCurrentCell method, same as super
 }
