@@ -64,6 +64,7 @@ public final class ICMon extends AreaGame {
     public void update(float deltaTime) {
         Keyboard keyboard = getCurrentArea().getKeyboard(); //pour reset le jeu
         if (keyboard.get(Keyboard.R).isPressed()){ //isPressed pour pas que ca spam
+            eventList.clear(); //pour supprimer tous les events quand on reset
             begin(getWindow(),getFileSystem());
         }
         event.update(deltaTime);
