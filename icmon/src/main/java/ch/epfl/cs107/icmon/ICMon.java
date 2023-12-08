@@ -58,10 +58,6 @@ public final class ICMon extends AreaGame {
 
             CollectItemEvent ballCollect = new CollectItemEvent(ball,player);
             EndOfTheGameEvent endGame = new EndOfTheGameEvent(player);
-            eventsToRegister.add(ballCollect);
-            eventsToRegister.add(endGame);
-            eventsToUnRegister.add(ballCollect);
-            eventsToUnRegister.add(endGame);
 
             ballCollect.onStart(new RegisterEventAction(ballCollect, eventManager));
             ballCollect.onStart(new RegisterinAreaAction(getCurrentArea(),ball));
@@ -72,16 +68,8 @@ public final class ICMon extends AreaGame {
             endGame.onStart(new LogAction("the second event has started !"));
             endGame.onStart(new RegisterEventAction(endGame,eventManager));
 
-
-
             ballCollect.start();
 
-
-//            currentEvents.add(new CollectItemEvent(balle,player));
-//            currentEvents.get(0).onStart(new LogAction("CollectItemEvent started !"));
-//            currentEvents.get(0).onStart(new RegisterinAreaAction(getCurrentArea(),balle));
-//            currentEvents.get(0).onComplete(new LogAction("CollectItemEvent completed !"));
-//            currentEvents.get(0).start();
             return true;
         }
         return false;
@@ -93,9 +81,16 @@ public final class ICMon extends AreaGame {
         if (keyboard.get(Keyboard.R).isPressed()){ //isPressed pour pas que ca spam
             begin(getWindow(),getFileSystem());
         }
-        currentEvents.get(0).update(deltaTime);
+
+        currentEvents.addAll(eventsToRegister);
+        currentEvents.removeAll(eventsToUnRegister);
+
         eventsToRegister.clear();
         eventsToUnRegister.clear();
+
+        for (ICMonEvent event : currentEvents){
+            event.update(deltaTime);
+        }
 
         super.update(deltaTime);
     }
@@ -138,11 +133,11 @@ public final class ICMon extends AreaGame {
         private ICMonEventManager(){}
 
         public void registerEvent(ICMonEvent eventToRegister){
-            currentEvents.add(eventToRegister);
+            eventsToRegister.add(eventToRegister);
         }
 
         public void unRegisterEvent (ICMonEvent eventToUnRegister){
-            currentEvents.remove(eventToUnRegister);
+            eventsToUnRegister.add(eventToUnRegister);
         }
     }
 
