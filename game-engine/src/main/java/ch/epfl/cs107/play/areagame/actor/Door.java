@@ -20,7 +20,7 @@ public class Door extends AreaEntity {
     private String arrivalAreaName;
     private DiscreteCoordinates arrivalAreaPosition;
     private DiscreteCoordinates mainCoords;
-    private DiscreteCoordinates[] additionalCoords;
+    private ArrayList<DiscreteCoordinates> additionalCoords = new ArrayList<>();
     /**
      * Default AreaEntity constructor
      *
@@ -35,13 +35,13 @@ public class Door extends AreaEntity {
     }
     public Door(Area currentArea, String arrivalAreaName, DiscreteCoordinates arrivalAreaPosition, DiscreteCoordinates mainCoords, DiscreteCoordinates... additionalCoords) {
         this(currentArea, arrivalAreaName, arrivalAreaPosition, mainCoords);
-        this.additionalCoords = additionalCoords;
+        this.additionalCoords.addAll(Arrays.asList(additionalCoords));
     }
 
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
-        List<DiscreteCoordinates> currentCells = new ArrayList<>(Arrays.asList(additionalCoords));
-        currentCells.add(mainCoords);
+        List<DiscreteCoordinates> currentCells = new ArrayList<>(additionalCoords);
+        currentCells.add(getCurrentMainCellCoordinates());
         return currentCells;
     }
 
