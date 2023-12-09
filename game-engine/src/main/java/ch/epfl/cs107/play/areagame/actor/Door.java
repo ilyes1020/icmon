@@ -1,4 +1,4 @@
-package ch.epfl.cs107.icmon.actor;
+package ch.epfl.cs107.play.areagame.actor;
 /*
  *	Author:      Ilyes Rouibi
  *	Date:
@@ -12,38 +12,36 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Door extends AreaEntity {
 
-    private String toAreaName;
-
-    private DiscreteCoordinates toAreaPosition;
-
-    private List<DiscreteCoordinates> additionalCoords;
+    private String arrivalAreaName;
+    private DiscreteCoordinates arrivalAreaPosition;
+    private DiscreteCoordinates mainCoords;
+    private DiscreteCoordinates[] additionalCoords;
     /**
      * Default AreaEntity constructor
      *
      * @param currentArea        (Area): Owner area. Not null
      * @param mainCoords    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
      */
-    public Door(Area currentArea, String toAreaName, DiscreteCoordinates toAreaPosition, DiscreteCoordinates mainCoords) {
+    public Door(Area currentArea, String arrivalAreaName, DiscreteCoordinates arrivalAreaPosition, DiscreteCoordinates mainCoords) {
         super(currentArea, Orientation.UP, mainCoords);
-        this.toAreaName = toAreaName;
-        this.toAreaPosition = toAreaPosition;
-        this.additionalCoords = new ArrayList<>();
+        this.mainCoords = mainCoords;
+        this.arrivalAreaName = arrivalAreaName;
+        this.arrivalAreaPosition = arrivalAreaPosition;
     }
-    public Door(Area currentArea, String toAreaName, DiscreteCoordinates toAreaPosition, DiscreteCoordinates mainCoords, List<DiscreteCoordinates>... additionalCoords) {
-        this(currentArea, toAreaName, toAreaPosition, mainCoords);
-        for (List<DiscreteCoordinates> coordsList : additionalCoords) {
-            this.additionalCoords.addAll(coordsList);
-        }
+    public Door(Area currentArea, String arrivalAreaName, DiscreteCoordinates arrivalAreaPosition, DiscreteCoordinates mainCoords, DiscreteCoordinates... additionalCoords) {
+        this(currentArea, arrivalAreaName, arrivalAreaPosition, mainCoords);
+        this.additionalCoords = additionalCoords;
     }
 
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
-        List<DiscreteCoordinates> currentCells = new ArrayList<>(additionalCoords);
-        currentCells.add(getCurrentMainCellCoordinates());
+        List<DiscreteCoordinates> currentCells = new ArrayList<>(Arrays.asList(additionalCoords));
+        currentCells.add(mainCoords);
         return currentCells;
     }
 

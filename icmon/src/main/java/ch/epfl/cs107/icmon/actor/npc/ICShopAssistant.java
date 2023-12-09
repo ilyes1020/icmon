@@ -30,7 +30,7 @@ public class ICShopAssistant extends NPCActor{
     }
 
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-        ((ICMonInteractionVisitor)v). interactWith (this , isCellInteraction );
+        ((ICMonInteractionVisitor)v).interactWith (this , isCellInteraction );
     }
     private class ICShopAssistantHandler implements ICMonInteractionVisitor{
 

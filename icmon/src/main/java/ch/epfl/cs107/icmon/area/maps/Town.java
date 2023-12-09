@@ -12,6 +12,7 @@ import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.icmon.gamelogic.actions.LogAction;
 import ch.epfl.cs107.icmon.gamelogic.events.CollectItemEvent;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
+import ch.epfl.cs107.play.areagame.actor.Door;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -30,7 +31,7 @@ public final class Town extends ICMonArea {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
         registerActor(new ICShopAssistant(this,Orientation.DOWN,new DiscreteCoordinates(8,8)));
-
+        registerActor(new Door(this, "lab", new DiscreteCoordinates(6,2), new DiscreteCoordinates(15,24)));
     }
 
     @Override
