@@ -17,6 +17,6 @@ public class UnregisterEventAction implements Action{
     }
     @Override
     public void perform() {
-        eventManager.unRegisterEvent(event);
+        eventManager.toEventsToUnRegister(event);
     }
 }

@@ -13,6 +13,7 @@ import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -27,12 +28,16 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
 
     private final ICMonPlayerInteractionHandler handler;
 
+    private Keyboard keyboard;
+
     private final static int ANIMATION_DURATION = 8;
 
     private final OrientedAnimation walkingAnimation;
     private final OrientedAnimation surfingAnimation;
     private OrientedAnimation currentAnimation;
     private ICMon.ICMonGameState gameState;
+    private Dialog currentDialog;
+    private boolean isDialog;
 
     /**
      * Default MovableAreaEntity constructor
@@ -52,19 +57,38 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     @Override
     public void update(float deltaTime) {
 
-        Keyboard keyboard = getOwnerArea().getKeyboard();
-        moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
-        moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
-        moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
-        moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
-        if (isDisplacementOccurs()){
-            currentAnimation.update(deltaTime);       //update l'animation si ya un déplacement
+        //non optimal
+        if (isDialog) {
+            if (keyboard.get(Keyboard.SPACE).isPressed()) {
+                currentDialog.update(deltaTime);
+                if(currentDialog.isCompleted()){
+                    currentDialog=null;
+                    isDialog=false;
+                }
+            }
         }
         else {
-            currentAnimation.reset();      //reset l'animation quand on ne bouge pas
+            keyboard = getOwnerArea().getKeyboard();
+            moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
+            moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
+            moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
+            moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+            if (isDisplacementOccurs()){
+                currentAnimation.update(deltaTime);       //update l'animation si ya un déplacement
+            }
+            else {
+                currentAnimation.reset();      //reset l'animation quand on ne bouge pas
+            }
         }
+
         super.update(deltaTime);
     }
+
+    public void openDialog(String message){
+        currentDialog = new Dialog(message);
+        isDialog = true;
+    }
+
 
     private void moveIfPressed(Orientation orientation, Button b) {
         if (b.isDown()) {
@@ -88,6 +112,9 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     @Override
     public void draw(Canvas canvas) {
         currentAnimation.draw(canvas);
+        if (currentDialog !=null){
+            currentDialog.draw(canvas);
+        }
     }
 
     /**
@@ -114,7 +141,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     @Override
     public boolean wantsViewInteraction() {
         Keyboard keyboard = getOwnerArea().getKeyboard();
-        return keyboard.get(Keyboard.L).isPressed();
+        return !isDialog && keyboard.get(Keyboard.L).isPressed();
     }
 
     @Override

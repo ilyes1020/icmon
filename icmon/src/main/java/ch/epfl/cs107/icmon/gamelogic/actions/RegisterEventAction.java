@@ -19,6 +19,6 @@ public class RegisterEventAction implements Action{
     }
     @Override
     public void perform() {
-        eventManager.registerEvent(event);
+        eventManager.toEventsToRegister(event);
     }
 }

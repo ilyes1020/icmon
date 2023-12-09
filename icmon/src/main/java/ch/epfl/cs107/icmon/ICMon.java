@@ -132,11 +132,11 @@ public final class ICMon extends AreaGame {
 
         private ICMonEventManager(){}
 
-        public void registerEvent(ICMonEvent eventToRegister){
+        public void toEventsToRegister(ICMonEvent eventToRegister){
             eventsToRegister.add(eventToRegister);
         }
 
-        public void unRegisterEvent (ICMonEvent eventToUnRegister){
+        public void toEventsToUnRegister(ICMonEvent eventToUnRegister){
             eventsToUnRegister.add(eventToUnRegister);
         }
     }

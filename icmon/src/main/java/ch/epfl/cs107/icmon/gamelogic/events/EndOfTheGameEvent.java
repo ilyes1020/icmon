@@ -16,5 +16,6 @@ public class EndOfTheGameEvent extends ICMonEvent{
     @Override
     public void interactWith(ICShopAssistant assistant , boolean isCellInteraction){
         System.out.println("I heard that you were able to implement this step successfully. Congrats !");
+        player.openDialog("end_of_game_event_interaction_with_icshopassistant");
     }
 }
