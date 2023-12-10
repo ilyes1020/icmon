@@ -50,7 +50,7 @@ public class Door extends AreaEntity {
         return arrivalAreaName;
     }
     public DiscreteCoordinates getArrivalAreaPosition(){
-        return arrivalAreaPosition;
+        return new DiscreteCoordinates(arrivalAreaPosition.x, arrivalAreaPosition.y);
     }
 
     @Override

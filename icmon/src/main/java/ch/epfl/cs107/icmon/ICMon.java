@@ -77,7 +77,7 @@ public final class ICMon extends AreaGame {
         }
         if (currentMessage != null) {
             currentMessage.process();
-            currentMessage = null;
+            clearMessage();
         }
 
         currentEvents.addAll(eventsToRegister);
@@ -95,12 +95,14 @@ public final class ICMon extends AreaGame {
 
     @Override
     public void end() {
-
     }
 
     @Override
     public String getTitle() {
         return "ICMon";
+    }
+    public void clearMessage(){
+        currentMessage = null;
     }
 
     private void initArea(String areaKey) {
@@ -109,8 +111,8 @@ public final class ICMon extends AreaGame {
         player = new ICMonPlayer(area, Orientation.DOWN, coords, gameState);
         player.enterArea(area, coords);
         player.centerCamera();
-
     }
+
     public class ICMonGameState{
         private ICMonGameState(){};
 
@@ -131,7 +133,6 @@ public final class ICMon extends AreaGame {
         }
         public void send(GamePlayMessage message){
             ICMon.this.currentMessage = message;
-            System.out.println("message sent");
         }
     }
 

@@ -65,6 +65,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
             if (keyboard.get(Keyboard.SPACE).isPressed()) {
                 currentDialog.update(deltaTime);
                 if(currentDialog.isCompleted()){
+                    clearDialog();
                     isDialog=false;
                 }
             }
@@ -89,6 +90,9 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     public void openDialog(String message){
         currentDialog = new Dialog(message);
         isDialog = true;
+    }
+    public void clearDialog(){
+        currentDialog = null;
     }
 
 
