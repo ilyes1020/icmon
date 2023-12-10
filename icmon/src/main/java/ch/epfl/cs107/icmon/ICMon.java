@@ -7,6 +7,7 @@ package ch.epfl.cs107.icmon;
 import ch.epfl.cs107.icmon.actor.items.ICBall;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.area.ICMonArea;
+import ch.epfl.cs107.icmon.area.maps.Arena;
 import ch.epfl.cs107.icmon.area.maps.Lab;
 import ch.epfl.cs107.icmon.area.maps.Town;
 import ch.epfl.cs107.icmon.gamelogic.actions.*;
@@ -39,6 +40,7 @@ public final class ICMon extends AreaGame {
     private void createAreas() {
         addArea(new Town());
         addArea(new Lab());
+        addArea(new Arena());
     }
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
@@ -135,7 +137,6 @@ public final class ICMon extends AreaGame {
             ICMon.this.currentMessage = message;
         }
     }
-
     public class ICMonEventManager {
 
         private ICMonEventManager(){}
