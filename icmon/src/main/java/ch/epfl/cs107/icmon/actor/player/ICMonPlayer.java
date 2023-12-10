@@ -8,8 +8,10 @@ import ch.epfl.cs107.icmon.ICMon;
 import ch.epfl.cs107.icmon.actor.Door;
 import ch.epfl.cs107.icmon.actor.ICMonActor;
 import ch.epfl.cs107.icmon.actor.items.ICBall;
+import ch.epfl.cs107.icmon.actor.npc.ICShopAssistant;
 import ch.epfl.cs107.icmon.area.ICMonBehavior;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
+import ch.epfl.cs107.icmon.message.PassDoorMessage;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -180,12 +182,12 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
                 }
             }
         }
-//        @Override
-//        public void interactWith (Door door , boolean isCellInteraction ) {
-//            if (isCellInteraction) {
-//                ...message = ...;
-//                gameState.send(message)
-//            }
-//        }
+        @Override
+        public void interactWith (Door door , boolean isCellInteraction ) {
+            if (isCellInteraction) {
+                PassDoorMessage message = new PassDoorMessage(door, gameState);
+                gameState.send(message);
+            }
+        }
     }
 }

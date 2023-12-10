@@ -7,11 +7,13 @@ package ch.epfl.cs107.icmon;
 import ch.epfl.cs107.icmon.actor.items.ICBall;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.area.ICMonArea;
+import ch.epfl.cs107.icmon.area.maps.Lab;
 import ch.epfl.cs107.icmon.area.maps.Town;
 import ch.epfl.cs107.icmon.gamelogic.actions.*;
 import ch.epfl.cs107.icmon.gamelogic.events.CollectItemEvent;
 import ch.epfl.cs107.icmon.gamelogic.events.EndOfTheGameEvent;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
+import ch.epfl.cs107.icmon.message.GamePlayMessage;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.io.FileSystem;
@@ -23,38 +25,30 @@ import ch.epfl.cs107.play.window.Window;
 import java.util.ArrayList;
 
 public final class ICMon extends AreaGame {
-
     public final static float CAMERA_SCALE_FACTOR = 13.f;
-
-    private final String[] areas = {"town"};
+    //peut ne pas être nécéssaire
+    private final String[] areas = {"town", "lab"};
     private ICMonPlayer player;
-
     private ArrayList <ICMonEvent> currentEvents;
-
     private ArrayList <ICMonEvent> eventsToRegister;
-
     private ArrayList <ICMonEvent> eventsToUnRegister;
-
-    private int areaIndex;
-
     private ICMonGameState gameState = new ICMonGameState();
-
     private ICMonEventManager eventManager = new ICMonEventManager();
+    private GamePlayMessage currentMessage;
 
     private void createAreas() {
         addArea(new Town());
+        addArea(new Lab());
     }
-
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             createAreas();
-            areaIndex = 0;
-            initArea(areas[areaIndex]);
+            initArea("town");
             ICBall ball = new ICBall(getCurrentArea(), new DiscreteCoordinates(6,6),"items/icball");
-            currentEvents = new ArrayList<ICMonEvent>();
-            eventsToRegister= new ArrayList<ICMonEvent>();
-            eventsToUnRegister = new ArrayList<ICMonEvent>();
+            currentEvents = new ArrayList<>();
+            eventsToRegister= new ArrayList<>();
+            eventsToUnRegister = new ArrayList<>();
 
             CollectItemEvent ballCollect = new CollectItemEvent(ball,player);
             EndOfTheGameEvent endGame = new EndOfTheGameEvent(player);
@@ -80,6 +74,10 @@ public final class ICMon extends AreaGame {
         Keyboard keyboard = getCurrentArea().getKeyboard(); //pour reset le jeu
         if (keyboard.get(Keyboard.R).isPressed()){ //isPressed pour pas que ca spam
             begin(getWindow(),getFileSystem());
+        }
+        if (currentMessage != null) {
+            currentMessage.process();
+            currentMessage = null;
         }
 
         currentEvents.addAll(eventsToRegister);
@@ -126,6 +124,15 @@ public final class ICMon extends AreaGame {
             for(var event : ICMon.this.currentEvents)
                 interactable.acceptInteraction(event , isCellInteraction);
         }
+        public void switchArea(String areaKey, DiscreteCoordinates arrivalPos) {
+            player.leaveArea();
+            ICMonArea currentArea = (ICMonArea) setCurrentArea(areaKey, true);
+            player.enterArea(currentArea, arrivalPos);
+        }
+        public void send(GamePlayMessage message){
+            ICMon.this.currentMessage = message;
+            System.out.println("message sent");
+        }
     }
 
     public class ICMonEventManager {
@@ -140,13 +147,4 @@ public final class ICMon extends AreaGame {
             eventsToUnRegister.add(eventToUnRegister);
         }
     }
-
-//    private void switchArea() {
-//        player.leaveArea();
-//        areaIndex = (areaIndex == 0) ? 1 : 0;
-//        ICMonArea currentArea = (ICMonArea) setCurrentArea(areas[areaIndex], false);
-//        player.enterArea(currentArea, currentArea.getPlayerSpawnPosition());
-//        player.strengthen();
-//    }
-
 }

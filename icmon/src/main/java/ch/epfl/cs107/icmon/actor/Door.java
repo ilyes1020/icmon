@@ -4,6 +4,7 @@ package ch.epfl.cs107.icmon.actor;
  *	Date:
  */
 
+import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
@@ -18,8 +19,8 @@ import java.util.List;
 public class Door extends AreaEntity {
 
     private String arrivalAreaName;
-    private DiscreteCoordinates arrivalAreaPosition;
-    private DiscreteCoordinates mainCoords;
+    private final DiscreteCoordinates arrivalAreaPosition;
+    private final DiscreteCoordinates mainCoords;
     private ArrayList<DiscreteCoordinates> additionalCoords = new ArrayList<>();
     /**
      * Default AreaEntity constructor
@@ -45,6 +46,13 @@ public class Door extends AreaEntity {
         return currentCells;
     }
 
+    public String getArrivalAreaName(){
+        return arrivalAreaName;
+    }
+    public DiscreteCoordinates getArrivalAreaPosition(){
+        return arrivalAreaPosition;
+    }
+
     @Override
     public boolean takeCellSpace() {
         return false;
@@ -62,8 +70,9 @@ public class Door extends AreaEntity {
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-
+        ((ICMonInteractionVisitor)v).interactWith (this , isCellInteraction );
     }
+
 
     @Override
     public void draw(Canvas canvas) {

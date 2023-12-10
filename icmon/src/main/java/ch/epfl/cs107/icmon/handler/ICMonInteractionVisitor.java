@@ -15,16 +15,12 @@ public interface ICMonInteractionVisitor extends AreaInteractionVisitor {
 
     default void interactWith(ICMonBehavior.ICMonCell cell, boolean isCellInteraction) {
     }
-
     default void interactWith(ICMonPlayer player, boolean isCellInteraction) {
     }
-
     default void interactWith(ICBall ball, boolean isCellInteraction) {
     }
     default void interactWith(ICShopAssistant assistant , boolean isCellInteraction){
-
     }
-
     default void interactWith(Door door, boolean isCellInteraction){
 
     }
