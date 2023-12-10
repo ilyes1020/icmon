@@ -11,11 +11,10 @@ import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.RegionOfInterest;
-
-import java.util.List;
+import ch.epfl.cs107.play.window.Canvas;
 
 public abstract class NPCActor extends ICMonActor {
-     Sprite sprite;
+     private Sprite sprite;
     /**
      * Default MovableAreaEntity constructor
      *
@@ -43,6 +42,9 @@ public abstract class NPCActor extends ICMonActor {
     public boolean isViewInteractable() { //interactable par la vue
         return true;
     }
-
+    @Override
+    public void draw(Canvas canvas) {
+        sprite.draw(canvas);
+    }
     //no need to Override the getCurrentCell method, same as super
 }
