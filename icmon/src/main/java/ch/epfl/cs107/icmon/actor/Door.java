@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.areagame.actor;
+package ch.epfl.cs107.icmon.actor;
 /*
  *	Author:      Ilyes Rouibi
  *	Date:

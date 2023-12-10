@@ -4,6 +4,7 @@ package ch.epfl.cs107.icmon.handler;
  *	Date:        2/02/2023
  */
 
+import ch.epfl.cs107.icmon.actor.Door;
 import ch.epfl.cs107.icmon.actor.items.ICBall;
 import ch.epfl.cs107.icmon.actor.npc.ICShopAssistant;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
@@ -21,6 +22,10 @@ public interface ICMonInteractionVisitor extends AreaInteractionVisitor {
     default void interactWith(ICBall ball, boolean isCellInteraction) {
     }
     default void interactWith(ICShopAssistant assistant , boolean isCellInteraction){
+
+    }
+
+    default void interactWith(Door door, boolean isCellInteraction){
 
     }
 }

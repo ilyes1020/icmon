@@ -5,12 +5,12 @@ package ch.epfl.cs107.icmon.area.maps;
  */
 
 import ch.epfl.cs107.icmon.area.ICMonArea;
-import ch.epfl.cs107.play.areagame.actor.Door;
+import ch.epfl.cs107.icmon.actor.Door;
+import ch.epfl.cs107.play.engine.actor.Background;
+import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
-import java.util.ArrayList;
-
-public class Lab extends ICMonArea {
+public final class Lab extends ICMonArea {
     @Override
     public String getTitle() {
         return "lab";
@@ -18,6 +18,8 @@ public class Lab extends ICMonArea {
 
     @Override
     protected void createArea() {
+        registerActor(new Background(this));
+        registerActor(new Foreground(this));
         registerActor(new Door(this, "town", new DiscreteCoordinates(15,23), new DiscreteCoordinates(6,1), new DiscreteCoordinates(7,1)));
     }
 

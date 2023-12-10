@@ -4,15 +4,9 @@ package ch.epfl.cs107.icmon.area.maps;
  *	Date:        29/11/2023
  */
 
-import ch.epfl.cs107.icmon.actor.items.ICBall;
-import ch.epfl.cs107.icmon.actor.items.ICMonItem;
 import ch.epfl.cs107.icmon.actor.npc.ICShopAssistant;
-import ch.epfl.cs107.icmon.actor.npc.NPCActor;
 import ch.epfl.cs107.icmon.area.ICMonArea;
-import ch.epfl.cs107.icmon.gamelogic.actions.LogAction;
-import ch.epfl.cs107.icmon.gamelogic.events.CollectItemEvent;
-import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
-import ch.epfl.cs107.play.areagame.actor.Door;
+import ch.epfl.cs107.icmon.actor.Door;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
