@@ -8,10 +8,17 @@ import ch.epfl.cs107.icmon.ICMon;
 import ch.epfl.cs107.icmon.actor.Door;
 import ch.epfl.cs107.icmon.actor.ICMonActor;
 import ch.epfl.cs107.icmon.actor.items.ICBall;
-import ch.epfl.cs107.icmon.actor.npc.ICShopAssistant;
+import ch.epfl.cs107.icmon.actor.pokemon.ICMonFightableActor;
+import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
 import ch.epfl.cs107.icmon.area.ICMonBehavior;
+import ch.epfl.cs107.icmon.gamelogic.actions.LeaveAreaAction;
+import ch.epfl.cs107.icmon.gamelogic.actions.RegisterEventAction;
+import ch.epfl.cs107.icmon.gamelogic.actions.UnregisterEventAction;
+import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
+import ch.epfl.cs107.icmon.gamelogic.events.PokemonFightEvent;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.icmon.message.PassDoorMessage;
+import ch.epfl.cs107.icmon.message.SuspendWithEvent;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -154,6 +161,15 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICMonInteractionVisitor) v).interactWith (this , isCellInteraction);
     }
+
+    private void fight(ICMonFightableActor fightableActor){
+        ICMonEvent fightEvent = new PokemonFightEvent(this);
+        fightEvent.onStart(new RegisterEventAction(fightEvent, gameState.getEventManager()));
+        fightEvent.onComplete(new LeaveAreaAction(getOwnerArea(),(ICMonActor)fightableActor));
+        fightEvent.onComplete(new UnregisterEventAction(fightEvent, gameState.getEventManager()));
+        SuspendWithEvent suspendMessage = new SuspendWithEvent(fightEvent,gameState);
+        gameState.send(suspendMessage);
+    }
     /**
      * Do this Interactor interact with the given Interactable
      * The interaction is implemented on the interactor side !
@@ -191,6 +207,13 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
             if (isCellInteraction) {
                 PassDoorMessage message = new PassDoorMessage(door, gameState);
                 gameState.send(message);
+            }
+        }
+
+        @Override
+        public void interactWith(Pokemon pokemon, boolean isCellInteraction) {
+            if (isCellInteraction){
+                fight(pokemon);
             }
         }
     }

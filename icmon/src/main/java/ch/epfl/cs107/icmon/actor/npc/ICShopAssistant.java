@@ -29,6 +29,5 @@ public class ICShopAssistant extends NPCActor{
         ((ICMonInteractionVisitor)v).interactWith (this , isCellInteraction );
     }
     private class ICShopAssistantHandler implements ICMonInteractionVisitor{
-
     }
 }

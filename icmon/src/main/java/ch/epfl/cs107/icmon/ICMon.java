@@ -11,12 +11,11 @@ import ch.epfl.cs107.icmon.area.maps.Arena;
 import ch.epfl.cs107.icmon.area.maps.Lab;
 import ch.epfl.cs107.icmon.area.maps.Town;
 import ch.epfl.cs107.icmon.gamelogic.actions.*;
-import ch.epfl.cs107.icmon.gamelogic.events.CollectItemEvent;
-import ch.epfl.cs107.icmon.gamelogic.events.EndOfTheGameEvent;
-import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
+import ch.epfl.cs107.icmon.gamelogic.events.*;
 import ch.epfl.cs107.icmon.message.GamePlayMessage;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
+import ch.epfl.cs107.play.engine.PauseMenu;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -130,11 +129,32 @@ public final class ICMon extends AreaGame {
         }
         public void switchArea(String areaKey, DiscreteCoordinates arrivalPos) {
             player.leaveArea();
-            ICMonArea currentArea = (ICMonArea) setCurrentArea(areaKey, true);
+            ICMonArea currentArea = (ICMonArea) setCurrentArea(areaKey, false);
             player.enterArea(currentArea, arrivalPos);
         }
+
+        public void pauseTheGame(PauseMenuEvent event){
+            for (ICMonEvent currentEvent : currentEvents){
+                currentEvent.suspend();
+            }
+            setPauseMenu(event.getPauseMenu());
+            requestPause();
+        }
+
+        public void resumeTheGame(){
+            requestResume();
+            for (ICMonEvent currentEvent : currentEvents){
+                currentEvent.resume();
+            }
+        }
+
+
         public void send(GamePlayMessage message){
             ICMon.this.currentMessage = message;
+        }
+
+        public ICMonEventManager getEventManager(){
+            return eventManager;
         }
     }
     public class ICMonEventManager {
