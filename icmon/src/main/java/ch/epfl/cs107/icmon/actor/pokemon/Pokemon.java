@@ -20,7 +20,7 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     private String name;
     private int hp;
     private int maxHp;
-    private int inflictedDamage;
+    private int attackDamage;
     private Sprite sprite;
 
     /**
@@ -30,31 +30,32 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
      * @param orientation (Orientation): Initial orientation of the entity. Not null
      * @param position    (Coordinate): Initial position of the entity. Not null
      */
-    public Pokemon(Area area, Orientation orientation, DiscreteCoordinates position, String name, int inflictedDamage, int maxHp) {
+    public Pokemon(Area area, Orientation orientation, DiscreteCoordinates position, String name, int attackDamage, int maxHp) {
         super(area, orientation, position);
-        this.name=name;
-        this.hp =maxHp;
-        this.maxHp=maxHp;
-        this.inflictedDamage=inflictedDamage;
+        this.name = name;
+        this.hp = maxHp;
+        this.maxHp = maxHp;
+        this.attackDamage = attackDamage;
         sprite = new RPGSprite("pokemon/" + name, 1, 1, this);
     }
 
-    //getCurrentCells(),takeCellSpace(),isCellInteractable(),isViewInteractable() same as super
+    //getCurrentCells(),
+    //takeCellSpace(), //return false
+    //isCellInteractable(), //return true
+    //isViewInteractable() //return false
+    //(all three same as super method)
 
     public void receiveDamage(int takenDamage){
-        if(takenDamage<0){
-            takenDamage=-takenDamage;
-        }
-        if (hp-takenDamage>=0){
-            hp-=takenDamage;
-        }
-        else {
-            hp =0;
+        if(takenDamage > 0){
+            hp -= takenDamage;
+            if (hp < 0){
+                hp = 0;
+            }
         }
     }
 
     public boolean isDead(){
-        return (hp==0);
+        return (hp == 0);
     }
 
     @Override
@@ -66,7 +67,6 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICMonInteractionVisitor)v).interactWith (this , isCellInteraction );
     }
-
 
     /**
      * @author Hamza REMMAL (hamza.remmal@epfl.ch)

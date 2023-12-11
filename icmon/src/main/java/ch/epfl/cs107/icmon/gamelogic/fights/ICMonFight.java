@@ -18,7 +18,7 @@ public class ICMonFight extends PauseMenu{
     }
 
     public boolean isRunning(){
-        return (counter>0);
+        return (counter > 0);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class RegisterEventAction implements Action{
 
     public RegisterEventAction(ICMonEvent event, ICMon.ICMonEventManager eventManager){
         this.event = event;
-        this.eventManager =eventManager;
+        this.eventManager = eventManager;
     }
     @Override
     public void perform() {

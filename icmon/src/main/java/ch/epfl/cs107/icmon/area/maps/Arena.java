@@ -33,6 +33,6 @@ public final class Arena extends ICMonArea {
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition() {
-        return new DiscreteCoordinates(6,2);
+        return new DiscreteCoordinates(4,2);
     }
 }

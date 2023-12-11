@@ -162,10 +162,9 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         ((ICMonInteractionVisitor) v).interactWith (this , isCellInteraction);
     }
 
-    private void fight(ICMonFightableActor fightableActor){
-        ICMonEvent fightEvent = new PokemonFightEvent(this);
+    private void fight(ICMonFightableActor ennemy){
+        ICMonEvent fightEvent = new PokemonFightEvent(this, ennemy);
         fightEvent.onStart(new RegisterEventAction(fightEvent, gameState.getEventManager()));
-        fightEvent.onComplete(new LeaveAreaAction(getOwnerArea(),(ICMonActor)fightableActor));
         fightEvent.onComplete(new UnregisterEventAction(fightEvent, gameState.getEventManager()));
         SuspendWithEvent suspendMessage = new SuspendWithEvent(fightEvent,gameState);
         gameState.send(suspendMessage);
