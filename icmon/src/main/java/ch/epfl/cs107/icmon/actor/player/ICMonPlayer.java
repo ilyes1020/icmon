@@ -8,8 +8,7 @@ import ch.epfl.cs107.icmon.ICMon;
 import ch.epfl.cs107.icmon.actor.Door;
 import ch.epfl.cs107.icmon.actor.ICMonActor;
 import ch.epfl.cs107.icmon.actor.items.ICBall;
-import ch.epfl.cs107.icmon.actor.pokemon.ICMonFightableActor;
-import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
+import ch.epfl.cs107.icmon.actor.pokemon.*;
 import ch.epfl.cs107.icmon.area.ICMonBehavior;
 import ch.epfl.cs107.icmon.gamelogic.actions.LeaveAreaAction;
 import ch.epfl.cs107.icmon.gamelogic.actions.RegisterEventAction;
@@ -31,23 +30,22 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class ICMonPlayer extends ICMonActor implements Interactor {
 
     private final ICMonPlayerInteractionHandler handler;
-
     private Keyboard keyboard;
-
     private final static int ANIMATION_DURATION = 8;
-
     private final OrientedAnimation walkingAnimation;
     private final OrientedAnimation surfingAnimation;
     private OrientedAnimation currentAnimation;
     private ICMon.ICMonGameState gameState;
     private Dialog currentDialog;
     private boolean isDialog;
+    private ArrayList<Pokemon> pokemons = new ArrayList<>();
 
     /**
      * Default MovableAreaEntity constructor
@@ -63,6 +61,9 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         currentAnimation = walkingAnimation;
         handler = new ICMonPlayerInteractionHandler();
         this.gameState = gameState;
+        this.pokemons.add(new Bulbizarre(getOwnerArea(), new DiscreteCoordinates(0,0)));
+        this.pokemons.add(new Latios(getOwnerArea(), new DiscreteCoordinates(0,0)));
+        this.pokemons.add(new Nidoqueen(getOwnerArea(), new DiscreteCoordinates(0,0)));
     }
     @Override
     public void update(float deltaTime) {
@@ -162,8 +163,8 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         ((ICMonInteractionVisitor) v).interactWith (this , isCellInteraction);
     }
 
-    private void fight(ICMonFightableActor ennemy){
-        ICMonEvent fightEvent = new PokemonFightEvent(this, ennemy);
+    private void fight(ICMonFightableActor opponent){
+        ICMonEvent fightEvent = new PokemonFightEvent(this, pokemons.get(0), opponent);
         fightEvent.onStart(new RegisterEventAction(fightEvent, gameState.getEventManager()));
         fightEvent.onComplete(new UnregisterEventAction(fightEvent, gameState.getEventManager()));
         SuspendWithEvent suspendMessage = new SuspendWithEvent(fightEvent,gameState);

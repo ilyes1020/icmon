@@ -23,7 +23,7 @@ public final class Arena extends ICMonArea {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
         registerActor(new Door(this, "town", new DiscreteCoordinates(20,15), new DiscreteCoordinates(4,1), new DiscreteCoordinates(5,1)));
-        registerActor(new Bulbizarre(this, Orientation.DOWN,new DiscreteCoordinates(6,6)));
+        registerActor(new Bulbizarre(this, new DiscreteCoordinates(6,6)));
     }
 
     @Override

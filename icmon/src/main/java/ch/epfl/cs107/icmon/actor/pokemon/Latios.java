@@ -13,10 +13,9 @@ public class Latios extends Pokemon{
      * Default MovableAreaEntity constructor
      *
      * @param area            (Area): Owner area. Not null
-     * @param orientation     (Orientation): Initial orientation of the entity. Not null
      * @param position        (Coordinate): Initial position of the entity. Not null
      */
-    public Latios(Area area, Orientation orientation, DiscreteCoordinates position) {
-        super(area, orientation, position, "latios", 1, 10);
+    public Latios(Area area, DiscreteCoordinates position) {
+        super(area, position, "latios", 1, 10);
     }
 }

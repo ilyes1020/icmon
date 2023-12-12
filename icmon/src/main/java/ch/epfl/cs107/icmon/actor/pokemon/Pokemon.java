@@ -27,11 +27,10 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
      * Default MovableAreaEntity constructor
      *
      * @param area        (Area): Owner area. Not null
-     * @param orientation (Orientation): Initial orientation of the entity. Not null
      * @param position    (Coordinate): Initial position of the entity. Not null
      */
-    public Pokemon(Area area, Orientation orientation, DiscreteCoordinates position, String name, int attackDamage, int maxHp) {
-        super(area, orientation, position);
+    public Pokemon(Area area, DiscreteCoordinates position, String name, int attackDamage, int maxHp) {
+        super(area, Orientation.DOWN, position);
         this.name = name;
         this.hp = maxHp;
         this.maxHp = maxHp;
@@ -67,28 +66,25 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICMonInteractionVisitor)v).interactWith (this , isCellInteraction );
     }
+    public PokemonProperties properties(){
+        return new PokemonProperties();
+    }
 
     /**
      * @author Hamza REMMAL (hamza.remmal@epfl.ch)
      */
     public final class PokemonProperties {
-
         public String name(){
-            return null;
+            return name;
         }
-
         public float hp(){
-            return 0f;
+            return hp;
         }
-
         public float maxHp(){
-            return 0f;
+            return maxHp;
         }
-
         public int damage(){
-            return 0;
+            return attackDamage;
         }
-
     }
-
 }
