@@ -16,8 +16,10 @@ public class Attack implements ICMonFightAction {
     }
     @Override
     public boolean doAction(Pokemon target) {
-        System.out.println("did attack"); //pour le debuggage
-        target.receiveDamage(attackDamage);
-        return true;
+        if(target != null) {
+            target.receiveDamage(attackDamage);
+            return true;
+        }
+        return false;
     }
 }
