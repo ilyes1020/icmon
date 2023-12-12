@@ -72,7 +72,7 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     }
     //pas sûr du getter
     public ArrayList<ICMonFightAction> getActions(){
-        return actions;
+        return new ArrayList<>(actions);
     }
     public PokemonProperties properties(){
         return new PokemonProperties();
