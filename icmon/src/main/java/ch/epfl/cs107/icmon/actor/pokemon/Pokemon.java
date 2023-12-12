@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icmon.actor.pokemon;
 
 import ch.epfl.cs107.icmon.actor.ICMonActor;
+import ch.epfl.cs107.icmon.gamelogic.fights.ICMonFightAction;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
@@ -9,6 +10,8 @@ import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
+
+import java.util.ArrayList;
 
 /**
  * ???
@@ -22,6 +25,7 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     private int maxHp;
     private int attackDamage;
     private Sprite sprite;
+    protected ArrayList<ICMonFightAction> actions;
 
     /**
      * Default MovableAreaEntity constructor
@@ -65,6 +69,10 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICMonInteractionVisitor)v).interactWith (this , isCellInteraction );
+    }
+    //pas sûr du getter
+    public ArrayList<ICMonFightAction> getActions(){
+        return actions;
     }
     public PokemonProperties properties(){
         return new PokemonProperties();

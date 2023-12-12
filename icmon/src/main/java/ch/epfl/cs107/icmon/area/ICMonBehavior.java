@@ -47,7 +47,6 @@ public final class ICMonBehavior extends AreaBehavior {
         WATER(-16776961, AllowedWalkingType.SURF),
         GRASS(-16743680, AllowedWalkingType.FEET);
 
-
         final int type;
         final AllowedWalkingType isWalkable;
 

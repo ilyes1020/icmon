@@ -4,12 +4,16 @@ package ch.epfl.cs107.icmon.actor.pokemon;
  *	Date:
  */
 
+import ch.epfl.cs107.icmon.actor.pokemon.actions.Attack;
+import ch.epfl.cs107.icmon.actor.pokemon.actions.RunAway;
+import ch.epfl.cs107.icmon.gamelogic.fights.ICMonFightAction;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 
-public class Bulbizarre extends Pokemon{
+import java.util.ArrayList;
 
+public class Bulbizarre extends Pokemon{
     /**
      * Default MovableAreaEntity constructor
      *
@@ -18,5 +22,8 @@ public class Bulbizarre extends Pokemon{
      */
     public Bulbizarre(Area area, DiscreteCoordinates position) {
         super(area, position, "bulbizarre", 1, 10);
+        actions = new ArrayList<>();
+        actions.add(new Attack());
+        actions.add(new RunAway());
     }
 }

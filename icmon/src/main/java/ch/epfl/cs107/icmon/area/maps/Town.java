@@ -36,6 +36,6 @@ public final class Town extends ICMonArea {
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition() {
-        return new DiscreteCoordinates(5,5);
-    }
+        return new DiscreteCoordinates(20,15);
+    } //pour le débuggage, normalement 5, 5
 }

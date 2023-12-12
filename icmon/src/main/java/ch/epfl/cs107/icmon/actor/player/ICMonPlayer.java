@@ -60,6 +60,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         surfingAnimation = new OrientedAnimation("actors/player_water", ANIMATION_DURATION /2, Orientation.DOWN, this);
         currentAnimation = walkingAnimation;
         handler = new ICMonPlayerInteractionHandler();
+        this.keyboard = getOwnerArea().getKeyboard();
         this.gameState = gameState;
         this.pokemons.add(new Bulbizarre(getOwnerArea(), new DiscreteCoordinates(0,0)));
         this.pokemons.add(new Latios(getOwnerArea(), new DiscreteCoordinates(0,0)));
@@ -79,7 +80,6 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
             }
         }
         else {
-            keyboard = getOwnerArea().getKeyboard();
             moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
             moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
             moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
@@ -154,7 +154,6 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      */
     @Override
     public boolean wantsViewInteraction() {
-        Keyboard keyboard = getOwnerArea().getKeyboard();
         return !isDialog && keyboard.get(Keyboard.L).isPressed();
     }
 
