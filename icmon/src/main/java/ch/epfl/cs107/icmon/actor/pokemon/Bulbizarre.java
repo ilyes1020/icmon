@@ -14,6 +14,8 @@ import ch.epfl.cs107.play.math.Orientation;
 import java.util.ArrayList;
 
 public class Bulbizarre extends Pokemon{
+
+    private ArrayList<ICMonFightAction> actions;
     private PokemonProperties stats = new PokemonProperties();
     /**
      * Default MovableAreaEntity constructor
@@ -26,5 +28,10 @@ public class Bulbizarre extends Pokemon{
         actions = new ArrayList<>();
         actions.add(new RunAway());
         actions.add(new Attack(stats.damage()));
+    }
+
+    @Override
+    public ArrayList<ICMonFightAction> getActions() {
+        return actions;
     }
 }

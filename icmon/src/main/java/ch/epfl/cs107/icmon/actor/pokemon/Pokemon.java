@@ -26,7 +26,6 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     private int maxHp;
     private int attackDamage;
     private Sprite sprite;
-    protected ArrayList<ICMonFightAction> actions;
 
     /**
      * Default MovableAreaEntity constructor
@@ -48,6 +47,8 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     //isCellInteractable(), //return true
     //isViewInteractable() //return false
     //(all three same as super method)
+
+    public abstract ArrayList<ICMonFightAction> getActions(); //comme a dit Edgoat
 
     public void receiveDamage(int takenDamage){
         if(takenDamage > 0){
@@ -71,12 +72,8 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICMonInteractionVisitor)v).interactWith (this , isCellInteraction );
     }
-    //pas sûr du getter
-    public ArrayList<ICMonFightAction> getActions(){
-        return new ArrayList<>(actions);
-    }
     public ICMonFightAction getAttack(){
-        for (ICMonFightAction action : actions){
+        for (ICMonFightAction action : getActions()){
             if (action instanceof Attack){
                 return action;
             }

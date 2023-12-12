@@ -4,11 +4,15 @@ package ch.epfl.cs107.icmon.actor.pokemon;
  *	Date:
  */
 
+import ch.epfl.cs107.icmon.gamelogic.fights.ICMonFightAction;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 
+import java.util.ArrayList;
+
 public class Latios extends Pokemon{
+    private ArrayList<ICMonFightAction> actions;
     /**
      * Default MovableAreaEntity constructor
      *
@@ -17,5 +21,10 @@ public class Latios extends Pokemon{
      */
     public Latios(Area area, DiscreteCoordinates position) {
         super(area, position, "latios", 1, 10);
+    }
+
+    @Override
+    public ArrayList<ICMonFightAction> getActions() {
+        return actions;
     }
 }
