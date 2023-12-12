@@ -23,7 +23,7 @@ public class SuspendWithEvent extends GamePlayMessage{
         if (event instanceof PauseMenuEvent){
             System.out.print("suspension des événements en cours");
             if(event instanceof PokemonFightEvent){
-                System.out.print(" à cause d’un événement combat");
+                System.out.println(" à cause d’un événement combat");
             }
         }
         event.onStart(new SuspendEventAction(event,gameState));

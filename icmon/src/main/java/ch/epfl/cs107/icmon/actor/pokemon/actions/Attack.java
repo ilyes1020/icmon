@@ -5,7 +5,11 @@ import ch.epfl.cs107.icmon.gamelogic.fights.ICMonFightAction;
 
 public class Attack implements ICMonFightAction {
 
-    public Attack(){};
+    private int attackDamage;
+
+    public Attack(int attackDamage){
+        this.attackDamage = attackDamage;
+    };
     @Override
     public String name() {
         return "Attack";
@@ -13,6 +17,7 @@ public class Attack implements ICMonFightAction {
     @Override
     public boolean doAction(Pokemon target) {
         System.out.println("did attack"); //pour le debuggage
-        return false;
+        target.receiveDamage(attackDamage);
+        return true;
     }
 }

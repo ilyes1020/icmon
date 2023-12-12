@@ -6,18 +6,21 @@ package ch.epfl.cs107.icmon.gamelogic.fights;
 
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
+import ch.epfl.cs107.icmon.graphics.ICMonFightActionSelectionGraphics;
 import ch.epfl.cs107.icmon.graphics.ICMonFightArenaGraphics;
 import ch.epfl.cs107.icmon.graphics.ICMonFightTextGraphics;
 import ch.epfl.cs107.play.engine.PauseMenu;
+import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
+import ch.epfl.cs107.play.window.Window;
 
 public class ICMonFight extends PauseMenu{
 
-    private ICMonPlayer player;
     private Pokemon playersPokemon;
     private Pokemon opponent;
     private ICMonFightArenaGraphics arena;
+    private ICMonFightActionSelectionGraphics selectionGraphics;
     private FightStage stage;
     private Keyboard keyboard;
     private boolean isRunning;
@@ -35,52 +38,56 @@ public class ICMonFight extends PauseMenu{
         OPPONENTACTION,
         CONCLUSION;
     }
-    public ICMonFight(ICMonPlayer player, Pokemon playersPokemon, Pokemon opponent){
-        this.player = player;
+    public ICMonFight(Pokemon playersPokemon, Pokemon opponent){
         this.playersPokemon = playersPokemon;
         this.opponent = opponent;
         this.isRunning = true;
-        arena = new ICMonFightArenaGraphics (CAMERA_SCALE_FACTOR, playersPokemon.properties(), opponent.properties());
         stage = FightStage.INTRODUCTION;
     }
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        keyboard = getKeyboard();
 
         switch (stage){
             case INTRODUCTION :
                 arena.setInteractionGraphics (new ICMonFightTextGraphics( CAMERA_SCALE_FACTOR , "Welcome to the fight"));
                 if (keyboard.get(Keyboard.SPACE).isPressed()) {
-                    this.stage = FightStage.ACTIONSELECT;
+                    stage = FightStage.ACTIONSELECT;
                 }
                 break;
 
             case ACTIONSELECT:
-                playerAction = playersPokemon.getActions().get(0);
-                stage = FightStage.ACTIONEXECUTION;
+
+                arena.setInteractionGraphics (selectionGraphics);
+                selectionGraphics.update(deltaTime);
+
+                if (selectionGraphics.choice() != null) {
+                    playerAction = selectionGraphics.choice();
+                    stage = FightStage.ACTIONEXECUTION;
+                }
                 break;
 
             case ACTIONEXECUTION:
-                if (opponent.isDead() || !playerAction.doAction(opponent)){
-                    playerDidAction = false;
+
+                playerDidAction = playerAction.doAction(opponent);
+
+                if(opponent.isDead() || !playerDidAction){
                     stage = FightStage.CONCLUSION;
-                }else{
+                }
+                else{
                     stage = FightStage.OPPONENTACTION;
                 }
                 break;
 
             case OPPONENTACTION:
-                int i = 0;
-                while (opponent.getActions().get(i) == null){
-                    i++;
-                }
-                opponentAction = opponent.getActions().get(i);
-                if (playersPokemon.isDead() || !opponentAction.doAction(playersPokemon)){
-                    opponentDidAction = false;
-                    stage = FightStage.CONCLUSION;
+
+                if (opponent.getAttack() != null){
+                    opponent.getAttack().doAction(playersPokemon);
+                    if (!playersPokemon.isDead())
+                        stage = FightStage.ACTIONSELECT;
+                        selectionGraphics = new ICMonFightActionSelectionGraphics(CAMERA_SCALE_FACTOR, keyboard, playersPokemon.getActions());
                 }else{
-                    stage = FightStage.ACTIONSELECT;
+                    stage = FightStage.CONCLUSION;
                 }
                 break;
 
@@ -108,6 +115,19 @@ public class ICMonFight extends PauseMenu{
     public void clearActions(){
         playerAction = null;
         opponentAction = null;
+    }
+    @Override
+    public boolean begin(Window window, FileSystem fileSystem){
+        if (super.begin(window, fileSystem)) {
+
+            keyboard = getKeyboard();
+
+            arena = new ICMonFightArenaGraphics (CAMERA_SCALE_FACTOR, playersPokemon.properties(), opponent.properties());
+            selectionGraphics = new ICMonFightActionSelectionGraphics(CAMERA_SCALE_FACTOR, keyboard, playersPokemon.getActions());
+
+            return true;
+        }
+        return false;
     }
 
     public boolean isRunning(){

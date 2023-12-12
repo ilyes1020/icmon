@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icmon.actor.pokemon;
 
 import ch.epfl.cs107.icmon.actor.ICMonActor;
+import ch.epfl.cs107.icmon.actor.pokemon.actions.Attack;
 import ch.epfl.cs107.icmon.gamelogic.fights.ICMonFightAction;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -74,6 +75,21 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     public ArrayList<ICMonFightAction> getActions(){
         return new ArrayList<>(actions);
     }
+    public ICMonFightAction getAttack(){
+        for (ICMonFightAction action : actions){
+            if (action instanceof Attack){
+                return action;
+            }
+        }
+        return null;
+    }
+//    public boolean canAttack(){
+//        if (getActions().stream().anyMatch(action -> action instanceof Attack)){
+//            return true;
+//        }
+//        return false;
+//    }
+
     public PokemonProperties properties(){
         return new PokemonProperties();
     }
