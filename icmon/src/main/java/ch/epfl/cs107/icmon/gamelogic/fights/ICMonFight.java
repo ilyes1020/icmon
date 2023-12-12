@@ -19,7 +19,6 @@ public class ICMonFight extends PauseMenu{
     private Pokemon opponent;
     private ICMonFightArenaGraphics arena;
     private FightStage stage;
-    private float counter = 5f; //for the update method
     private Keyboard keyboard;
     private boolean isRunning;
     private ICMonFightAction playerAction;
@@ -43,11 +42,12 @@ public class ICMonFight extends PauseMenu{
         this.isRunning = true;
         arena = new ICMonFightArenaGraphics (CAMERA_SCALE_FACTOR, playersPokemon.properties(), opponent.properties());
         stage = FightStage.INTRODUCTION;
-        keyboard = player.keyboard;
     }
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        keyboard = getKeyboard();
+
         switch (stage){
             case INTRODUCTION :
                 arena.setInteractionGraphics (new ICMonFightTextGraphics( CAMERA_SCALE_FACTOR , "Welcome to the fight"));
@@ -57,18 +57,16 @@ public class ICMonFight extends PauseMenu{
                 break;
 
             case ACTIONSELECT:
-                counter -= deltaTime;
-                System.out.println(counter);
                 playerAction = playersPokemon.getActions().get(0);
-                this.stage = FightStage.ACTIONEXECUTION;
+                stage = FightStage.ACTIONEXECUTION;
                 break;
 
             case ACTIONEXECUTION:
                 if (opponent.isDead() || !playerAction.doAction(opponent)){
                     playerDidAction = false;
-                    this.stage = FightStage.CONCLUSION;
+                    stage = FightStage.CONCLUSION;
                 }else{
-                    this.stage = FightStage.OPPONENTACTION;
+                    stage = FightStage.OPPONENTACTION;
                 }
                 break;
 
@@ -80,9 +78,9 @@ public class ICMonFight extends PauseMenu{
                 opponentAction = opponent.getActions().get(i);
                 if (playersPokemon.isDead() || !opponentAction.doAction(playersPokemon)){
                     opponentDidAction = false;
-                    this.stage = FightStage.CONCLUSION;
+                    stage = FightStage.CONCLUSION;
                 }else{
-                    this.stage = FightStage.ACTIONSELECT;
+                    stage = FightStage.ACTIONSELECT;
                 }
                 break;
 
@@ -106,6 +104,7 @@ public class ICMonFight extends PauseMenu{
                 break;
         }
     }
+    //pas sûr d'avoir besoin
     public void clearActions(){
         playerAction = null;
         opponentAction = null;

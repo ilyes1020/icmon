@@ -12,7 +12,7 @@ public class Attack implements ICMonFightAction {
     }
     @Override
     public boolean doAction(Pokemon target) {
-        System.out.println("did action"); //pour le debuggage
+        System.out.println("did attack"); //pour le debuggage
         return false;
     }
 }

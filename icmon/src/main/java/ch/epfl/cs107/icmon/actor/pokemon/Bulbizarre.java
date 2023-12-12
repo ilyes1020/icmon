@@ -23,7 +23,7 @@ public class Bulbizarre extends Pokemon{
     public Bulbizarre(Area area, DiscreteCoordinates position) {
         super(area, position, "bulbizarre", 1, 10);
         actions = new ArrayList<>();
-        actions.add(new Attack());
         actions.add(new RunAway());
+        actions.add(new Attack());
     }
 }

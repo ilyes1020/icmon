@@ -12,6 +12,7 @@ public class RunAway implements ICMonFightAction {
     }
     @Override
     public boolean doAction(Pokemon target) {
+        System.out.println("did run away");
         return false;
     }
 }

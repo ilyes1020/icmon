@@ -10,7 +10,7 @@ import ch.epfl.cs107.play.engine.actor.Entity;
 import java.util.ArrayList;
 
 public abstract class ICMonEvent implements Updatable, ICMonInteractionVisitor {
-    ICMonPlayer player;
+    protected ICMonPlayer player;
     private boolean started;
     private boolean completed;
     private boolean suspended;
