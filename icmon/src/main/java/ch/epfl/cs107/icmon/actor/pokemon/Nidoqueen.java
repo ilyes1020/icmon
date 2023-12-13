@@ -24,7 +24,7 @@ public class Nidoqueen extends Pokemon{
      * @param position        (Coordinate): Initial position of the entity. Not null
      */
     public Nidoqueen(Area area, DiscreteCoordinates position) {
-        super(area, position, "nidoqueen", 1, 10);
+        super(area, position, "nidoqueen", 2, 15);
         actions = new ArrayList<>();
         actions.add(new RunAway());
         actions.add(new Attack(stats.damage()));

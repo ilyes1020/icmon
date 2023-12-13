@@ -23,7 +23,7 @@ public class Latios extends Pokemon{
      * @param position        (Coordinate): Initial position of the entity. Not null
      */
     public Latios(Area area, DiscreteCoordinates position) {
-        super(area, position, "latios", 1, 10);
+        super(area, position, "latios", 3, 8);
         actions = new ArrayList<>();
         actions.add(new RunAway());
         actions.add(new Attack(stats.damage()));
