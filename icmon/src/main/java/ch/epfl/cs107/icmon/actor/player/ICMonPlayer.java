@@ -10,11 +10,10 @@ import ch.epfl.cs107.icmon.actor.ICMonActor;
 import ch.epfl.cs107.icmon.actor.items.ICBall;
 import ch.epfl.cs107.icmon.actor.pokemon.*;
 import ch.epfl.cs107.icmon.area.ICMonBehavior;
-import ch.epfl.cs107.icmon.gamelogic.actions.LeaveAreaAction;
 import ch.epfl.cs107.icmon.gamelogic.actions.RegisterEventAction;
 import ch.epfl.cs107.icmon.gamelogic.actions.UnregisterEventAction;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
-import ch.epfl.cs107.icmon.gamelogic.events.PokemonFightEvent;
+import ch.epfl.cs107.icmon.gamelogic.events.PokemonSelectionEvent;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.icmon.message.PassDoorMessage;
 import ch.epfl.cs107.icmon.message.SuspendWithEvent;
@@ -45,7 +44,8 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private ICMon.ICMonGameState gameState;
     private Dialog currentDialog;
     private boolean isDialog;
-    private ArrayList<Pokemon> pokemons = new ArrayList<>();
+    private ArrayList<Pokemon> pokemons;
+    private boolean canFight = true;
 
     /**
      * Default MovableAreaEntity constructor
@@ -62,13 +62,13 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         handler = new ICMonPlayerInteractionHandler();
         this.keyboard = getOwnerArea().getKeyboard();
         this.gameState = gameState;
+        this.pokemons = new ArrayList<>();
         this.pokemons.add(new Bulbizarre(getOwnerArea(), new DiscreteCoordinates(0,0)));
         this.pokemons.add(new Latios(getOwnerArea(), new DiscreteCoordinates(0,0)));
         this.pokemons.add(new Nidoqueen(getOwnerArea(), new DiscreteCoordinates(0,0)));
     }
     @Override
     public void update(float deltaTime) {
-
         //non optimal
         if (isDialog) {
             if (keyboard.get(Keyboard.SPACE).isPressed()) {
@@ -163,11 +163,11 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     }
 
     private void fight(ICMonFightableActor opponent){
-        ICMonEvent fightEvent = new PokemonFightEvent(this, pokemons.get(0), opponent);
-        fightEvent.onStart(new RegisterEventAction(fightEvent, gameState.getEventManager()));
-        fightEvent.onComplete(new UnregisterEventAction(fightEvent, gameState.getEventManager()));
-        SuspendWithEvent suspendMessage = new SuspendWithEvent(fightEvent,gameState);
-        gameState.send(suspendMessage);
+        ICMonEvent selectionEvent = new PokemonSelectionEvent(this,new ArrayList<>(pokemons),opponent,gameState); //ca soule de donner le gamestate comme ça mais sinon on peut pas send le message depuis l'action
+        selectionEvent.onStart(new RegisterEventAction(selectionEvent, gameState.getEventManager()));
+        selectionEvent.onComplete(new UnregisterEventAction(selectionEvent, gameState.getEventManager()));
+        SuspendWithEvent selectionMessage = new SuspendWithEvent(selectionEvent,gameState);
+        gameState.send(selectionMessage);
     }
     /**
      * Do this Interactor interact with the given Interactable
@@ -211,8 +211,12 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
 
         @Override
         public void interactWith(Pokemon pokemon, boolean isCellInteraction) {
-            if (isCellInteraction){
+            if (isCellInteraction && canFight){
+                canFight = false;
                 fight(pokemon);
+            }
+            else {
+                canFight = true;
             }
         }
     }

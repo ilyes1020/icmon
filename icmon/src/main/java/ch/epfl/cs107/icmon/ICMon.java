@@ -148,7 +148,6 @@ public final class ICMon extends AreaGame {
             }
         }
 
-
         public void send(GamePlayMessage message){
             ICMon.this.currentMessage = message;
         }

@@ -4,7 +4,6 @@ package ch.epfl.cs107.icmon.gamelogic.fights;
  *	Date:
  */
 
-import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
 import ch.epfl.cs107.icmon.graphics.ICMonFightActionSelectionGraphics;
 import ch.epfl.cs107.icmon.graphics.ICMonFightArenaGraphics;
@@ -15,7 +14,7 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
-public class ICMonFight extends PauseMenu{
+public class ICMonFight extends PauseMenu implements PauseMenuSelector{
 
     private Pokemon playersPokemon;
     private Pokemon opponent;
@@ -129,7 +128,6 @@ public class ICMonFight extends PauseMenu{
         }
         return false;
     }
-
     public boolean isRunning(){
         return (isRunning);
     }
