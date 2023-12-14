@@ -16,6 +16,7 @@ import ch.epfl.cs107.icmon.gamelogic.fights.PokemonSelectionMenu;
 import ch.epfl.cs107.play.engine.PauseMenu;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PokemonSelectionEvent extends ICMonEvent implements PauseMenuEvent {
 

@@ -23,15 +23,16 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class ICMon extends AreaGame {
     public final static float CAMERA_SCALE_FACTOR = 13.f;
     //peut ne pas être nécéssaire
     private final String[] areas = {"town", "lab"};
     private ICMonPlayer player;
-    private ArrayList <ICMonEvent> currentEvents;
-    private ArrayList <ICMonEvent> eventsToRegister;
-    private ArrayList <ICMonEvent> eventsToUnRegister;
+    private List<ICMonEvent> currentEvents;
+    private List <ICMonEvent> eventsToRegister;
+    private List <ICMonEvent> eventsToUnRegister;
     private ICMonGameState gameState = new ICMonGameState();
     private ICMonEventManager eventManager = new ICMonEventManager();
     private GamePlayMessage currentMessage;

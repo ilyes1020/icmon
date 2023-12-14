@@ -12,9 +12,10 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Latios extends Pokemon{
-    private ArrayList<ICMonFightAction> actions;
+    private List<ICMonFightAction> actions;
     private PokemonProperties stats = new PokemonProperties();
     /**
      * Default MovableAreaEntity constructor
@@ -31,6 +32,6 @@ public class Latios extends Pokemon{
 
     @Override
     public ArrayList<ICMonFightAction> getActions() {
-        return actions;
+        return new ArrayList<>(actions);
     }
 }

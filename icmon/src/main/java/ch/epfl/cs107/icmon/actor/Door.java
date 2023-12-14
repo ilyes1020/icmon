@@ -21,7 +21,7 @@ public class Door extends AreaEntity {
     private String arrivalAreaName;
     private final DiscreteCoordinates arrivalAreaPosition;
     private final DiscreteCoordinates mainCoords;
-    private ArrayList<DiscreteCoordinates> additionalCoords = new ArrayList<>();
+    private List<DiscreteCoordinates> additionalCoords = new ArrayList<>();
     /**
      * Default AreaEntity constructor
      *

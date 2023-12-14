@@ -30,7 +30,7 @@ public class AfterPokemonSelectionFightAction implements Action{
         fightEvent.onStart(new RegisterEventAction(fightEvent,gameState.getEventManager()));
         fightEvent.onComplete(new LeaveAreaAction((ICMonActor) opponent));
         fightEvent.onComplete(new UnregisterEventAction(fightEvent, gameState.getEventManager()));
-        SuspendWithEvent fightMessage = new SuspendWithEvent(fightEvent,gameState);
-        gameState.send(fightMessage);
+
+        gameState.send(new SuspendWithEvent(fightEvent,gameState));
     }
 }

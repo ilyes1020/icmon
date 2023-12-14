@@ -12,9 +12,10 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Nidoqueen extends Pokemon{
-    private ArrayList<ICMonFightAction> actions;
+    private List<ICMonFightAction> actions;
     private PokemonProperties stats = new PokemonProperties();
 
     /**
@@ -32,6 +33,6 @@ public class Nidoqueen extends Pokemon{
 
     @Override
     public ArrayList<ICMonFightAction> getActions() {
-        return actions;
+        return new ArrayList<>(actions);
     }
 }

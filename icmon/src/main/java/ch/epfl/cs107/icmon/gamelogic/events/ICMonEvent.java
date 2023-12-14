@@ -8,16 +8,17 @@ import ch.epfl.cs107.play.engine.Updatable;
 import ch.epfl.cs107.play.engine.actor.Entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ICMonEvent implements Updatable, ICMonInteractionVisitor {
     protected ICMonPlayer player;
     private boolean started;
     private boolean completed;
     private boolean suspended;
-    private ArrayList<Action> ActionsOnStart = new ArrayList<Action>();
-    private ArrayList<Action> ActionsOnComplete = new ArrayList<Action>();
-    private ArrayList<Action> ActionsOnSuspend = new ArrayList<Action>();
-    private ArrayList<Action> ActionsOnResume = new ArrayList<Action>();
+    private List<Action> ActionsOnStart = new ArrayList<Action>();
+    private List<Action> ActionsOnComplete = new ArrayList<Action>();
+    private List<Action> ActionsOnSuspend = new ArrayList<Action>();
+    private List<Action> ActionsOnResume = new ArrayList<Action>();
 
     public ICMonEvent(ICMonPlayer player){
         started = false;

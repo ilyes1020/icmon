@@ -44,7 +44,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private ICMon.ICMonGameState gameState;
     private Dialog currentDialog;
     private boolean isDialog;
-    private ArrayList<Pokemon> pokemons;
+    private List<Pokemon> pokemons;
     private boolean canFight = true;
 
     /**
