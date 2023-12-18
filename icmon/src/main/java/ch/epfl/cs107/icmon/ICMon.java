@@ -8,10 +8,7 @@ import ch.epfl.cs107.icmon.actor.items.ICBall;
 import ch.epfl.cs107.icmon.actor.items.ICMonItem;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.area.ICMonArea;
-import ch.epfl.cs107.icmon.area.maps.Arena;
-import ch.epfl.cs107.icmon.area.maps.House;
-import ch.epfl.cs107.icmon.area.maps.Lab;
-import ch.epfl.cs107.icmon.area.maps.Town;
+import ch.epfl.cs107.icmon.area.maps.*;
 import ch.epfl.cs107.icmon.gamelogic.actions.*;
 import ch.epfl.cs107.icmon.gamelogic.events.*;
 import ch.epfl.cs107.icmon.message.GamePlayMessage;
@@ -44,6 +41,7 @@ public final class ICMon extends AreaGame {
         addArea(new Lab());
         addArea(new Arena());
         addArea(new House());
+        addArea(new Shop());
     }
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
@@ -55,21 +53,7 @@ public final class ICMon extends AreaGame {
             eventsToRegister= new ArrayList<>();
             eventsToUnRegister = new ArrayList<>();
 
-//            CollectItemEvent ballCollect = new CollectItemEvent(ball,player);
-//            EndOfTheGameEvent endGame = new EndOfTheGameEvent(player);
-//
-//            ballCollect.onStart(new RegisterEventAction(ballCollect, eventManager));
-//            ballCollect.onStart(new RegisterinAreaAction(getCurrentArea(),ball));
-//            ballCollect.onStart(new LogAction("ICMonItemCollect has started !"));
-//            ballCollect.onComplete(new LogAction("ICMonItemCollect has been completed !"));
-//            ballCollect.onComplete(new StartEventAction(endGame));
-//            ballCollect.onComplete(new UnregisterEventAction(ballCollect,eventManager));
-//            endGame.onStart(new LogAction("the second event has started !"));
-//            endGame.onStart(new RegisterEventAction(endGame,eventManager));
-//
-//            ballCollect.start();
-
-            events();
+            events(); //que faut-il envoye dans event
             return true;
         }
         return false;

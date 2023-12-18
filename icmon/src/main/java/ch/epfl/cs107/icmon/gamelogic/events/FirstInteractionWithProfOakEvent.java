@@ -13,7 +13,7 @@ import ch.epfl.cs107.icmon.gamelogic.actions.AddPokemonToPlayerAction;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class FirstInteractionWithProfOakEvent extends ICMonEvent{
-    private boolean interacted;
+    private boolean interactedWithOak;
     public FirstInteractionWithProfOakEvent(ICMonPlayer player) {
         super(player);
         onComplete(new AddPokemonToPlayerAction(new Latios(new House(),new DiscreteCoordinates(0,0)),player)); //null
@@ -22,14 +22,18 @@ public class FirstInteractionWithProfOakEvent extends ICMonEvent{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if (!player.isDialog() && interacted){
+        if (!player.isDialog() && interactedWithOak){
             complete();
         }
     }
 
     public void interactWith(ProfOak profOak, boolean isCellInteraction){
         player.openDialog("first_interaction_with_prof_oak");
-        interacted = true;
+        interactedWithOak = true;
+    }
+
+    public void interactWith(ICShopAssistant assistant,boolean isCellInteraction){
+        player.openDialog("first_interaction_with_oak_event_icshopassistant");
     }
 
 }
