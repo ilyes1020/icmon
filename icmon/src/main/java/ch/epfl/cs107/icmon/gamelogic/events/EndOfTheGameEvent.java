@@ -9,6 +9,7 @@ import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 
 public class EndOfTheGameEvent extends ICMonEvent{
 
+
     public EndOfTheGameEvent(ICMonPlayer player) {
         super(player);
     }

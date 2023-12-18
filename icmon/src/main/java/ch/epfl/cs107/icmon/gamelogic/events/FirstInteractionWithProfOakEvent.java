@@ -5,6 +5,7 @@ package ch.epfl.cs107.icmon.gamelogic.events;
  */
 
 import ch.epfl.cs107.icmon.actor.npc.ICShopAssistant;
+import ch.epfl.cs107.icmon.actor.npc.ProfOak;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.actor.pokemon.Latios;
 import ch.epfl.cs107.icmon.area.maps.House;
@@ -12,6 +13,7 @@ import ch.epfl.cs107.icmon.gamelogic.actions.AddPokemonToPlayerAction;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class FirstInteractionWithProfOakEvent extends ICMonEvent{
+    private boolean interacted;
     public FirstInteractionWithProfOakEvent(ICMonPlayer player) {
         super(player);
         onComplete(new AddPokemonToPlayerAction(new Latios(new House(),new DiscreteCoordinates(0,0)),player)); //null
@@ -20,14 +22,14 @@ public class FirstInteractionWithProfOakEvent extends ICMonEvent{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if (!player.isDialog()){
+        if (!player.isDialog() && interacted){
             complete();
         }
     }
 
-    public void interactWith(ICShopAssistant assistant , boolean isCellInteraction){
-        System.out.println("first interaction");
+    public void interactWith(ProfOak profOak, boolean isCellInteraction){
         player.openDialog("first_interaction_with_prof_oak");
+        interacted = true;
     }
 
 }

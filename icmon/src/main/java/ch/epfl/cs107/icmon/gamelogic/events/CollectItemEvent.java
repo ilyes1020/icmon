@@ -4,8 +4,10 @@ import ch.epfl.cs107.icmon.actor.items.ICMonItem;
 import ch.epfl.cs107.icmon.actor.npc.ICShopAssistant;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.gamelogic.actions.RegisterEventAction;
+import ch.epfl.cs107.icmon.gamelogic.actions.RegisterinAreaAction;
 
 public class CollectItemEvent extends ICMonEvent{
+
     private ICMonItem item;
     public CollectItemEvent(ICMonItem item, ICMonPlayer player){
         super(player);

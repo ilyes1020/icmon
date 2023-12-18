@@ -82,23 +82,13 @@ public final class ICMon extends AreaGame {
         ICMonEvent ballCollect = new CollectItemEvent(ball,player);
         ICMonEvent endGame = new EndOfTheGameEvent(player);
 
-        firstEvent.onComplete(new LogAction("firstevent finished"));
-
-        talkOak.onStart(new LogAction("talkOak began"));
-
-        talkOak.onStart(new RegisterEventAction(talkOak,eventManager));
-        talkOak.onComplete(new UnregisterEventAction(talkOak,eventManager));
-        ballCollect.onStart(new RegisterEventAction(ballCollect, eventManager));
         ballCollect.onStart(new RegisterinAreaAction(getCurrentArea(),ball));
         ballCollect.onStart(new LogAction("ICMonItemCollect has started !"));
         ballCollect.onComplete(new LogAction("ICMonItemCollect has been completed !"));
-        ballCollect.onComplete(new UnregisterEventAction(ballCollect,eventManager));
         endGame.onStart(new LogAction("the second event has started !"));
-        endGame.onStart(new RegisterEventAction(endGame,eventManager));
+
 
         ICMonChainedEvent chainedEvent= new ICMonChainedEvent(player,firstEvent,talkOak,ballCollect,endGame);
-        chainedEvent.onStart(new RegisterEventAction(chainedEvent,eventManager));
-        chainedEvent.onComplete(new UnregisterEventAction(chainedEvent,eventManager));
 
         chainedEvent.start();
     }
@@ -120,7 +110,7 @@ public final class ICMon extends AreaGame {
         eventsToRegister.clear();
         eventsToUnRegister.clear();
 
-        System.out.println(currentEvents);
+//        System.out.println(currentEvents);
 
         for (ICMonEvent event : currentEvents){
             event.update(deltaTime);

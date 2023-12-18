@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonSelectionEvent extends ICMonEvent implements PauseMenuEvent {
-
     private PokemonSelectionMenu pauseMenu;
 
     private ICMonFightableActor opponent;

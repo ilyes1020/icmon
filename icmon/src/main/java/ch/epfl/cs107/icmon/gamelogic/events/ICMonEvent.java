@@ -2,6 +2,8 @@ package ch.epfl.cs107.icmon.gamelogic.events;
 
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.gamelogic.actions.Action;
+import ch.epfl.cs107.icmon.gamelogic.actions.RegisterEventAction;
+import ch.epfl.cs107.icmon.gamelogic.actions.UnregisterEventAction;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.engine.PauseMenu;
 import ch.epfl.cs107.play.engine.Updatable;
@@ -25,6 +27,8 @@ public abstract class ICMonEvent implements Updatable, ICMonInteractionVisitor {
         completed = false;
         suspended = false;
         this.player = player;
+        onStart(new RegisterEventAction(this,player.getEventManager()));
+        onComplete(new UnregisterEventAction(this, player.getEventManager()));
     }
 
     /**

@@ -95,6 +95,10 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         super.update(deltaTime);
     }
 
+    private boolean hasPokemons(){
+        return !pokemons.isEmpty();
+    }
+
     public void addPokemon(Pokemon pokemon){
         pokemons.add(pokemon);
     }
@@ -187,6 +191,10 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         other.acceptInteraction(handler, isCellInteraction);
         gameState.acceptInteraction(other, isCellInteraction);
     }
+
+    public ICMon.ICMonEventManager getEventManager() {
+        return gameState.getEventManager();
+    }
     //no need to Override the getCurrentCell method, same as super
 
     private class ICMonPlayerInteractionHandler implements ICMonInteractionVisitor{
@@ -194,6 +202,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         public void interactWith(ICBall ball, boolean isCellInteraction) {  //ramasser la balle
             if (!isCellInteraction && wantsCellInteraction()){
                 ball.collect();
+                System.out.println("Player is interacting with Ball !");
             }
         }
         @Override
@@ -214,10 +223,9 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
                 gameState.send(message);
             }
         }
-
         @Override
         public void interactWith(Pokemon pokemon, boolean isCellInteraction) {
-            if (isCellInteraction && canFight){
+            if (isCellInteraction && canFight && hasPokemons()){
                 canFight = false;
                 fight(pokemon);
             }

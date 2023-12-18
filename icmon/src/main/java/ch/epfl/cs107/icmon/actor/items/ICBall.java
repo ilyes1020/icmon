@@ -4,6 +4,7 @@ package ch.epfl.cs107.icmon.actor.items;
  *	Date:        1/12/2023
  */
 
+import ch.epfl.cs107.icmon.gamelogic.actions.RegisterinAreaAction;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
