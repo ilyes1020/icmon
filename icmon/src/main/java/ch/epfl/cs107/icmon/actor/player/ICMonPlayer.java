@@ -63,9 +63,9 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         this.keyboard = getOwnerArea().getKeyboard();
         this.gameState = gameState;
         this.pokemons = new ArrayList<>();
-        this.pokemons.add(new Bulbizarre(getOwnerArea(), new DiscreteCoordinates(0,0)));
-        this.pokemons.add(new Latios(getOwnerArea(), new DiscreteCoordinates(0,0)));
-        this.pokemons.add(new Nidoqueen(getOwnerArea(), new DiscreteCoordinates(0,0)));
+//        this.pokemons.add(new Bulbizarre(getOwnerArea(), new DiscreteCoordinates(0,0)));
+//        this.pokemons.add(new Latios(getOwnerArea(), new DiscreteCoordinates(0,0)));
+//        this.pokemons.add(new Nidoqueen(getOwnerArea(), new DiscreteCoordinates(0,0)));
     }
     @Override
     public void update(float deltaTime) {
@@ -95,9 +95,15 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         super.update(deltaTime);
     }
 
+    public void addPokemon(Pokemon pokemon){
+        pokemons.add(pokemon);
+    }
     public void openDialog(String message){
         currentDialog = new Dialog(message);
         isDialog = true;
+    }
+    public boolean isDialog(){
+        return isDialog;
     }
     public void clearDialog(){
         currentDialog = null;

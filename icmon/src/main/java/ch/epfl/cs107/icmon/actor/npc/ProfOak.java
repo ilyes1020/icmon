@@ -1,19 +1,16 @@
 package ch.epfl.cs107.icmon.actor.npc;
 /*
  *	Author:      Ilyes Rouibi
- *	Date:        5/12/2023
+ *	Date:
  */
 
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
-import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
-import ch.epfl.cs107.play.window.Canvas;
 
-public class ICShopAssistant extends NPCActor{
-
+public class ProfOak extends NPCActor{
     /**
      * Default MovableAreaEntity constructor
      *
@@ -22,17 +19,18 @@ public class ICShopAssistant extends NPCActor{
      * @param position    (Coordinate): Initial position of the entity. Not null
      */
 
-    public ICShopAssistant(Area area, Orientation orientation, DiscreteCoordinates position) {
-        super(area, orientation, position, "actors/assistant");
+    public ProfOak(Area area,Orientation orientation, DiscreteCoordinates position) {
+        super(area,orientation, position,"actors/prof-oak");
     }
-    public ICShopAssistant(Area area, DiscreteCoordinates position) {
-        this(area, Orientation.DOWN, position);
+    public ProfOak(Area area, DiscreteCoordinates position) {
+        this(area, Orientation.DOWN,position);
     }
 
 
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICMonInteractionVisitor)v).interactWith (this , isCellInteraction );
     }
-    private class ICShopAssistantHandler implements ICMonInteractionVisitor{
-    }
+
+//    private class ProfOakHandler implements ICMonInteractionVisitor{
+//    }
 }

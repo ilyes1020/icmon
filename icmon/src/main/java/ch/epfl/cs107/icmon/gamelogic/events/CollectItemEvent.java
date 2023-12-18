@@ -3,6 +3,7 @@ package ch.epfl.cs107.icmon.gamelogic.events;
 import ch.epfl.cs107.icmon.actor.items.ICMonItem;
 import ch.epfl.cs107.icmon.actor.npc.ICShopAssistant;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
+import ch.epfl.cs107.icmon.gamelogic.actions.RegisterEventAction;
 
 public class CollectItemEvent extends ICMonEvent{
     private ICMonItem item;

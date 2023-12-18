@@ -5,9 +5,11 @@ package ch.epfl.cs107.icmon;
  */
 
 import ch.epfl.cs107.icmon.actor.items.ICBall;
+import ch.epfl.cs107.icmon.actor.items.ICMonItem;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.icmon.area.maps.Arena;
+import ch.epfl.cs107.icmon.area.maps.House;
 import ch.epfl.cs107.icmon.area.maps.Lab;
 import ch.epfl.cs107.icmon.area.maps.Town;
 import ch.epfl.cs107.icmon.gamelogic.actions.*;
@@ -41,34 +43,64 @@ public final class ICMon extends AreaGame {
         addArea(new Town());
         addArea(new Lab());
         addArea(new Arena());
+        addArea(new House());
     }
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             createAreas();
-            initArea("town");
+            initArea("house");
             ICBall ball = new ICBall(getCurrentArea(), new DiscreteCoordinates(6,6),"items/icball");
             currentEvents = new ArrayList<>();
             eventsToRegister= new ArrayList<>();
             eventsToUnRegister = new ArrayList<>();
 
-            CollectItemEvent ballCollect = new CollectItemEvent(ball,player);
-            EndOfTheGameEvent endGame = new EndOfTheGameEvent(player);
+//            CollectItemEvent ballCollect = new CollectItemEvent(ball,player);
+//            EndOfTheGameEvent endGame = new EndOfTheGameEvent(player);
+//
+//            ballCollect.onStart(new RegisterEventAction(ballCollect, eventManager));
+//            ballCollect.onStart(new RegisterinAreaAction(getCurrentArea(),ball));
+//            ballCollect.onStart(new LogAction("ICMonItemCollect has started !"));
+//            ballCollect.onComplete(new LogAction("ICMonItemCollect has been completed !"));
+//            ballCollect.onComplete(new StartEventAction(endGame));
+//            ballCollect.onComplete(new UnregisterEventAction(ballCollect,eventManager));
+//            endGame.onStart(new LogAction("the second event has started !"));
+//            endGame.onStart(new RegisterEventAction(endGame,eventManager));
+//
+//            ballCollect.start();
 
-            ballCollect.onStart(new RegisterEventAction(ballCollect, eventManager));
-            ballCollect.onStart(new RegisterinAreaAction(getCurrentArea(),ball));
-            ballCollect.onStart(new LogAction("ICMonItemCollect has started !"));
-            ballCollect.onComplete(new LogAction("ICMonItemCollect has been completed !"));
-            ballCollect.onComplete(new StartEventAction(endGame));
-            ballCollect.onComplete(new UnregisterEventAction(ballCollect,eventManager));
-            endGame.onStart(new LogAction("the second event has started !"));
-            endGame.onStart(new RegisterEventAction(endGame,eventManager));
-
-            ballCollect.start();
-
+            events();
             return true;
         }
         return false;
+    }
+
+    private void events(){
+        ICMonItem ball = new ICBall(getCurrentArea(), new DiscreteCoordinates(6,6),"items/icball");
+        ICMonEvent firstEvent = new IntroductionEvent(player);
+        ICMonEvent talkOak = new FirstInteractionWithProfOakEvent(player);
+        ICMonEvent ballCollect = new CollectItemEvent(ball,player);
+        ICMonEvent endGame = new EndOfTheGameEvent(player);
+
+        firstEvent.onComplete(new LogAction("firstevent finished"));
+
+        talkOak.onStart(new LogAction("talkOak began"));
+
+        talkOak.onStart(new RegisterEventAction(talkOak,eventManager));
+        talkOak.onComplete(new UnregisterEventAction(talkOak,eventManager));
+        ballCollect.onStart(new RegisterEventAction(ballCollect, eventManager));
+        ballCollect.onStart(new RegisterinAreaAction(getCurrentArea(),ball));
+        ballCollect.onStart(new LogAction("ICMonItemCollect has started !"));
+        ballCollect.onComplete(new LogAction("ICMonItemCollect has been completed !"));
+        ballCollect.onComplete(new UnregisterEventAction(ballCollect,eventManager));
+        endGame.onStart(new LogAction("the second event has started !"));
+        endGame.onStart(new RegisterEventAction(endGame,eventManager));
+
+        ICMonChainedEvent chainedEvent= new ICMonChainedEvent(player,firstEvent,talkOak,ballCollect,endGame);
+        chainedEvent.onStart(new RegisterEventAction(chainedEvent,eventManager));
+        chainedEvent.onComplete(new UnregisterEventAction(chainedEvent,eventManager));
+
+        chainedEvent.start();
     }
 
     @Override
@@ -87,6 +119,8 @@ public final class ICMon extends AreaGame {
 
         eventsToRegister.clear();
         eventsToUnRegister.clear();
+
+        System.out.println(currentEvents);
 
         for (ICMonEvent event : currentEvents){
             event.update(deltaTime);

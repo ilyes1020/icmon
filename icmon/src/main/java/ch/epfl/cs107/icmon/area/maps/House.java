@@ -4,27 +4,23 @@ package ch.epfl.cs107.icmon.area.maps;
  *	Date:
  */
 
-import ch.epfl.cs107.icmon.actor.npc.ProfOak;
-import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.icmon.actor.Door;
+import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.math.Orientation;
-import ch.epfl.cs107.play.signal.logic.Or;
 
-public final class Lab extends ICMonArea {
+public class House extends ICMonArea {
     @Override
     public String getTitle() {
-        return "lab";
+        return "house";
     }
 
     @Override
     protected void createArea() {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
-        registerActor(new ProfOak(this, new DiscreteCoordinates(11,7)));
-        registerActor(new Door(this, "town", new DiscreteCoordinates(15,23), new DiscreteCoordinates(6,1), new DiscreteCoordinates(7,1)));
+        registerActor(new Door(this, "town", new DiscreteCoordinates(7,26), new DiscreteCoordinates(3,1), new DiscreteCoordinates(4,1)));
     }
 
     @Override
@@ -34,6 +30,6 @@ public final class Lab extends ICMonArea {
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition() {
-        return new DiscreteCoordinates(6,2);
+        return new DiscreteCoordinates(2,2);
     }
 }
