@@ -28,8 +28,6 @@ import java.util.List;
 
 public final class ICMon extends AreaGame {
     public final static float CAMERA_SCALE_FACTOR = 13.f;
-    //peut ne pas être nécéssaire
-    private final String[] areas = {"town", "lab","arena","house","shop"};
     private ICMonPlayer player;
     private List<ICMonEvent> currentEvents;
     private List <ICMonEvent> eventsToRegister;
@@ -86,22 +84,27 @@ public final class ICMon extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
+        // Restart the game
         Keyboard keyboard = getCurrentArea().getKeyboard();
-        if (keyboard.get(Keyboard.R).isPressed()){
-            begin(getWindow(),getFileSystem());
+        if (keyboard.get(Keyboard.R).isPressed()) {
+            begin(getWindow(), getFileSystem());
         }
+
+        // Processes the current game play message and clears it afterward.
         if (currentMessage != null) {
             currentMessage.process();
             clearMessage();
         }
 
+        // Manage events:
         currentEvents.addAll(eventsToRegister);
         currentEvents.removeAll(eventsToUnRegister);
-
         eventsToRegister.clear();
         eventsToUnRegister.clear();
 
-        for (ICMonEvent event : currentEvents){
+
+        // Iterates through the list of current events and updates each event.
+        for (ICMonEvent event : currentEvents) {
             event.update(deltaTime);
         }
         super.update(deltaTime);
