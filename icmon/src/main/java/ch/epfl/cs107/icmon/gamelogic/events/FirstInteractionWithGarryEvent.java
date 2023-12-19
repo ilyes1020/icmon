@@ -11,7 +11,7 @@ import java.sql.SQLOutput;
 
 public class FirstInteractionWithGarryEvent extends ICMonEvent{
 
-    private boolean garryIsDead = false;
+    private boolean hasInteracted;
     public FirstInteractionWithGarryEvent(ICMonPlayer player) {
         super(player);
     }
@@ -19,12 +19,15 @@ public class FirstInteractionWithGarryEvent extends ICMonEvent{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        if(hasInteracted){
+            complete();
+        }
     }
 
     @Override
     public void interactWith(Garry garry, boolean isCellInteraction) {
         System.out.println("interaction avec garry");
         player.fight(garry);
-        System.out.println(garry.hasToLeaveArea());
+        hasInteracted = true;
     }
 }
