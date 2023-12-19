@@ -21,7 +21,7 @@ public class ICMonChainedEvent extends ICMonEvent{
     public ICMonChainedEvent(ICMonPlayer player, ICMonEvent firstEvent,ICMonEvent... chain) {
         super(player);
         this.firstEvent=firstEvent;
-        this.chain.addAll(Arrays.asList(chain)); //à revoir
+        this.chain = List.of(chain); //à revoir
         onStart(new StartEventAction(firstEvent));
         firstEvent.onComplete(new StartEventAction(this.chain.get(0)));
 

@@ -5,6 +5,8 @@ package ch.epfl.cs107.icmon.area.maps;
  */
 
 import ch.epfl.cs107.icmon.actor.Door;
+import ch.epfl.cs107.icmon.actor.npc.Garry;
+import ch.epfl.cs107.icmon.actor.npc.ICShopAssistant;
 import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
@@ -21,6 +23,7 @@ public class House extends ICMonArea {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
         registerActor(new Door(this, "town", new DiscreteCoordinates(7,26), new DiscreteCoordinates(3,1), new DiscreteCoordinates(4,1)));
+        //registerActor(new Garry(this, new DiscreteCoordinates(1,3)));
     }
 
     @Override

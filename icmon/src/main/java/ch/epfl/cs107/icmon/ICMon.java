@@ -6,6 +6,8 @@ package ch.epfl.cs107.icmon;
 
 import ch.epfl.cs107.icmon.actor.items.ICBall;
 import ch.epfl.cs107.icmon.actor.items.ICMonItem;
+import ch.epfl.cs107.icmon.actor.npc.Garry;
+import ch.epfl.cs107.icmon.actor.npc.NPCActor;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.icmon.area.maps.*;
@@ -27,7 +29,7 @@ import java.util.List;
 public final class ICMon extends AreaGame {
     public final static float CAMERA_SCALE_FACTOR = 13.f;
     //peut ne pas être nécéssaire
-    private final String[] areas = {"town", "lab"};
+    private final String[] areas = {"town", "lab","arena","house","shop"};
     private ICMonPlayer player;
     private List<ICMonEvent> currentEvents;
     private List <ICMonEvent> eventsToRegister;
@@ -48,31 +50,35 @@ public final class ICMon extends AreaGame {
         if (super.begin(window, fileSystem)) {
             createAreas();
             initArea("house");
-            ICBall ball = new ICBall(getCurrentArea(), new DiscreteCoordinates(6,6),"items/icball");
+            ICMonItem ball = new ICBall(getCurrentArea(), new DiscreteCoordinates(6,6));
+            NPCActor garry = new Garry(getCurrentArea(),new DiscreteCoordinates(1,3)); //ya bourbier
+            getCurrentArea().registerActor(garry);
+
             currentEvents = new ArrayList<>();
             eventsToRegister= new ArrayList<>();
             eventsToUnRegister = new ArrayList<>();
 
-            events(); //que faut-il envoye dans event
+            events(ball,garry); //que faut-il envoye dans event
             return true;
         }
         return false;
     }
 
-    private void events(){
-        ICMonItem ball = new ICBall(getCurrentArea(), new DiscreteCoordinates(6,6),"items/icball");
+    private void events(ICMonItem ball,NPCActor garry){
         ICMonEvent firstEvent = new IntroductionEvent(player);
         ICMonEvent talkOak = new FirstInteractionWithProfOakEvent(player);
         ICMonEvent ballCollect = new CollectItemEvent(ball,player);
+        ICMonEvent garryInteraction = new FirstInteractionWithGarryEvent(player,(Garry) garry);
         ICMonEvent endGame = new EndOfTheGameEvent(player);
 
         ballCollect.onStart(new RegisterinAreaAction(getCurrentArea(),ball));
         ballCollect.onStart(new LogAction("ICMonItemCollect has started !"));
         ballCollect.onComplete(new LogAction("ICMonItemCollect has been completed !"));
         endGame.onStart(new LogAction("the second event has started !"));
+        garryInteraction.onStart(new LogAction("Garry interaction began"));
 
 
-        ICMonChainedEvent chainedEvent= new ICMonChainedEvent(player,firstEvent,talkOak,ballCollect,endGame);
+        ICMonChainedEvent chainedEvent= new ICMonChainedEvent(player,firstEvent,talkOak,garryInteraction,ballCollect,endGame);
 
         chainedEvent.start();
     }

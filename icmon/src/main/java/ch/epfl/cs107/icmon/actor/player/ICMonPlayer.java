@@ -45,7 +45,6 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private Dialog currentDialog;
     private boolean isDialog;
     private List<Pokemon> pokemons;
-    private boolean canFight = true;
 
     /**
      * Default MovableAreaEntity constructor
@@ -178,10 +177,8 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         ((ICMonInteractionVisitor) v).interactWith (this , isCellInteraction);
     }
 
-    private void fight(ICMonFightableActor opponent){
-        ICMonEvent selectionEvent = new PokemonSelectionEvent(this,new ArrayList<>(pokemons),opponent,gameState); //ca soule de donner le gamestate comme ça mais sinon on peut pas send le message depuis l'action
-        selectionEvent.onStart(new RegisterEventAction(selectionEvent, gameState.getEventManager()));
-        selectionEvent.onComplete(new UnregisterEventAction(selectionEvent, gameState.getEventManager()));
+    public void fight(ICMonFightableActor opponent){
+        ICMonEvent selectionEvent = new PokemonSelectionEvent(this,pokemons ,opponent,gameState); //ca soule de donner le gamestate comme ça mais sinon on peut pas send le message depuis l'action
         SuspendWithEvent selectionMessage = new SuspendWithEvent(selectionEvent,gameState);
         gameState.send(selectionMessage);
     }
@@ -231,12 +228,8 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         }
         @Override
         public void interactWith(Pokemon pokemon, boolean isCellInteraction) {
-            if (isCellInteraction && canFight && hasPokemons()){
-                canFight = false;
+            if (isCellInteraction && hasPokemons()){
                 fight(pokemon);
-            }
-            else {
-                canFight = true;
             }
         }
     }

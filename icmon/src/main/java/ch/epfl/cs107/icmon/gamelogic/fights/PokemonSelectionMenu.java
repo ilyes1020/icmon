@@ -16,16 +16,17 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PokemonSelectionMenu extends PauseMenu implements PauseMenuSelector {
 
     private boolean isRunning;
-    private ArrayList<Pokemon> playersPokemonList;
+    private List<Pokemon> playersPokemonList;
     private Keyboard keyboard;
     private ICMonFightPokemonSelectionGraphics selectionGraphics;
 
     private Pokemon pokemonChosen;
-    public PokemonSelectionMenu(ArrayList<Pokemon> playersPokemonList){
+    public PokemonSelectionMenu(List<Pokemon> playersPokemonList){
         isRunning = true;
         this.playersPokemonList =playersPokemonList;
     }

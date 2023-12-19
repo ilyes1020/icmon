@@ -24,7 +24,7 @@ public class PokemonSelectionEvent extends ICMonEvent implements PauseMenuEvent 
     private ICMonFightableActor opponent;
 
     private ICMon.ICMonGameState gameState;
-    public PokemonSelectionEvent(ICMonPlayer player, ArrayList<Pokemon> playersPokemonList, ICMonFightableActor opponent, ICMon.ICMonGameState gameState){
+    public PokemonSelectionEvent(ICMonPlayer player, List<Pokemon> playersPokemonList, ICMonFightableActor opponent, ICMon.ICMonGameState gameState){
         super(player);
         pauseMenu = new PokemonSelectionMenu(playersPokemonList);
         this.opponent=opponent;

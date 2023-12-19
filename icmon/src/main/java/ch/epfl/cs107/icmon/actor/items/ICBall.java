@@ -18,8 +18,8 @@ import java.util.List;
 public class ICBall extends ICMonItem{
 
 
-    public ICBall(Area area, DiscreteCoordinates position, String spriteName) {
-        super(area, position, spriteName);
+    public ICBall(Area area, DiscreteCoordinates position) {
+        super(area, position, "items/icball");
     }
 
     @Override

@@ -6,11 +6,14 @@ package ch.epfl.cs107.icmon.gamelogic.actions;
 
 import ch.epfl.cs107.icmon.ICMon;
 import ch.epfl.cs107.icmon.actor.ICMonActor;
+import ch.epfl.cs107.icmon.actor.npc.Garry;
+import ch.epfl.cs107.icmon.actor.npc.NPCActor;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.actor.pokemon.ICMonFightableActor;
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
 import ch.epfl.cs107.icmon.gamelogic.events.PokemonFightEvent;
+import ch.epfl.cs107.icmon.gamelogic.events.PokemonSelectionEvent;
 import ch.epfl.cs107.icmon.message.SuspendWithEvent;
 
 public class AfterPokemonSelectionFightAction implements Action{
@@ -26,11 +29,7 @@ public class AfterPokemonSelectionFightAction implements Action{
     }
     @Override
     public void perform() {
-        ICMonEvent fightEvent = new PokemonFightEvent(player,playersPokemon,opponent);
-        fightEvent.onStart(new RegisterEventAction(fightEvent,gameState.getEventManager()));
-        fightEvent.onComplete(new LeaveAreaAction((ICMonActor) opponent));
-        fightEvent.onComplete(new UnregisterEventAction(fightEvent, gameState.getEventManager()));
-
+        ICMonEvent fightEvent=new PokemonFightEvent(player, playersPokemon, opponent);
         gameState.send(new SuspendWithEvent(fightEvent,gameState));
     }
 }

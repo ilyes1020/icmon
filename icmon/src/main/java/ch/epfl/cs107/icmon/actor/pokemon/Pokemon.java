@@ -13,6 +13,8 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * ???
@@ -49,6 +51,16 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     //(all three same as super method)
 
     public abstract ArrayList<ICMonFightAction> getActions(); //comme a dit Edgoat
+
+    @Override
+    public boolean hasToLeaveArea() {
+        return true;
+    }
+
+    @Override
+    public List<Pokemon> getPokemons() {
+        return new ArrayList<>(Arrays.asList(this));
+    }
 
     public void receiveDamage(int takenDamage){
         if(takenDamage > 0){
