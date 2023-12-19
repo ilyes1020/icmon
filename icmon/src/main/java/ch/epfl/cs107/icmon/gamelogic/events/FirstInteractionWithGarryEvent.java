@@ -12,18 +12,13 @@ import java.sql.SQLOutput;
 public class FirstInteractionWithGarryEvent extends ICMonEvent{
 
     private boolean garryIsDead = false;
-    private Garry garry;
-    public FirstInteractionWithGarryEvent(ICMonPlayer player,Garry garry) {
+    public FirstInteractionWithGarryEvent(ICMonPlayer player) {
         super(player);
-        this.garry = garry;
     }
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if (garry.hasToLeaveArea()){
-            complete();
-        }
     }
 
     @Override

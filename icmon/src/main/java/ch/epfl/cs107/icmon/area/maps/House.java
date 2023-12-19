@@ -23,7 +23,7 @@ public class House extends ICMonArea {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
         registerActor(new Door(this, "town", new DiscreteCoordinates(7,26), new DiscreteCoordinates(3,1), new DiscreteCoordinates(4,1)));
-        //registerActor(new Garry(this, new DiscreteCoordinates(1,3)));
+        registerActor(new Garry(this, new DiscreteCoordinates(1,3)));
     }
 
     @Override

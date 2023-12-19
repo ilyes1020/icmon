@@ -50,25 +50,23 @@ public final class ICMon extends AreaGame {
         if (super.begin(window, fileSystem)) {
             createAreas();
             initArea("house");
-            ICMonItem ball = new ICBall(getCurrentArea(), new DiscreteCoordinates(6,6));
-            NPCActor garry = new Garry(getCurrentArea(),new DiscreteCoordinates(1,3)); //ya bourbier
-            getCurrentArea().registerActor(garry);
+            ICMonItem ball = new ICBall(getCurrentArea(), new DiscreteCoordinates(6,6)); //doit spawn dans l'eau
 
             currentEvents = new ArrayList<>();
             eventsToRegister= new ArrayList<>();
             eventsToUnRegister = new ArrayList<>();
 
-            events(ball,garry); //que faut-il envoye dans event
+            events(ball); //que faut-il envoye dans event
             return true;
         }
         return false;
     }
 
-    private void events(ICMonItem ball,NPCActor garry){
+    private void events(ICMonItem ball){
         ICMonEvent firstEvent = new IntroductionEvent(player);
         ICMonEvent talkOak = new FirstInteractionWithProfOakEvent(player);
         ICMonEvent ballCollect = new CollectItemEvent(ball,player);
-        ICMonEvent garryInteraction = new FirstInteractionWithGarryEvent(player,(Garry) garry);
+        ICMonEvent garryInteraction = new FirstInteractionWithGarryEvent(player);
         ICMonEvent endGame = new EndOfTheGameEvent(player);
 
         ballCollect.onStart(new RegisterinAreaAction(getCurrentArea(),ball));
