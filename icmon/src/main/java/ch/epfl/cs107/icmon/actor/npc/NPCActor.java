@@ -46,5 +46,4 @@ public abstract class NPCActor extends ICMonActor {
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
     }
-    //no need to Override the getCurrentCell method, same as super
 }

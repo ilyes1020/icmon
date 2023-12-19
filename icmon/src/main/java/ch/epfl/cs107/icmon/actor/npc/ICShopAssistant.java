@@ -13,7 +13,6 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class ICShopAssistant extends NPCActor{
-
     /**
      * Default MovableAreaEntity constructor
      *
@@ -29,10 +28,7 @@ public class ICShopAssistant extends NPCActor{
         this(area, Orientation.DOWN, position);
     }
 
-
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICMonInteractionVisitor)v).interactWith (this , isCellInteraction );
-    }
-    private class ICShopAssistantHandler implements ICMonInteractionVisitor{
     }
 }
