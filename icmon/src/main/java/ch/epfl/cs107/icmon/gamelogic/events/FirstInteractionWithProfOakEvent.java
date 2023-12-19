@@ -22,14 +22,11 @@ public class FirstInteractionWithProfOakEvent extends ICMonEvent{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if (!player.isDialog() && interactedWithOak){
-            complete();
-        }
     }
 
     public void interactWith(ProfOak profOak, boolean isCellInteraction){
         player.openDialog("first_interaction_with_prof_oak");
-        interactedWithOak = true;
+        complete();
     }
 
     public void interactWith(ICShopAssistant assistant,boolean isCellInteraction){

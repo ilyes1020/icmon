@@ -6,6 +6,7 @@ package ch.epfl.cs107.icmon.gamelogic.events;
 
 import ch.epfl.cs107.icmon.actor.npc.Garry;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
+import ch.epfl.cs107.icmon.gamelogic.actions.LogAction;
 
 import java.sql.SQLOutput;
 
@@ -19,15 +20,11 @@ public class FirstInteractionWithGarryEvent extends ICMonEvent{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if(hasInteracted){
-            complete();
-        }
     }
 
     @Override
     public void interactWith(Garry garry, boolean isCellInteraction) {
-        System.out.println("interaction avec garry");
         player.fight(garry);
-        hasInteracted = true;
+        complete();
     }
 }

@@ -38,8 +38,10 @@ public final class ICMon extends AreaGame {
     private ICMonEventManager eventManager = new ICMonEventManager();
     private GamePlayMessage currentMessage;
 
+    /**
+     *  Creates and adds different areas to the game.
+     */
     private void createAreas() {
-        addArea(new Town());
         addArea(new Lab());
         addArea(new Arena());
         addArea(new House());
@@ -48,33 +50,34 @@ public final class ICMon extends AreaGame {
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
-            createAreas();
+            Town town = new Town();
+            addArea(town);
+            createAreas(); //à modulariser
             initArea("house");
-            ICMonItem ball = new ICBall(getCurrentArea(), new DiscreteCoordinates(6,6)); //doit spawn dans l'eau
 
             currentEvents = new ArrayList<>();
             eventsToRegister= new ArrayList<>();
             eventsToUnRegister = new ArrayList<>();
 
-            events(ball); //que faut-il envoye dans event
+            events(town);
             return true;
         }
         return false;
     }
 
-    private void events(ICMonItem ball){
+    /**
+     * Configures and initiates the first sequence of events.
+     *
+     * @param area   The ICMonArea in which the CollectItemEvent will take place.
+     */
+    private void events(ICMonArea area){
+        ICMonItem ball = new ICBall(area, new DiscreteCoordinates(6,6)); //doit spawn dans l'eau
+
         ICMonEvent firstEvent = new IntroductionEvent(player);
         ICMonEvent talkOak = new FirstInteractionWithProfOakEvent(player);
-        ICMonEvent ballCollect = new CollectItemEvent(ball,player);
+        ICMonEvent ballCollect = new CollectItemEvent(ball,player,area);
         ICMonEvent garryInteraction = new FirstInteractionWithGarryEvent(player);
         ICMonEvent endGame = new EndOfTheGameEvent(player);
-
-        ballCollect.onStart(new RegisterinAreaAction(getCurrentArea(),ball));
-        ballCollect.onStart(new LogAction("ICMonItemCollect has started !"));
-        ballCollect.onComplete(new LogAction("ICMonItemCollect has been completed !"));
-        endGame.onStart(new LogAction("the second event has started !"));
-        garryInteraction.onStart(new LogAction("Garry interaction began"));
-
 
         ICMonChainedEvent chainedEvent= new ICMonChainedEvent(player,firstEvent,talkOak,garryInteraction,ballCollect,endGame);
 
@@ -83,8 +86,8 @@ public final class ICMon extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
-        Keyboard keyboard = getCurrentArea().getKeyboard(); //pour reset le jeu
-        if (keyboard.get(Keyboard.R).isPressed()){ //isPressed pour pas que ca spam
+        Keyboard keyboard = getCurrentArea().getKeyboard();
+        if (keyboard.get(Keyboard.R).isPressed()){
             begin(getWindow(),getFileSystem());
         }
         if (currentMessage != null) {
@@ -98,12 +101,9 @@ public final class ICMon extends AreaGame {
         eventsToRegister.clear();
         eventsToUnRegister.clear();
 
-//        System.out.println(currentEvents);
-
         for (ICMonEvent event : currentEvents){
             event.update(deltaTime);
         }
-
         super.update(deltaTime);
     }
 
@@ -115,10 +115,19 @@ public final class ICMon extends AreaGame {
     public String getTitle() {
         return "ICMon";
     }
+
+    /**
+     * Clears the current message.
+     */
     public void clearMessage(){
         currentMessage = null;
     }
 
+    /**
+     * Initializes the specified game area.
+     *
+     * @param areaKey   The key identifying the game area to be initialized.
+     */
     private void initArea(String areaKey) {
         ICMonArea area = (ICMonArea) setCurrentArea(areaKey, true);
         DiscreteCoordinates coords = area.getPlayerSpawnPosition();
@@ -131,21 +140,33 @@ public final class ICMon extends AreaGame {
         private ICMonGameState(){};
 
         /**
-         * demande à interactable d’accepter de voir ses
-         * interactions (avec le personnage) gérée par les événements qui constituent l’état du jeu
-         * @param interactable un interactable avec qui le personnage veut interagir, type interactable
-         * @param isCellInteraction interaction de contact, type boolean
+         * Asks the interactable to accept the handling of its interactions (with the character) by the events
+         * that constitute the game state.
+         *
+         * @param interactable         An interactable with which the character wants to interact, of type Interactable.
+         * @param isCellInteraction    A boolean indicating whether it is a contact-based interaction.
          */
         public void acceptInteraction (Interactable interactable, boolean isCellInteraction ){
             for(var event : ICMon.this.currentEvents)
                 interactable.acceptInteraction(event , isCellInteraction);
         }
+
+        /**
+         * Switches the player to a new game area.
+         *
+         * @param areaKey       The key identifying the target game area.
+         * @param arrivalPos    The position where the player should arrive in the new area.
+         */
         public void switchArea(String areaKey, DiscreteCoordinates arrivalPos) {
             player.leaveArea();
             ICMonArea currentArea = (ICMonArea) setCurrentArea(areaKey, false);
             player.enterArea(currentArea, arrivalPos);
         }
-
+        /**
+         * Pauses the game, suspending all current events and activating a specified pause menu event.
+         *
+         * @param event   The PauseMenuEvent to be activated during the pause.
+         */
         public void pauseTheGame(PauseMenuEvent event){
             for (ICMonEvent currentEvent : currentEvents){
                 currentEvent.suspend();
@@ -153,14 +174,20 @@ public final class ICMon extends AreaGame {
             setPauseMenu(event.getPauseMenu());
             requestPause();
         }
-
+        /**
+         * Resumes the game, activating all suspended events and ending the pause state.
+         */
         public void resumeTheGame(){
             requestResume();
             for (ICMonEvent currentEvent : currentEvents){
                 currentEvent.resume();
             }
         }
-
+        /**
+         * Sends a game play message to be stored as the current message in the game.
+         *
+         * @param message   The GamePlayMessage to be stored.
+         */
         public void send(GamePlayMessage message){
             ICMon.this.currentMessage = message;
         }
@@ -173,10 +200,20 @@ public final class ICMon extends AreaGame {
 
         private ICMonEventManager(){}
 
+        /**
+         * Adds an event to the list of events to register.
+         *
+         * @param eventToRegister   The ICMonEvent to be registered.
+         */
         public void toEventsToRegister(ICMonEvent eventToRegister){
             eventsToRegister.add(eventToRegister);
         }
 
+        /**
+         * Adds an event to the list of events to unregister.
+         *
+         * @param eventToUnRegister   The ICMonEvent to be unregistered.
+         */
         public void toEventsToUnRegister(ICMonEvent eventToUnRegister){
             eventsToUnRegister.add(eventToUnRegister);
         }
