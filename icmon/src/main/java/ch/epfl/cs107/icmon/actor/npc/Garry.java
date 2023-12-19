@@ -1,13 +1,8 @@
 package ch.epfl.cs107.icmon.actor.npc;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:
- */
 
 import ch.epfl.cs107.icmon.actor.pokemon.ICMonFightableActor;
 import ch.epfl.cs107.icmon.actor.pokemon.Nidoqueen;
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
-import ch.epfl.cs107.icmon.area.maps.House;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
@@ -29,23 +24,17 @@ public class Garry extends NPCActor implements ICMonFightableActor {
      * @param position    (Coordinate): Initial position of the entity. Not null
      */
 
-
     public Garry(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position, "actors/garry");
         pokemons.add(new Nidoqueen(getOwnerArea(),new DiscreteCoordinates(0,0)));
+    }
+    public Garry(Area area, DiscreteCoordinates position){
+        this(area,Orientation.DOWN,position);
     }
     @Override
     public List<Pokemon> getPokemons() {
         return pokemons;
     }
-    public Garry(Area area, DiscreteCoordinates position){
-        this(area,Orientation.DOWN,position);
-    }
-
-    public boolean hasPokemon(){
-        return !pokemons.isEmpty();
-    }
-
     @Override
     public boolean hasToLeaveArea() {
         for (Pokemon pokemon:pokemons){
