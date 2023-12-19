@@ -36,23 +36,21 @@ public final class ICMon extends AreaGame {
     private ICMonEventManager eventManager = new ICMonEventManager();
     private GamePlayMessage currentMessage;
 
-    /**
-     *  Creates and adds different areas to the game.
-     */
-    private void createAreas() {
-        addArea(new Lab());
-        addArea(new Arena());
-        addArea(new House());
-        addArea(new Shop());
-    }
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
+            // Creates areas
             Town town = new Town();
             addArea(town);
-            createAreas(); //à modulariser
+            addArea(new Lab());
+            addArea(new Arena());
+            addArea(new House());
+            addArea(new Shop());
+
+            // Initializes the first area
             initArea("house");
 
+            // Initializes the event lists
             currentEvents = new ArrayList<>();
             eventsToRegister= new ArrayList<>();
             eventsToUnRegister = new ArrayList<>();
@@ -108,10 +106,6 @@ public final class ICMon extends AreaGame {
             event.update(deltaTime);
         }
         super.update(deltaTime);
-    }
-
-    @Override
-    public void end() {
     }
 
     @Override

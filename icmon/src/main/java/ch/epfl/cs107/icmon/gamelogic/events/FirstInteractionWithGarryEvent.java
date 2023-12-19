@@ -12,7 +12,6 @@ import java.sql.SQLOutput;
 
 public class FirstInteractionWithGarryEvent extends ICMonEvent{
 
-    private boolean hasInteracted;
     public FirstInteractionWithGarryEvent(ICMonPlayer player) {
         super(player);
     }
