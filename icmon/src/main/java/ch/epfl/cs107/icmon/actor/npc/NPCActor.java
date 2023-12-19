@@ -1,8 +1,4 @@
 package ch.epfl.cs107.icmon.actor.npc;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:        5/12/2023
- */
 
 import ch.epfl.cs107.icmon.actor.ICMonActor;
 import ch.epfl.cs107.play.areagame.area.Area;
