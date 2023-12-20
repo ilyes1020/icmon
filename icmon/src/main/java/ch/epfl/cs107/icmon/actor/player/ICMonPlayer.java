@@ -1,8 +1,4 @@
 package ch.epfl.cs107.icmon.actor.player;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:        29/11/2023
- */
 
 import ch.epfl.cs107.icmon.ICMon;
 import ch.epfl.cs107.icmon.actor.Door;
@@ -11,7 +7,6 @@ import ch.epfl.cs107.icmon.actor.items.ICBall;
 import ch.epfl.cs107.icmon.actor.pokemon.*;
 import ch.epfl.cs107.icmon.area.ICMonBehavior;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
-import ch.epfl.cs107.icmon.gamelogic.events.PauseMenuEvent;
 import ch.epfl.cs107.icmon.gamelogic.events.PokemonSelectionEvent;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.icmon.message.PassDoorMessage;
@@ -43,7 +38,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private ICMon.ICMonGameState gameState;
     private Dialog currentDialog;
     private boolean isDialog;
-    private List<Pokemon> pokemons;
+    private List<Pokemon> pokemonList;
 
     /**
      * Default MovableAreaEntity constructor
@@ -60,14 +55,23 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         handler = new ICMonPlayerInteractionHandler();
         this.keyboard = getOwnerArea().getKeyboard();
         this.gameState = gameState;
-        this.pokemons = new ArrayList<>();
-//        this.pokemons.add(new Bulbizarre(getOwnerArea(), new DiscreteCoordinates(0,0)));
-//        this.pokemons.add(new Latios(getOwnerArea(), new DiscreteCoordinates(0,0)));
-//        this.pokemons.add(new Nidoqueen(getOwnerArea(), new DiscreteCoordinates(0,0)));
+        this.pokemonList = new ArrayList<>();
+//        this.pokemonList.add(new Bulbizarre(getOwnerArea(), new DiscreteCoordinates(0,0)));
+//        this.pokemonList.add(new Latios(getOwnerArea(), new DiscreteCoordinates(0,0)));
+//        this.pokemonList.add(new Nidoqueen(getOwnerArea(), new DiscreteCoordinates(0,0)));
     }
+
+    /**
+     * Updates the game state based on the elapsed time (deltaTime),
+     * manages dialog behavior and movement,
+     * calls the super update method
+     *
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
     @Override
     public void update(float deltaTime) {
-        //non optimal
+
+        //Managing dialog
         if (isDialog) {
             if (keyboard.get(Keyboard.SPACE).isPressed()) {
                 currentDialog.update(deltaTime);
@@ -77,41 +81,68 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
                 }
             }
         }
+        //If not in a dialog, move the player if a movement key is pressed
         else {
             moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.A));
             moveIfPressed(Orientation.UP, keyboard.get(Keyboard.W));
             moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.D));
             moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.S));
             if (isDisplacementOccurs()){
-                currentAnimation.update(deltaTime);       //update l'animation si ya un déplacement
+                currentAnimation.update(deltaTime);       //update the player's animation when the player is moving
             }
             else {
-                currentAnimation.reset();      //reset l'animation quand on ne bouge pas
+                currentAnimation.reset();                 //reset the player's animation when the player is not moving
             }
         }
-
         super.update(deltaTime);
     }
 
     private boolean hasPokemons(){
-        return !pokemons.isEmpty();
+        return !pokemonList.isEmpty();
     }
 
+    /**
+     * Adds a Pokémon to the collection of owned Pokémon.
+     *
+     * @param pokemon The Pokémon to be added.
+     */
     public void addPokemon(Pokemon pokemon){
-        pokemons.add(pokemon);
+        pokemonList.add(pokemon);
     }
+
+    /**
+     * This method creates a new dialog instance with the given message
+     * and sets isDialog of the player to true to indicate that a dialog is open
+     * Used in update()
+     *
+     * @param message The message to be displayed in the dialog
+     */
     public void openDialog(String message){
         currentDialog = new Dialog(message);
         isDialog = true;
     }
+
+    /**
+     * @return True if the player is in a dialog, false otherwise
+     */
     public boolean isDialog(){
         return isDialog;
     }
+
+    /**
+     * Clears the current dialog (sets currentDialog to null)
+     */
     public void clearDialog(){
         currentDialog = null;
     }
 
 
+    /**
+     * Moves the player if a specified button is pressed
+     *
+     * @param orientation The orientation for the player movement
+     * @param b The button being pressed
+     */
     private void moveIfPressed(Orientation orientation, Button b) {
         if (b.isDown()) {
             if (!isDisplacementOccurs()) {
@@ -122,12 +153,14 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
                 else{
                     move(ANIMATION_DURATION);
                 }
-
-                currentAnimation.orientate(getOrientation());  //oriente le perso
+                currentAnimation.orientate(getOrientation());  //orientates the player
             }
         }
     }
 
+    /**
+     * Centers the camera on the player
+     */
     public void centerCamera() {
         getOwnerArea().setViewCandidate(this);
     }
@@ -135,7 +168,8 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     @Override
     public boolean takeCellSpace() {
         return true;
-    } //ne soit pas traversable
+
+    }
 
     @Override
     public void draw(Canvas canvas) {
@@ -164,7 +198,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     }
 
     /**
-     * @return (boolean): true if this require view interaction
+     * @return (boolean): true if this requires view interaction
      */
     @Override
     public boolean wantsViewInteraction() {
@@ -176,8 +210,14 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         ((ICMonInteractionVisitor) v).interactWith (this , isCellInteraction);
     }
 
+    /**
+     * Initiates a fight with a fightable opponent,
+     * Suspends the current event by sending a suspension message to the game
+     *
+     * @param opponent The opponent to engage in a fight.
+     */
     public void fight(ICMonFightableActor opponent){
-        ICMonEvent selectionEvent = new PokemonSelectionEvent(this,pokemons ,opponent,gameState); //ca soule de donner le gamestate comme ça mais sinon on peut pas send le message depuis l'action
+        ICMonEvent selectionEvent = new PokemonSelectionEvent(this, pokemonList,opponent,gameState); //ca soule de donner le gamestate comme ça mais sinon on peut pas send le message depuis l'action
         SuspendWithEventMessage selectionMessage = new SuspendWithEventMessage(selectionEvent,gameState);
         gameState.send(selectionMessage);
     }
@@ -194,23 +234,43 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         gameState.acceptInteraction(other, isCellInteraction);
     }
 
+    /**
+     * Gets the EventManager from gameState
+     * @return          The EventManager
+     */
     public ICMon.ICMonEventManager getEventManager() {
         return gameState.getEventManager();
     }
+
     //no need to Override the getCurrentCell method, same as super
 
     private class ICMonPlayerInteractionHandler implements ICMonInteractionVisitor{
+
+        /**
+         * When the player meets with an ICBall, if it is a view interaction, and the player wants it, collect the ball
+         *
+         * @param ball                 The ICBall to interact with
+         * @param isCellInteraction    Indicates if it's a contact interaction
+         */
         @Override
-        public void interactWith(ICBall ball, boolean isCellInteraction) {  //ramasser la balle
+        public void interactWith(ICBall ball, boolean isCellInteraction) {
             if (!isCellInteraction && wantsCellInteraction()){
                 ball.collect();
                 System.out.println("Player is interacting with Ball !");
             }
         }
+
+        /**
+         * Describes the interaction between the player and the cell, if it is a contact interaction,
+         * changes potentially the animation of the player
+         *
+         * @param cell                 The cell which the player is interacting with
+         * @param isCellInteraction    Indicates if it's a contact interaction
+         */
         @Override
         public void interactWith(ICMonBehavior.ICMonCell cell, boolean isCellInteraction) {
             if (isCellInteraction){
-                if (cell.getType().getAllowedWalkingType() == ICMonBehavior.AllowedWalkingType.FEET){ //est-ce qu'il y a plus simple que de créer des getter ?
+                if (cell.getType().getAllowedWalkingType() == ICMonBehavior.AllowedWalkingType.FEET){
                     currentAnimation = walkingAnimation;
                 }
                 if (cell.getType().getAllowedWalkingType() == ICMonBehavior.AllowedWalkingType.SURF){
@@ -218,6 +278,14 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
                 }
             }
         }
+
+        /**
+         * When the player interacts with a door, if the interaction is by contact,
+         * send a message to the game, which will change the player's area defined by the door
+         *
+         * @param door                 The Door to interact with
+         * @param isCellInteraction    Indicates if it's a contact interaction
+         */
         @Override
         public void interactWith (Door door , boolean isCellInteraction ) {
             if (isCellInteraction) {
@@ -225,6 +293,13 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
                 gameState.send(message);
             }
         }
+
+        /**
+         * When the player interacts with a Pokémon, initiating a fight if the player has at least one Pokémon
+         *
+         * @param pokemon              The Pokémon to interact with
+         * @param isCellInteraction    Indicates if it's a contact interaction
+         */
         @Override
         public void interactWith(Pokemon pokemon, boolean isCellInteraction) {
             if (isCellInteraction && hasPokemons()){

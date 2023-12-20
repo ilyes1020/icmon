@@ -23,7 +23,7 @@ public class EndOfTheGameEvent extends ICMonEvent{
      * Interaction with an ICShopAssistant during the event
      *
      * @param assistant           The ICShopAssistant to interact with
-     * @param isCellInteraction   Indicates if it's a cell interaction
+     * @param isCellInteraction   Indicates if it's a contact interaction
      */
     @Override
     public void interactWith(ICShopAssistant assistant , boolean isCellInteraction){

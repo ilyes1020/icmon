@@ -26,7 +26,7 @@ public class FirstInteractionWithGarryEvent extends ICMonEvent{
      * Interaction with Garry during the event.
      *
      * @param garry             Garry
-     * @param isCellInteraction Indicates if it's a cell interaction.
+     * @param isCellInteraction Indicates if it's a contact interaction
      */
     @Override
     public void interactWith(Garry garry, boolean isCellInteraction) {

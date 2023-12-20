@@ -45,7 +45,7 @@ public class CollectItemEvent extends ICMonEvent{
      * Interaction with an ICShopAssistant during the event
      *
      * @param assistant           The ICShopAssistant to interact with
-     * @param isCellInteraction   Indicates if it's a cell interaction
+     * @param isCellInteraction   Indicates if it's a contact interaction
      */
     public void interactWith(ICShopAssistant assistant , boolean isCellInteraction){
         System.out.println("This is an interaction between the player and ICShopAssistant based on events !");
