@@ -19,10 +19,12 @@ public class Door extends AreaEntity {
     private final DiscreteCoordinates mainCoords;
     private List<DiscreteCoordinates> additionalCoords = new ArrayList<>();
     /**
-     * Default AreaEntity constructor
+     * Default Door constructor.
      *
-     * @param currentArea        (Area): Owner area. Not null
-     * @param mainCoords    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
+     * @param currentArea           The owner area. Not null.
+     * @param arrivalAreaName       The name of the arrival area. Not null.
+     * @param arrivalAreaPosition   The position in the arrival area. Not null.
+     * @param mainCoords            The initial position of the entity in the area. Not null.
      */
     public Door(Area currentArea, String arrivalAreaName, DiscreteCoordinates arrivalAreaPosition, DiscreteCoordinates mainCoords) {
         super(currentArea, Orientation.UP, mainCoords);
@@ -30,11 +32,26 @@ public class Door extends AreaEntity {
         this.arrivalAreaName = arrivalAreaName;
         this.arrivalAreaPosition = arrivalAreaPosition;
     }
+
+    /**
+     * Door constructor with additional coordinates.
+     *
+     * @param currentArea           The owner area. Not null.
+     * @param arrivalAreaName       The name of the arrival area. Not null.
+     * @param arrivalAreaPosition   The position in the arrival area. Not null.
+     * @param mainCoords            The initial position of the entity in the area. Not null.
+     * @param additionalCoords      Additional coordinates of the door. May be empty.
+     */
     public Door(Area currentArea, String arrivalAreaName, DiscreteCoordinates arrivalAreaPosition, DiscreteCoordinates mainCoords, DiscreteCoordinates... additionalCoords) {
         this(currentArea, arrivalAreaName, arrivalAreaPosition, mainCoords);
         this.additionalCoords.addAll(Arrays.asList(additionalCoords));
     }
 
+    /**
+     * Retrieves the current cells occupied by the door, including additional coordinates.
+     *
+     * @return A list of coordinates representing the current cells of the door.
+     */
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         List<DiscreteCoordinates> currentCells = new ArrayList<>(additionalCoords);
@@ -42,9 +59,20 @@ public class Door extends AreaEntity {
         return currentCells;
     }
 
+    /**
+     * Retrieves the name of the arrival area associated with the door.
+     *
+     * @return The name of the arrival area.
+     */
     public String getArrivalAreaName(){
         return arrivalAreaName;
     }
+
+    /**
+     * Retrieves the position (DiscreteCoordinates) in the arrival area associated with the door.
+     *
+     * @return The position in the arrival area as discrete coordinates.
+     */
     public DiscreteCoordinates getArrivalAreaPosition(){
         return new DiscreteCoordinates(arrivalAreaPosition.x, arrivalAreaPosition.y);
     }
@@ -72,6 +100,5 @@ public class Door extends AreaEntity {
 
     @Override
     public void draw(Canvas canvas) {
-
     }
 }

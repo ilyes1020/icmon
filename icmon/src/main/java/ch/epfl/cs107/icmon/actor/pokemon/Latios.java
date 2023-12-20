@@ -1,15 +1,10 @@
 package ch.epfl.cs107.icmon.actor.pokemon;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:
- */
 
 import ch.epfl.cs107.icmon.actor.pokemon.actions.Attack;
 import ch.epfl.cs107.icmon.actor.pokemon.actions.RunAway;
 import ch.epfl.cs107.icmon.gamelogic.fights.ICMonFightAction;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.math.Orientation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +12,7 @@ import java.util.List;
 public class Latios extends Pokemon{
     private List<ICMonFightAction> actions;
     private PokemonProperties stats = new PokemonProperties();
-    /**
-     * Default MovableAreaEntity constructor
-     *
-     * @param area            (Area): Owner area. Not null
-     * @param position        (Coordinate): Initial position of the entity. Not null
-     */
+
     public Latios(Area area, DiscreteCoordinates position) {
         super(area, position, "latios", 5, 8);
         actions = new ArrayList<>();

@@ -1,15 +1,9 @@
 package ch.epfl.cs107.icmon.actor.items;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:        1/12/2023
- */
 
-import ch.epfl.cs107.icmon.gamelogic.actions.RegisterinAreaAction;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.Collections;

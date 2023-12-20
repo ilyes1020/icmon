@@ -1,8 +1,4 @@
 package ch.epfl.cs107.icmon.actor.items;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:        2/12/2023
- */
 
 import ch.epfl.cs107.play.areagame.actor.CollectableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -10,7 +6,6 @@ import ch.epfl.cs107.play.engine.actor.RPGSprite;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
-import ch.epfl.cs107.play.signal.logic.Or;
 
 public abstract class ICMonItem extends CollectableAreaEntity {
     Sprite sprite;
@@ -22,7 +17,7 @@ public abstract class ICMonItem extends CollectableAreaEntity {
 
     @Override
     public boolean takeCellSpace() {
-        return true; //non traversable
+        return true;
     }
 
     @Override

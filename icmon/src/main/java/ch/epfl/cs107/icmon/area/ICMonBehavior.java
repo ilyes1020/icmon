@@ -36,7 +36,7 @@ public final class ICMonBehavior extends AreaBehavior {
     }
 
     /**
-     * Enum representing different types of cells in a game
+     * Enum representing different types of cells in the game
      */
     public enum ICMonCellType {
         NULL(0, AllowedWalkingType.NONE),

@@ -9,7 +9,7 @@ import ch.epfl.cs107.play.window.Window;
 public abstract class ICMonArea extends Area {
 
     /**
-     * setup specific background, foreground, and actors for the specific area
+     * Setup specific background, foreground, and actors for the specific area
      */
     protected abstract void createArea();
 

@@ -4,8 +4,6 @@ import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
 import ch.epfl.cs107.icmon.gamelogic.fights.ICMonFightAction;
 
 public class RunAway implements ICMonFightAction {
-
-    public RunAway(){};
     @Override
     public String name() {
         return "Run away";

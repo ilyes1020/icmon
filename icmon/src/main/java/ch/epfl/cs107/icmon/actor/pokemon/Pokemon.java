@@ -30,10 +30,13 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     private Sprite sprite;
 
     /**
-     * Default MovableAreaEntity constructor
+     * Default Pokemon constructor.
      *
-     * @param area        (Area): Owner area. Not null
-     * @param position    (Coordinate): Initial position of the entity. Not null
+     * @param area         The owner area. Not null.
+     * @param position     The initial position of the entity. Not null.
+     * @param name         The name of the Pokemon.
+     * @param attackDamage The number of damage inflicted to the opponent.
+     * @param maxHp        The maximum health level that can reach the Pokémon.
      */
     public Pokemon(Area area, DiscreteCoordinates position, String name, int attackDamage, int maxHp) {
         super(area, Orientation.DOWN, position);
@@ -44,13 +47,10 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
         sprite = new RPGSprite("pokemon/" + name, 1, 1, this);
     }
 
-    //getCurrentCells(),
-    //takeCellSpace(), //return false
-    //isCellInteractable(), //return true
-    //isViewInteractable() //return false
-    //(all three same as super method)
-
-    public abstract ArrayList<ICMonFightAction> getActions(); //comme a dit Edgoat
+    /**
+     * @return an ArrayList with ICMonFightActions
+     */
+    public abstract ArrayList<ICMonFightAction> getActions();
 
     @Override
     public boolean hasToLeaveArea() {
@@ -62,6 +62,11 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
         return new ArrayList<>(Arrays.asList(this));
     }
 
+    /**
+     * Inflicts damage on the Pokemon, reducing its current health.
+     *
+     * @param takenDamage The amount of damage taken. Should be greater than 0.
+     */
     public void receiveDamage(int takenDamage){
         if(takenDamage > 0){
             hp -= takenDamage;
@@ -71,6 +76,10 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
         }
     }
 
+    /**
+     * Checks if it's dead
+     * @return 'true' if it's dead, 'false' otherwise.
+     */
     public boolean isDead(){
         return (hp == 0);
     }
@@ -84,6 +93,12 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICMonInteractionVisitor)v).interactWith (this , isCellInteraction );
     }
+
+    /**
+     * Retrieves the attack action of the Pokemon.
+     *
+     * @return An ICMonFightAction representing the Pokemon's attack, or null if not an Attack.
+     */
     public ICMonFightAction getAttack(){
         for (ICMonFightAction action : getActions()){
             if (action instanceof Attack){
@@ -92,13 +107,10 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
         }
         return null;
     }
-//    public boolean canAttack(){
-//        if (getActions().stream().anyMatch(action -> action instanceof Attack)){
-//            return true;
-//        }
-//        return false;
-//    }
 
+    /**
+     * @return A copy of the Pokemon's properties
+     */
     public PokemonProperties properties(){
         return new PokemonProperties();
     }

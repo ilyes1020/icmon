@@ -7,6 +7,11 @@ public class Attack implements ICMonFightAction {
 
     private int attackDamage;
 
+    /**
+     * Attack action constructor.
+     *
+     * @param attackDamage The damage inflicted by the attack.
+     */
     public Attack(int attackDamage){
         this.attackDamage = attackDamage;
     };
