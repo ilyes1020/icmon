@@ -36,7 +36,7 @@ public abstract class ICMonEvent implements Updatable, ICMonInteractionVisitor {
         completed = false;
         suspended = false;
         this.player = player;
-        onStart(new RegisterEventAction(this,player.getEventManager()));
+        onStart(new RegisterEventAction(this, player.getEventManager()));
         onComplete(new UnregisterEventAction(this, player.getEventManager()));
     }
 
