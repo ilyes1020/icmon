@@ -10,13 +10,11 @@ import ch.epfl.cs107.icmon.actor.ICMonActor;
 import ch.epfl.cs107.icmon.actor.items.ICBall;
 import ch.epfl.cs107.icmon.actor.pokemon.*;
 import ch.epfl.cs107.icmon.area.ICMonBehavior;
-import ch.epfl.cs107.icmon.gamelogic.actions.RegisterEventAction;
-import ch.epfl.cs107.icmon.gamelogic.actions.UnregisterEventAction;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
 import ch.epfl.cs107.icmon.gamelogic.events.PokemonSelectionEvent;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.icmon.message.PassDoorMessage;
-import ch.epfl.cs107.icmon.message.SuspendWithEvent;
+import ch.epfl.cs107.icmon.message.SuspendWithEventMessage;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -179,7 +177,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
 
     public void fight(ICMonFightableActor opponent){
         ICMonEvent selectionEvent = new PokemonSelectionEvent(this,pokemons ,opponent,gameState); //ca soule de donner le gamestate comme ça mais sinon on peut pas send le message depuis l'action
-        SuspendWithEvent selectionMessage = new SuspendWithEvent(selectionEvent,gameState);
+        SuspendWithEventMessage selectionMessage = new SuspendWithEventMessage(selectionEvent,gameState);
         gameState.send(selectionMessage);
     }
     /**
@@ -211,10 +209,10 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         @Override
         public void interactWith(ICMonBehavior.ICMonCell cell, boolean isCellInteraction) {
             if (isCellInteraction){
-                if (cell.getType().getIsWalkable() == ICMonBehavior.AllowedWalkingType.FEET){ //est-ce qu'il y a plus simple que de créer des getter ?
+                if (cell.getType().getAllowedWalkingType() == ICMonBehavior.AllowedWalkingType.FEET){ //est-ce qu'il y a plus simple que de créer des getter ?
                     currentAnimation = walkingAnimation;
                 }
-                if (cell.getType().getIsWalkable() == ICMonBehavior.AllowedWalkingType.SURF){
+                if (cell.getType().getAllowedWalkingType() == ICMonBehavior.AllowedWalkingType.SURF){
                     currentAnimation = surfingAnimation;
                 }
             }

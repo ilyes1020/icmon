@@ -1,8 +1,4 @@
 package ch.epfl.cs107.icmon.area;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:        29/11/2023
- */
 
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
@@ -28,6 +24,10 @@ public final class ICMonBehavior extends AreaBehavior {
             }
         }
     }
+
+    /**
+     * Enum representing the allowed walking types
+     */
     public enum AllowedWalkingType {
         NONE, // None
         SURF, // Only with surf
@@ -35,8 +35,10 @@ public final class ICMonBehavior extends AreaBehavior {
         ALL // All previous
     }
 
+    /**
+     * Enum representing different types of cells in a game
+     */
     public enum ICMonCellType {
-        //https://stackoverflow.com/questions/25761438/understanding-bufferedimage-getrgb-output-values
         NULL(0, AllowedWalkingType.NONE),
         WALL(-16777216, AllowedWalkingType.NONE),
         BUILDING(-8750470, AllowedWalkingType.NONE),
@@ -48,17 +50,28 @@ public final class ICMonBehavior extends AreaBehavior {
         GRASS(-16743680, AllowedWalkingType.FEET);
 
         final int type;
-        final AllowedWalkingType isWalkable;
+        final AllowedWalkingType allowedWalkingType;
 
-        ICMonCellType(int type, AllowedWalkingType isWalkable) {
+        ICMonCellType(int type, AllowedWalkingType allowedWalkingType) {
             this.type = type;
-            this.isWalkable = isWalkable;
+            this.allowedWalkingType = allowedWalkingType;
         }
 
-        public AllowedWalkingType getIsWalkable() { //j'ai crée ce getter pour ICMonPlayer
-            return isWalkable;
+        /**
+         * Gets the allowed walking type for this celltype.
+         *
+         * @return The allowed walking type.
+         */
+        public AllowedWalkingType getAllowedWalkingType() {
+            return allowedWalkingType;
         }
 
+        /**
+         * Converts an integer type code to an ICMonCellType (enum constant).
+         *
+         * @param type The integer type code to be converted.
+         * @return The corresponding ICMonCellType enum constant.
+         */
         public static ICMonCellType toType(int type) {
             for (ICMonCellType ict : ICMonCellType.values()) {
                 if (ict.type == type)
@@ -70,8 +83,12 @@ public final class ICMonBehavior extends AreaBehavior {
         }
     }
 
+    /**
+     * Represents a cell in the game.
+     */
     public class ICMonCell extends Cell {
 
+        // The type of the ICMonCell
         private final ICMonCellType type;
 
         /**
@@ -86,6 +103,11 @@ public final class ICMonBehavior extends AreaBehavior {
             this.type = type;
         }
 
+        /**
+         * Getter for the type of the ICMonCell.
+         *
+         * @return The type of the ICMonCell.
+         */
         public ICMonCellType getType() { //j'ai crée ce getter pour ICMonPlayer
             return type;
         }
@@ -102,7 +124,7 @@ public final class ICMonBehavior extends AreaBehavior {
                 return interactable.takeCellSpace() != entity.takeCellSpace();
             }
 
-            return type.isWalkable != AllowedWalkingType.NONE;
+            return type.allowedWalkingType != AllowedWalkingType.NONE;
         }
 
         @Override

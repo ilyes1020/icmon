@@ -1,8 +1,4 @@
 package ch.epfl.cs107.icmon.area;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:        29/11/2023
- */
 
 import ch.epfl.cs107.icmon.ICMon;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -12,8 +8,14 @@ import ch.epfl.cs107.play.window.Window;
 
 public abstract class ICMonArea extends Area {
 
+    /**
+     * setup specific background, foreground, and actors for the specific area
+     */
     protected abstract void createArea();
 
+    /**
+     * @return DiscreteCoordinates of the spawn position of the specific area
+     */
     public abstract DiscreteCoordinates getPlayerSpawnPosition();
 
     @Override

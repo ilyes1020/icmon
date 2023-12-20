@@ -1,12 +1,11 @@
 package ch.epfl.cs107.icmon.gamelogic.actions;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:        8/12/2023
- */
 
 import ch.epfl.cs107.icmon.ICMon;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
 
+/**
+ * Action to unregister an event from the game
+ */
 public class UnregisterEventAction implements Action{
     private ICMonEvent event;
     private ICMon.ICMonEventManager eventManager;

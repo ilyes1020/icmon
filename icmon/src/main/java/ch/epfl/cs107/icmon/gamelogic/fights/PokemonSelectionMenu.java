@@ -1,31 +1,31 @@
 package ch.epfl.cs107.icmon.gamelogic.fights;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:
- */
 
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
-import ch.epfl.cs107.icmon.gamelogic.events.PokemonSelectionEvent;
-import ch.epfl.cs107.icmon.graphics.ICMonFightActionSelectionGraphics;
-import ch.epfl.cs107.icmon.graphics.ICMonFightArenaGraphics;
 import ch.epfl.cs107.icmon.graphics.ICMonFightPokemonSelectionGraphics;
 import ch.epfl.cs107.play.engine.PauseMenu;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
-
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Menu for selecting a Pokémon before a fight
+ * Extends PauseMenu and implements PauseMenuSelector
+ */
 public class PokemonSelectionMenu extends PauseMenu implements PauseMenuSelector {
 
     private boolean isRunning;
     private List<Pokemon> playersPokemonList;
     private Keyboard keyboard;
     private ICMonFightPokemonSelectionGraphics selectionGraphics;
+    private Pokemon chosenPokemon;
 
-    private Pokemon pokemonChosen;
+    /**
+     * Constructor for creating a PokemonSelectionMenu.
+     *
+     * @param playersPokemonList The list of Pokemon available for selection.
+     */
     public PokemonSelectionMenu(List<Pokemon> playersPokemonList){
         isRunning = true;
         this.playersPokemonList =playersPokemonList;
@@ -48,21 +48,27 @@ public class PokemonSelectionMenu extends PauseMenu implements PauseMenuSelector
         super.update(deltaTime);
         selectionGraphics.update(deltaTime);
         if (selectionGraphics.choice()!=null){
-            pokemonChosen=selectionGraphics.choice();
+            chosenPokemon =selectionGraphics.choice();
         }
         if (keyboard.get(Keyboard.ENTER).isPressed()){
             isRunning = false;
             end();
         }
     }
-    public Pokemon getPokemonChosen(){
-        return pokemonChosen;
+
+    /**
+     * Gets the Pokemon chosen by the player.
+     *
+     * @return The chosen Pokemon.
+     */
+    public Pokemon getChosenPokemon(){
+        return chosenPokemon;
     }
     @Override
     protected void drawMenu(Canvas c) {
         selectionGraphics.draw(c);
     }
-
+    @Override
     public boolean isRunning(){
         return (isRunning);
     }

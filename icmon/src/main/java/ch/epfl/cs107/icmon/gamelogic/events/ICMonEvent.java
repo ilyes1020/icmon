@@ -12,6 +12,10 @@ import ch.epfl.cs107.play.engine.actor.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Abstract class representing an event in game
+ * Implements the Updatable and the ICMonInteractionVisitor interface
+ */
 public abstract class ICMonEvent implements Updatable, ICMonInteractionVisitor {
     protected ICMonPlayer player;
     private boolean started;
@@ -22,6 +26,11 @@ public abstract class ICMonEvent implements Updatable, ICMonInteractionVisitor {
     private List<Action> ActionsOnSuspend = new ArrayList<Action>();
     private List<Action> ActionsOnResume = new ArrayList<Action>();
 
+    /**
+     * Constructor of an ICMonEvent
+     *
+     * @param player The player
+     */
     public ICMonEvent(ICMonPlayer player){
         started = false;
         completed = false;

@@ -1,11 +1,10 @@
 package ch.epfl.cs107.icmon.gamelogic.actions;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:
- */
 
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
 
+/**
+ * Action to complete the event
+ */
 public class CompleteEventAction implements Action{
 
     ICMonEvent event;

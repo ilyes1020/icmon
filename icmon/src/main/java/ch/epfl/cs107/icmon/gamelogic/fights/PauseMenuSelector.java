@@ -1,9 +1,10 @@
 package ch.epfl.cs107.icmon.gamelogic.fights;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:
- */
-
 public interface PauseMenuSelector {
-    public boolean isRunning();
+
+    /**
+     * Checks if the pause menu is currently running
+     *
+     * @return True if the pause menu is running, false otherwise
+     */
+    boolean isRunning();
 }

@@ -1,12 +1,11 @@
 package ch.epfl.cs107.icmon.gamelogic.actions;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:
- */
 
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
 
+/**
+ * Action to add a pokémon to the player
+ */
 public class AddPokemonToPlayerAction implements Action{
 
     private Pokemon pokemon;

@@ -1,29 +1,31 @@
 package ch.epfl.cs107.icmon.gamelogic.events;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:
- */
 
 import ch.epfl.cs107.icmon.ICMon;
-import ch.epfl.cs107.icmon.actor.ICMonActor;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.actor.pokemon.ICMonFightableActor;
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
 import ch.epfl.cs107.icmon.gamelogic.actions.AfterPokemonSelectionFightAction;
-import ch.epfl.cs107.icmon.gamelogic.actions.LeaveAreaAction;
-import ch.epfl.cs107.icmon.gamelogic.actions.UnregisterEventAction;
 import ch.epfl.cs107.icmon.gamelogic.fights.PokemonSelectionMenu;
 import ch.epfl.cs107.play.engine.PauseMenu;
-
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Event for selecting Pokémon before a fight
+ * Implements the PauseMenuEvent interface
+ */
 public class PokemonSelectionEvent extends ICMonEvent implements PauseMenuEvent {
     private PokemonSelectionMenu pauseMenu;
-
     private ICMonFightableActor opponent;
-
     private ICMon.ICMonGameState gameState;
+
+    /**
+     * Constructor of a PokemonSelectionEvent.
+     *
+     * @param player            The player
+     * @param playersPokemonList The player's list of Pokémon available for selection
+     * @param opponent          The opponent Pokémon in the upcoming fight
+     * @param gameState         The game state for handling the Pokémon selection event
+     */
     public PokemonSelectionEvent(ICMonPlayer player, List<Pokemon> playersPokemonList, ICMonFightableActor opponent, ICMon.ICMonGameState gameState){
         super(player);
         pauseMenu = new PokemonSelectionMenu(playersPokemonList);
@@ -31,14 +33,20 @@ public class PokemonSelectionEvent extends ICMonEvent implements PauseMenuEvent 
         this.gameState=gameState;
 
     }
+    @Override
     public PauseMenu getPauseMenu() {
         return pauseMenu;
     }
 
+    /**
+     * Updates the event over time and performs actions after Pokémon selection and complete the event
+     *
+     * @param deltaTime The time elapsed since the last update.
+     */
     @Override
-    public void update(float deltaTime) { //pas sûr ici sur cette redefinition
+    public void update(float deltaTime) {
         if (!pauseMenu.isRunning()){
-            onComplete(new AfterPokemonSelectionFightAction(player, pauseMenu.getPokemonChosen(), opponent, gameState));
+            onComplete(new AfterPokemonSelectionFightAction(player, pauseMenu.getChosenPokemon(), opponent, gameState));
             complete();
         }
     }

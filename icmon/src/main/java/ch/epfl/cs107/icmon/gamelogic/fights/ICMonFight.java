@@ -1,8 +1,4 @@
 package ch.epfl.cs107.icmon.gamelogic.fights;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:
- */
 
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
 import ch.epfl.cs107.icmon.graphics.ICMonFightActionSelectionGraphics;
@@ -14,6 +10,10 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
+/**
+ * Represents a Pokémon fight in the ICMon game
+ * Extends from PauseMenu and implements PauseMenuSelector.
+ */
 public class ICMonFight extends PauseMenu implements PauseMenuSelector{
 
     private Pokemon playersPokemon;
@@ -25,11 +25,12 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
     private boolean isRunning;
     private ICMonFightAction playerAction;
     private ICMonFightAction opponentAction;
-
-    //ces 2 pas sûr d'avoir besoin
     private boolean playerDidAction;
     private boolean opponentDidAction;
 
+    /**
+     * Enum representing the different stages of a Pokemon fight
+     */
     public enum FightStage {
         INTRODUCTION,
         ACTIONSELECT,
@@ -37,17 +38,32 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
         OPPONENTACTION,
         CONCLUSION;
     }
+
+    /**
+     * Constructor for creating an ICMonFight.
+     *
+     * @param playersPokemon The Pokémon controlled by the player.
+     * @param opponent       The opponent Pokémon in the fight.
+     */
     public ICMonFight(Pokemon playersPokemon, Pokemon opponent){
         this.playersPokemon = playersPokemon;
         this.opponent = opponent;
         this.isRunning = true;
         stage = FightStage.INTRODUCTION;
     }
+
+    /**
+     * Updates the state of the fight over time, changes the fight stages and graphics while the player is fighting
+     *
+     * @param deltaTime The time elapsed since the last update
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
 
         switch (stage){
+
+            //stage to introduce the fight
             case INTRODUCTION :
                 arena.setInteractionGraphics (new ICMonFightTextGraphics( CAMERA_SCALE_FACTOR , "Welcome to the fight"));
                 if (keyboard.get(Keyboard.SPACE).isPressed()) {
@@ -55,6 +71,7 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
                 }
                 break;
 
+            //stage when the player selects an action
             case ACTIONSELECT:
 
                 arena.setInteractionGraphics (selectionGraphics);
@@ -66,6 +83,7 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
                 }
                 break;
 
+            //stage when the player execute the selected action
             case ACTIONEXECUTION:
 
                 playerDidAction = playerAction.doAction(opponent);
@@ -78,18 +96,21 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
                 }
                 break;
 
+            //stage when the opponent can do an action
             case OPPONENTACTION:
 
                 if (opponent.getAttack() != null){
                     opponent.getAttack().doAction(playersPokemon);
-                    if (!playersPokemon.isDead())
+                    if (!playersPokemon.isDead()){
                         stage = FightStage.ACTIONSELECT;
                         selectionGraphics = new ICMonFightActionSelectionGraphics(CAMERA_SCALE_FACTOR, keyboard, playersPokemon.getActions());
+                    }
                 }else{
                     stage = FightStage.CONCLUSION;
                 }
                 break;
 
+            //stage to conclude the fight
             case CONCLUSION :
                 if (opponent.isDead()) {
                     arena.setInteractionGraphics(new ICMonFightTextGraphics(CAMERA_SCALE_FACTOR, "The Player has won the fight"));
@@ -110,11 +131,15 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
                 break;
         }
     }
-    //pas sûr d'avoir besoin
-    public void clearActions(){
-        playerAction = null;
-        opponentAction = null;
-    }
+
+    /**
+     * Starts the fight, allows the player to go through stages with space key
+     * Creates fight graphics
+     *
+     * @param window (Window): display context. Not null
+     * @param fileSystem (FileSystem): given file system. Not null
+     * @return true if the fight has begun successfully
+     */
     @Override
     public boolean begin(Window window, FileSystem fileSystem){
         if (super.begin(window, fileSystem)) {
@@ -128,6 +153,8 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
         }
         return false;
     }
+
+    @Override
     public boolean isRunning(){
         return (isRunning);
     }

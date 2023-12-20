@@ -1,5 +1,8 @@
 package ch.epfl.cs107.icmon.gamelogic.actions;
 
+/**
+ * Action to print a log on the console
+ */
 public class LogAction implements Action{
     private String message;
 

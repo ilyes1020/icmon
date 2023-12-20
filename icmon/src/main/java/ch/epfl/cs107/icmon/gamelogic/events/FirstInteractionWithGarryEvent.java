@@ -1,18 +1,18 @@
 package ch.epfl.cs107.icmon.gamelogic.events;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:
- */
 
 import ch.epfl.cs107.icmon.actor.npc.Garry;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
-import ch.epfl.cs107.icmon.gamelogic.actions.LogAction;
 
-import java.sql.SQLOutput;
-
+/**
+ * Event for the first interaction with Garry in the ICMon game.
+ */
 public class FirstInteractionWithGarryEvent extends ICMonEvent{
 
-    private boolean hasInteracted;
+    /**
+     * Constructor of a FirstInteractionWithGarryEvent
+     *
+     * @param player The player
+     */
     public FirstInteractionWithGarryEvent(ICMonPlayer player) {
         super(player);
     }
@@ -22,6 +22,12 @@ public class FirstInteractionWithGarryEvent extends ICMonEvent{
         super.update(deltaTime);
     }
 
+    /**
+     * Interaction with Garry during the event.
+     *
+     * @param garry             Garry
+     * @param isCellInteraction Indicates if it's a cell interaction.
+     */
     @Override
     public void interactWith(Garry garry, boolean isCellInteraction) {
         player.fight(garry);

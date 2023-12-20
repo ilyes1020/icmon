@@ -1,8 +1,4 @@
 package ch.epfl.cs107.icmon.area.maps;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:
- */
 
 import ch.epfl.cs107.icmon.actor.npc.ProfOak;
 import ch.epfl.cs107.icmon.area.ICMonArea;
@@ -10,8 +6,6 @@ import ch.epfl.cs107.icmon.actor.Door;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.math.Orientation;
-import ch.epfl.cs107.play.signal.logic.Or;
 
 public final class Lab extends ICMonArea {
     @Override
