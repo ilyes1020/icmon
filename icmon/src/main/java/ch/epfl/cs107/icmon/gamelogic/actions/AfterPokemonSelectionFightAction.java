@@ -25,6 +25,6 @@ public class AfterPokemonSelectionFightAction implements Action{
     @Override
     public void perform() {
         ICMonEvent fightEvent = new PokemonFightEvent(player, playersPokemon, opponent);
-        gameState.send(new SuspendWithEventMessage(fightEvent,gameState));
+        gameState.send(new SuspendWithEventMessage(fightEvent,gameState.getEventManager()));
     }
 }

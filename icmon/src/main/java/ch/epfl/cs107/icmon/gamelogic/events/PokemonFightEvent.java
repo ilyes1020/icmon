@@ -5,6 +5,8 @@ import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.actor.pokemon.ICMonFightableActor;
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
 import ch.epfl.cs107.icmon.gamelogic.actions.LeaveAreaAction;
+import ch.epfl.cs107.icmon.gamelogic.actions.ResumeEventAction;
+import ch.epfl.cs107.icmon.gamelogic.actions.SuspendEventAction;
 import ch.epfl.cs107.icmon.gamelogic.fights.ICMonFight;
 import ch.epfl.cs107.play.engine.PauseMenu;
 
@@ -29,11 +31,18 @@ public class PokemonFightEvent extends ICMonEvent implements PauseMenuEvent {
         super(player);
         pauseMenu = new ICMonFight(playersPokemon,opponent.getPokemons().get(0));
         this.opponent=opponent;
+        onStart(new SuspendEventAction(this, player.getEventManager()));
+        onComplete(new ResumeEventAction(this, player.getEventManager()));
     }
 
     @Override
     public PauseMenu getPauseMenu() {
         return pauseMenu;
+    }
+
+    @Override
+    public void pauseMessage() {
+        System.out.println("suspension des événements en cours à cause d'un événement de combat");
     }
 
     /**

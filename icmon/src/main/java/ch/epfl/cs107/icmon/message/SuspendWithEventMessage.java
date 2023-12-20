@@ -5,7 +5,6 @@ import ch.epfl.cs107.icmon.gamelogic.actions.ResumeEventAction;
 import ch.epfl.cs107.icmon.gamelogic.actions.SuspendEventAction;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
 import ch.epfl.cs107.icmon.gamelogic.events.PauseMenuEvent;
-import ch.epfl.cs107.icmon.gamelogic.events.PokemonFightEvent;
 import ch.epfl.cs107.icmon.gamelogic.events.PokemonSelectionEvent;
 
 /**
@@ -14,17 +13,17 @@ import ch.epfl.cs107.icmon.gamelogic.events.PokemonSelectionEvent;
  */
 public class SuspendWithEventMessage extends GamePlayMessage{
     private ICMonEvent event;
-    private ICMon.ICMonGameState gameState;
+    private ICMon.ICMonEventManager eventManager;
 
     /**
      * Constructor for creating a SuspendWithEventMessage
      *
-     * @param event     The event to be suspended
-     * @param gameState The game state which can send the message
+     * @param event        The event to be suspended
+     * @param eventManager The event manager of the game
      */
-    public SuspendWithEventMessage(ICMonEvent event, ICMon.ICMonGameState gameState){
+    public SuspendWithEventMessage(ICMonEvent event, ICMon.ICMonEventManager eventManager){
         this.event = event;
-        this.gameState=gameState;
+        this.eventManager=eventManager;
     }
 
     /**
@@ -33,16 +32,9 @@ public class SuspendWithEventMessage extends GamePlayMessage{
      */
     @Override
     public void process() {
-        if (event instanceof PauseMenuEvent){
-            System.out.print("suspension des événements en cours");
-            event.onStart(new SuspendEventAction(event,gameState));
-            if(event instanceof PokemonFightEvent){
-                event.onComplete(new ResumeEventAction(event,gameState));
-                System.out.println(" à cause d’un événement combat");
-            } else if (event instanceof PokemonSelectionEvent) {
-                System.out.println(" à cause d'un événement séléction");
-            }
+        if (event instanceof PauseMenuEvent) {
+            ((PauseMenuEvent) event).pauseMessage();
+            event.start();
         }
-        event.start();
     }
 }

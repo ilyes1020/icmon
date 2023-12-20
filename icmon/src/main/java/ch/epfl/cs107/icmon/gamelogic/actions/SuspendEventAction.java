@@ -9,18 +9,18 @@ import ch.epfl.cs107.icmon.gamelogic.events.PauseMenuEvent;
  */
 public class SuspendEventAction implements Action{
 
-    ICMon.ICMonGameState gameState;
+    ICMon.ICMonEventManager eventManager;
     ICMonEvent event;
 
-    public SuspendEventAction(ICMonEvent event,ICMon.ICMonGameState gameState){
-        this.gameState = gameState;
+    public SuspendEventAction(ICMonEvent event,ICMon.ICMonEventManager eventManager){
+        this.eventManager = eventManager;
         this.event = event;
     }
 
     @Override
     public void perform() {
         if (event instanceof PauseMenuEvent){
-            gameState.pauseTheGame((PauseMenuEvent) event);
+            eventManager.pauseTheGame((PauseMenuEvent) event);
         }
     }
 }

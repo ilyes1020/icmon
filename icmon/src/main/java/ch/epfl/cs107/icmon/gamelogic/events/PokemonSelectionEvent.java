@@ -5,6 +5,7 @@ import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.actor.pokemon.ICMonFightableActor;
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
 import ch.epfl.cs107.icmon.gamelogic.actions.AfterPokemonSelectionFightAction;
+import ch.epfl.cs107.icmon.gamelogic.actions.SuspendEventAction;
 import ch.epfl.cs107.icmon.gamelogic.fights.PokemonSelectionMenu;
 import ch.epfl.cs107.play.engine.PauseMenu;
 import java.util.List;
@@ -31,11 +32,17 @@ public class PokemonSelectionEvent extends ICMonEvent implements PauseMenuEvent 
         pauseMenu = new PokemonSelectionMenu(playersPokemonList);
         this.opponent=opponent;
         this.gameState=gameState;
+        onStart(new SuspendEventAction(this, player.getEventManager()));
 
     }
     @Override
     public PauseMenu getPauseMenu() {
         return pauseMenu;
+    }
+
+    @Override
+    public void pauseMessage() {
+        System.out.println("suspension des événements en cours à cause d'un événement séléction");
     }
 
     /**

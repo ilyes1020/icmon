@@ -151,27 +151,7 @@ public final class ICMon extends AreaGame {
             ICMonArea currentArea = (ICMonArea) setCurrentArea(areaKey, false);
             player.enterArea(currentArea, arrivalPos);
         }
-        /**
-         * Pauses the game, suspending all current events and activating a specified pause menu event.
-         *
-         * @param event   The PauseMenuEvent to be activated during the pause.
-         */
-        public void pauseTheGame(PauseMenuEvent event){
-            for (ICMonEvent currentEvent : currentEvents){
-                currentEvent.suspend();
-            }
-            setPauseMenu(event.getPauseMenu());
-            requestPause();
-        }
-        /**
-         * Resumes the game, activating all suspended events and ending the pause state.
-         */
-        public void resumeTheGame(){
-            requestResume();
-            for (ICMonEvent currentEvent : currentEvents){
-                currentEvent.resume();
-            }
-        }
+
         /**
          * Sends a game play message to be stored as the current message in the game.
          *
@@ -205,6 +185,27 @@ public final class ICMon extends AreaGame {
          */
         public void toEventsToUnRegister(ICMonEvent eventToUnRegister){
             eventsToUnRegister.add(eventToUnRegister);
+        }
+        /**
+         * Resumes the game, activating all suspended events and ending the pause state.
+         */
+        /**
+         * Pauses the game, suspending all current events and activating a specified pause menu event.
+         *
+         * @param event   The PauseMenuEvent to be activated during the pause.
+         */
+        public void pauseTheGame(PauseMenuEvent event){
+            for (ICMonEvent currentEvent : currentEvents){
+                currentEvent.suspend();
+            }
+            setPauseMenu(event.getPauseMenu());
+            requestPause();
+        }
+        public void resumeTheGame(){
+            requestResume();
+            for (ICMonEvent currentEvent : currentEvents){
+                currentEvent.resume();
+            }
         }
     }
 }

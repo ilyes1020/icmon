@@ -56,9 +56,6 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         this.keyboard = getOwnerArea().getKeyboard();
         this.gameState = gameState;
         this.pokemonList = new ArrayList<>();
-//        this.pokemonList.add(new Bulbizarre(getOwnerArea(), new DiscreteCoordinates(0,0)));
-//        this.pokemonList.add(new Latios(getOwnerArea(), new DiscreteCoordinates(0,0)));
-//        this.pokemonList.add(new Nidoqueen(getOwnerArea(), new DiscreteCoordinates(0,0)));
     }
 
     /**
@@ -190,7 +187,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     }
 
     /**
-     * @return (boolean): true if this require cell interaction
+     * @return (boolean): true if this requires cell interaction
      */
     @Override
     public boolean wantsCellInteraction() {
@@ -217,8 +214,8 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      * @param opponent The opponent to engage in a fight.
      */
     public void fight(ICMonFightableActor opponent){
-        ICMonEvent selectionEvent = new PokemonSelectionEvent(this, pokemonList,opponent,gameState); //ca soule de donner le gamestate comme ça mais sinon on peut pas send le message depuis l'action
-        SuspendWithEventMessage selectionMessage = new SuspendWithEventMessage(selectionEvent,gameState);
+        ICMonEvent selectionEvent = new PokemonSelectionEvent(this, pokemonList,opponent,gameState);
+        SuspendWithEventMessage selectionMessage = new SuspendWithEventMessage(selectionEvent,getEventManager());
         gameState.send(selectionMessage);
     }
     /**
@@ -241,8 +238,6 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     public ICMon.ICMonEventManager getEventManager() {
         return gameState.getEventManager();
     }
-
-    //no need to Override the getCurrentCell method, same as super
 
     private class ICMonPlayerInteractionHandler implements ICMonInteractionVisitor{
 
