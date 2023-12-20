@@ -1,22 +1,14 @@
 package ch.epfl.cs107.icmon;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:        19/11/2023
- */
 
 import ch.epfl.cs107.icmon.actor.items.ICBall;
 import ch.epfl.cs107.icmon.actor.items.ICMonItem;
-import ch.epfl.cs107.icmon.actor.npc.Garry;
-import ch.epfl.cs107.icmon.actor.npc.NPCActor;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.icmon.area.maps.*;
-import ch.epfl.cs107.icmon.gamelogic.actions.*;
 import ch.epfl.cs107.icmon.gamelogic.events.*;
 import ch.epfl.cs107.icmon.message.GamePlayMessage;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
-import ch.epfl.cs107.play.engine.PauseMenu;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -28,8 +20,6 @@ import java.util.List;
 
 public final class ICMon extends AreaGame {
     public final static float CAMERA_SCALE_FACTOR = 13.f;
-    //peut ne pas être nécéssaire
-    private final String[] areas = {"town", "lab","arena","house","shop"};
     private ICMonPlayer player;
     private List<ICMonEvent> currentEvents;
     private List <ICMonEvent> eventsToRegister;
@@ -38,23 +28,21 @@ public final class ICMon extends AreaGame {
     private ICMonEventManager eventManager = new ICMonEventManager();
     private GamePlayMessage currentMessage;
 
-    /**
-     *  Creates and adds different areas to the game.
-     */
-    private void createAreas() {
-        addArea(new Lab());
-        addArea(new Arena());
-        addArea(new House());
-        addArea(new Shop());
-    }
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
+            // Creates areas
             Town town = new Town();
             addArea(town);
-            createAreas(); //à modulariser
+            addArea(new Lab());
+            addArea(new Arena());
+            addArea(new House());
+            addArea(new Shop());
+
+            // Initializes the first area
             initArea("house");
 
+            // Initializes the event lists
             currentEvents = new ArrayList<>();
             eventsToRegister= new ArrayList<>();
             eventsToUnRegister = new ArrayList<>();
@@ -86,29 +74,30 @@ public final class ICMon extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
+        // Restart the game
         Keyboard keyboard = getCurrentArea().getKeyboard();
-        if (keyboard.get(Keyboard.R).isPressed()){
-            begin(getWindow(),getFileSystem());
+        if (keyboard.get(Keyboard.R).isPressed()) {
+            begin(getWindow(), getFileSystem());
         }
+
+        // Processes the current game play message and clears it afterward.
         if (currentMessage != null) {
             currentMessage.process();
             clearMessage();
         }
 
+        // Manage events:
         currentEvents.addAll(eventsToRegister);
         currentEvents.removeAll(eventsToUnRegister);
-
         eventsToRegister.clear();
         eventsToUnRegister.clear();
 
-        for (ICMonEvent event : currentEvents){
+
+        // Iterates through the list of current events and updates each event.
+        for (ICMonEvent event : currentEvents) {
             event.update(deltaTime);
         }
         super.update(deltaTime);
-    }
-
-    @Override
-    public void end() {
     }
 
     @Override

@@ -1,8 +1,4 @@
 package ch.epfl.cs107.icmon.actor.npc;
-/*
- *	Author:      Ilyes Rouibi
- *	Date:
- */
 
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -26,11 +22,7 @@ public class ProfOak extends NPCActor{
         this(area, Orientation.DOWN,position);
     }
 
-
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICMonInteractionVisitor)v).interactWith (this , isCellInteraction );
     }
-
-//    private class ProfOakHandler implements ICMonInteractionVisitor{
-//    }
 }
