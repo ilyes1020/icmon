@@ -21,6 +21,10 @@ public class PassDoorMessage extends GamePlayMessage{
         this.door = door;
         this.gameState = gameState;
     }
+
+    /**
+     * switches the current area to an area defined by the door
+     */
     @Override
     public void process() {
         gameState.switchArea(door.getArrivalAreaName(), door.getArrivalAreaPosition());

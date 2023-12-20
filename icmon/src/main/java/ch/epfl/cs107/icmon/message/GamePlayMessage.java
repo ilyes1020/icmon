@@ -6,5 +6,9 @@ package ch.epfl.cs107.icmon.message;
  * specific behavior when the message is processed.
  */
 public abstract class GamePlayMessage {
+
+    /**
+     * Processes the GamePlayMessage
+     */
     public abstract void process();
 }
