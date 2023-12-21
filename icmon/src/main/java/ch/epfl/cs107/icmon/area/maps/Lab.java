@@ -5,9 +5,15 @@ import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.icmon.actor.Door;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
+import ch.epfl.cs107.play.engine.actor.SoundAcoustics;
+import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Audio;
+import ch.epfl.cs107.play.window.Window;
 
 public final class Lab extends ICMonArea {
+
+    private SoundAcoustics background;
     @Override
     public String getTitle() {
         return "lab";
@@ -20,7 +26,6 @@ public final class Lab extends ICMonArea {
         registerActor(new ProfOak(this, new DiscreteCoordinates(11,7)));
         registerActor(new Door(this, "town", new DiscreteCoordinates(15,23), new DiscreteCoordinates(6,1), new DiscreteCoordinates(7,1)));
     }
-
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);

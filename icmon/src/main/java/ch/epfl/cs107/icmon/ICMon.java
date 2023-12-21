@@ -6,6 +6,7 @@ import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.icmon.area.maps.*;
 import ch.epfl.cs107.icmon.gamelogic.events.*;
+import ch.epfl.cs107.icmon.gamelogic.mainmenu.ICMonMainMenu;
 import ch.epfl.cs107.icmon.message.GamePlayMessage;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
@@ -46,7 +47,7 @@ public final class ICMon extends AreaGame {
             currentEvents = new ArrayList<>();
             eventsToRegister= new ArrayList<>();
             eventsToUnRegister = new ArrayList<>();
-
+            new MainMenuEvent(player).start();
             events(town);
             return true;
         }
@@ -59,7 +60,7 @@ public final class ICMon extends AreaGame {
      * @param area   The ICMonArea in which the CollectItemEvent will take place.
      */
     private void events(ICMonArea area){
-        ICMonItem ball = new ICBall(area, new DiscreteCoordinates(6,6)); //doit spawn dans l'eau
+        ICMonItem ball = new ICBall(area, new DiscreteCoordinates(6,6));
 
         ICMonEvent firstEvent = new IntroductionEvent(player);
         ICMonEvent talkOak = new FirstInteractionWithProfOakEvent(player);
@@ -150,6 +151,7 @@ public final class ICMon extends AreaGame {
             player.leaveArea();
             ICMonArea currentArea = (ICMonArea) setCurrentArea(areaKey, false);
             player.enterArea(currentArea, arrivalPos);
+            currentArea.setAreaMusic(getWindow());
         }
 
         /**
@@ -206,6 +208,7 @@ public final class ICMon extends AreaGame {
             for (ICMonEvent currentEvent : currentEvents){
                 currentEvent.resume();
             }
+            ((ICMonArea) getCurrentArea()).setAreaMusic(getWindow());
         }
     }
 }

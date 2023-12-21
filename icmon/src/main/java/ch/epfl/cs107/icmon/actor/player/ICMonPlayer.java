@@ -17,8 +17,10 @@ import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
+import ch.epfl.cs107.play.engine.actor.SoundAcoustics;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -39,6 +41,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private Dialog currentDialog;
     private boolean isDialog;
     private List<Pokemon> pokemonList;
+    private SoundAcoustics soundItem;
 
     /**
      * Default MovableAreaEntity constructor
@@ -56,6 +59,12 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         this.keyboard = getOwnerArea().getKeyboard();
         this.gameState = gameState;
         this.pokemonList = new ArrayList<>();
+        soundItem = new SoundAcoustics("sound/collect_item_sound.wav");
+    }
+
+    @Override
+    public void bip(Audio audio) {
+        soundItem.bip(audio);
     }
 
     /**
@@ -67,7 +76,6 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      */
     @Override
     public void update(float deltaTime) {
-
         //Managing dialog
         if (isDialog) {
             if (keyboard.get(Keyboard.SPACE).isPressed()) {
@@ -250,6 +258,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         @Override
         public void interactWith(ICBall ball, boolean isCellInteraction) {
             if (!isCellInteraction && wantsCellInteraction()){
+                soundItem.shouldBeStarted();
                 ball.collect();
                 System.out.println("Player is interacting with Ball !");
             }

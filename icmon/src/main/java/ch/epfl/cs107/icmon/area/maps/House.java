@@ -5,7 +5,11 @@ import ch.epfl.cs107.icmon.actor.npc.Garry;
 import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
+import ch.epfl.cs107.play.engine.actor.SoundAcoustics;
+import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Audio;
+import ch.epfl.cs107.play.window.Window;
 
 public class House extends ICMonArea {
     @Override

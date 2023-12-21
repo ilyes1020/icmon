@@ -28,7 +28,6 @@ public final class ICMonFightInfoGraphics implements Graphics, Positionable {
 
     private final Vector position;
     private final Pokemon.PokemonProperties properties;
-
     private final ImageGraphics background;
     private final TextGraphics name;
     private final ImageGraphics hpBackground;
