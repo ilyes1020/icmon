@@ -63,9 +63,9 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     }
 
     /**
-     * Inflicts damage on the Pokemon, reducing its current health.
+     * Inflicts damage on the Pokémon, reducing its current health.
      *
-     * @param takenDamage The amount of damage taken. Should be greater than 0.
+     * @param takenDamage The amount of damage taken. Must be greater than 0.
      */
     public void receiveDamage(int takenDamage){
         if(takenDamage > 0){
@@ -73,6 +73,32 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
             if (hp < 0){
                 hp = 0;
             }
+        }
+    }
+
+    /**
+     * Heals the Pokémon a certain amount of hp
+     *
+     * @param healingValue The amount of heal. Must be greater than 0.
+     */
+    public void heal(int healingValue){
+        if(healingValue > 0){
+            hp += healingValue;
+            if (hp > maxHp){
+                hp = maxHp;
+            }
+        }
+    }
+
+    /**
+     * modifies the attack damage of the Pokémon,
+     * can not be lower than 1
+     * @param amount  The amount of the attack buff/nerf
+     */
+    public void modifieAttack(int amount){
+        attackDamage += amount;
+        if (attackDamage <= 1){
+            attackDamage = 1;
         }
     }
 
@@ -95,21 +121,21 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     }
 
     /**
-     * Retrieves the attack action of the Pokemon.
+     * Retrieves the attack action of the Pokémon.
      *
-     * @return An ICMonFightAction representing the Pokemon's attack, or null if not an Attack.
+     * @return An ICMonFightAction representing the Pokémon's attack, or null if not an Attack.
      */
-    public ICMonFightAction getAttack(){
+    public Attack getAttack(){
         for (ICMonFightAction action : getActions()){
             if (action instanceof Attack){
-                return action;
+                return (Attack) action;
             }
         }
         return null;
     }
 
     /**
-     * @return A copy of the Pokemon's properties
+     * @return A copy of the Pokémon's properties
      */
     public PokemonProperties properties(){
         return new PokemonProperties();
@@ -131,5 +157,15 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
         public int damage(){
             return attackDamage;
         }
+    }
+    /**
+     * Update method to make Attack action's damage updatable
+     *
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+        getAttack().setAttackDamage(properties().damage());
     }
 }

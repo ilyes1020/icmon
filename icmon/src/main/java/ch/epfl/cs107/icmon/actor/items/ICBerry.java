@@ -3,17 +3,17 @@ package ch.epfl.cs107.icmon.actor.items;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.engine.actor.SoundAcoustics;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.Collections;
 import java.util.List;
 
-public class ICBall extends ICMonItem{
-    private SoundAcoustics soundItem;
-    public ICBall(Area area, DiscreteCoordinates position) {
-        super(area, position, "items/icball");
+public class ICBerry extends ICMonItem{
+
+    public final static int HEALING_VALUE = 5;
+    public ICBerry(Area area, DiscreteCoordinates position) {
+        super(area, position, "items/icberry");
     }
 
     @Override
@@ -37,3 +37,4 @@ public class ICBall extends ICMonItem{
     }
 
 }
+

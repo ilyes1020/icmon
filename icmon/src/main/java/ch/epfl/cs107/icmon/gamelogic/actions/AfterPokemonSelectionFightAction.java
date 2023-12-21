@@ -17,10 +17,10 @@ public class AfterPokemonSelectionFightAction implements Action{
     private Pokemon playersPokemon;
     private ICMonFightableActor opponent;
     public AfterPokemonSelectionFightAction(ICMonPlayer player, Pokemon playersPokemon, ICMonFightableActor opponent, ICMon.ICMonGameState gameState){
-        this.player=player;
-        this.playersPokemon=playersPokemon;
-        this.opponent=opponent;
-        this.gameState =gameState;
+        this.player = player;
+        this.playersPokemon = playersPokemon;
+        this.opponent = opponent;
+        this.gameState = gameState;
     }
     @Override
     public void perform() {

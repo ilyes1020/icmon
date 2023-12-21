@@ -4,6 +4,7 @@ import ch.epfl.cs107.icmon.ICMon;
 import ch.epfl.cs107.icmon.actor.Door;
 import ch.epfl.cs107.icmon.actor.ICMonActor;
 import ch.epfl.cs107.icmon.actor.items.ICBall;
+import ch.epfl.cs107.icmon.actor.items.ICBerry;
 import ch.epfl.cs107.icmon.actor.pokemon.*;
 import ch.epfl.cs107.icmon.area.ICMonBehavior;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
@@ -34,6 +35,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private final ICMonPlayerInteractionHandler handler;
     private Keyboard keyboard;
     private final static int ANIMATION_DURATION = 8;
+    private final static int SPRINT_ANIMATION_DURATION = 4;
     private final OrientedAnimation walkingAnimation;
     private final OrientedAnimation surfingAnimation;
     private OrientedAnimation currentAnimation;
@@ -42,6 +44,9 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private boolean isDialog;
     private List<Pokemon> pokemonList;
     private SoundAcoustics soundItem;
+
+    //wrapper for the number of berries, so it can be modified by fights
+    private int[] nbBerry = new int [1];
 
     /**
      * Default MovableAreaEntity constructor
@@ -82,7 +87,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
                 currentDialog.update(deltaTime);
                 if(currentDialog.isCompleted()){
                     clearDialog();
-                    isDialog=false;
+                    isDialog = false;
                 }
             }
         }
@@ -98,9 +103,13 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
             else {
                 currentAnimation.reset();                 //reset the player's animation when the player is not moving
             }
+            if (keyboard.get(Keyboard.G).isPressed()){
+                System.out.println(getCurrentCells().get(0));
+            }
         }
         super.update(deltaTime);
     }
+
 
     private boolean hasPokemons(){
         return !pokemonList.isEmpty();
@@ -113,6 +122,14 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      */
     public void addPokemon(Pokemon pokemon){
         pokemonList.add(pokemon);
+    }
+
+    /**
+     * Gets the number of berry
+     * @return (int) the number of berry
+     */
+    public int[] getNbBerry() {
+        return nbBerry;
     }
 
     /**
@@ -141,7 +158,6 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         currentDialog = null;
     }
 
-
     /**
      * Moves the player if a specified button is pressed
      *
@@ -153,7 +169,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
             if (!isDisplacementOccurs()) {
                 orientate(orientation);
                 if (keyboard.get(Keyboard.TAB).isDown()){
-                    move(2);
+                    move(SPRINT_ANIMATION_DURATION);
                 }
                 else{
                     move(ANIMATION_DURATION);
@@ -177,7 +193,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas){
         currentAnimation.draw(canvas);
         if (isDialog){
             currentDialog.draw(canvas);
@@ -207,7 +223,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      */
     @Override
     public boolean wantsViewInteraction() {
-        return !isDialog && keyboard.get(Keyboard.L).isPressed();
+        return !isDialog && keyboard.get(Keyboard.E).isPressed();
     }
 
     @Override
@@ -308,6 +324,21 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         public void interactWith(Pokemon pokemon, boolean isCellInteraction) {
             if (isCellInteraction && hasPokemons()){
                 fight(pokemon);
+            }
+        }
+
+        /**
+         * When the player meets with an ICBerry, if it is a view interaction, and the player wants it, collect the berry
+         *
+         * @param berry                 The ICBerry to interact with
+         * @param isCellInteraction    Indicates if it's a contact interaction
+         */
+        @Override
+        public void interactWith(ICBerry berry, boolean isCellInteraction){
+            if (!isCellInteraction && wantsCellInteraction()){
+                berry.collect();
+                nbBerry[0]++;
+                System.out.println("Berry added to the inventory !");
             }
         }
     }

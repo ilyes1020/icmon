@@ -39,6 +39,7 @@ public final class ICMonFightInfoGraphics implements Graphics, Positionable {
         this.position = position;
         this.properties = properties;
 
+
         // HR : Add the background
         background = new ImageGraphics(getSprite("dialog"), 6f, 2f);
         background.setParent(this);
