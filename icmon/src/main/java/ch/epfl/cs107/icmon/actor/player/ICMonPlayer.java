@@ -72,7 +72,6 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      */
     @Override
     public void update(float deltaTime) {
-        System.out.println(nbBerry[0]);
         //Managing dialog
         if (isDialog) {
             if (keyboard.get(Keyboard.SPACE).isPressed()) {
@@ -215,7 +214,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      */
     @Override
     public boolean wantsViewInteraction() {
-        return !isDialog && keyboard.get(Keyboard.L).isPressed();
+        return !isDialog && keyboard.get(Keyboard.E).isPressed();
     }
 
     @Override

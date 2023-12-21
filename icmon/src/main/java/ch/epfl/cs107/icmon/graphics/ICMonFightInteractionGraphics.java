@@ -23,5 +23,4 @@ public abstract class ICMonFightInteractionGraphics implements Graphics {
     public void draw(Canvas canvas) {
         background.draw(canvas);
     }
-
 }

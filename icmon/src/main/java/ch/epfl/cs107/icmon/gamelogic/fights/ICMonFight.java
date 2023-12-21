@@ -2,6 +2,8 @@ package ch.epfl.cs107.icmon.gamelogic.fights;
 
 import ch.epfl.cs107.icmon.actor.items.ICBerry;
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
+import ch.epfl.cs107.icmon.actor.pokemon.actions.OnSelfAction;
+import ch.epfl.cs107.icmon.actor.pokemon.actions.OnTargetAction;
 import ch.epfl.cs107.icmon.graphics.ICMonFightActionSelectionGraphics;
 import ch.epfl.cs107.icmon.graphics.ICMonFightArenaGraphics;
 import ch.epfl.cs107.icmon.graphics.ICMonFightTextGraphics;
@@ -64,6 +66,10 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
     public void update(float deltaTime) {
         super.update(deltaTime);
 
+        //update pokémon so actions can increase or decrease pokémon stats
+        playersPokemon.update(deltaTime);
+        opponent.update(deltaTime);
+
         //Managing the usage of berries, if used, skip player's action Stage
         if (keyboard.get(Keyboard.F).isPressed()){
             if (playerBerryNb[0] > 0){
@@ -72,8 +78,9 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
                 stage = FightStage.OPPONENTACTION;
                 arena.setPlayerBerryNb(playerBerryNb[0]);
                 arena.update(deltaTime);
+            }else{
+                System.out.println("No more berries !");
             }
-            System.out.println("No more berries !");
         }
         switch (stage){
 
@@ -100,8 +107,12 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
             //stage when the player execute the selected action
             case ACTIONEXECUTION:
 
-                playerDidAction = playerAction.doAction(opponent);
-
+                //checks the type of the action, and cast it on the players pokemon if it is an OnSelfAction or the opponent otherwise
+                if (playerAction instanceof OnSelfAction){
+                    playerDidAction = playerAction.doAction(playersPokemon);
+                }else if (playerAction instanceof OnTargetAction){
+                    playerDidAction = playerAction.doAction(opponent);
+                }
                 if(opponent.isDead() || !playerDidAction){
                     stage = FightStage.CONCLUSION;
                 }

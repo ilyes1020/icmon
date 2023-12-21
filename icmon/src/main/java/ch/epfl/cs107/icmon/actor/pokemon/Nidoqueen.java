@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icmon.actor.pokemon;
 
 import ch.epfl.cs107.icmon.actor.pokemon.actions.Attack;
+import ch.epfl.cs107.icmon.actor.pokemon.actions.Growl;
 import ch.epfl.cs107.icmon.actor.pokemon.actions.RunAway;
 import ch.epfl.cs107.icmon.gamelogic.fights.ICMonFightAction;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -18,10 +19,16 @@ public class Nidoqueen extends Pokemon{
         actions = new ArrayList<>();
         actions.add(new RunAway());
         actions.add(new Attack(stats.damage()));
+        actions.add(new Growl());
     }
 
     @Override
     public ArrayList<ICMonFightAction> getActions() {
         return new ArrayList<>(actions);
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
     }
 }

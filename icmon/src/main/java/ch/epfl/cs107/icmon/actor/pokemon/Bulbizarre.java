@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icmon.actor.pokemon;
 
 import ch.epfl.cs107.icmon.actor.pokemon.actions.Attack;
+import ch.epfl.cs107.icmon.actor.pokemon.actions.Meditate;
 import ch.epfl.cs107.icmon.actor.pokemon.actions.RunAway;
 import ch.epfl.cs107.icmon.gamelogic.fights.ICMonFightAction;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bulbizarre extends Pokemon{
-
     private List<ICMonFightAction> actions;
     private PokemonProperties stats = new PokemonProperties();
 
@@ -19,10 +19,16 @@ public class Bulbizarre extends Pokemon{
         actions = new ArrayList<>();
         actions.add(new RunAway());
         actions.add(new Attack(stats.damage()));
+        actions.add(new Meditate());
     }
 
     @Override
     public ArrayList<ICMonFightAction> getActions() {
         return new ArrayList<>(actions);
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
     }
 }

@@ -3,10 +3,11 @@ package ch.epfl.cs107.icmon.actor.pokemon.actions;
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
 import ch.epfl.cs107.icmon.gamelogic.fights.ICMonFightAction;
 
-public class Attack implements ICMonFightAction {
-
+/**
+ * Attacks the target, dealing a certain amount of damage
+ */
+public class Attack extends OnTargetAction{
     private int attackDamage;
-
     /**
      * Attack action constructor.
      *
@@ -26,5 +27,8 @@ public class Attack implements ICMonFightAction {
             return true;
         }
         return false;
+    }
+    public void setAttackDamage(int attackDamage) {
+        this.attackDamage = attackDamage;
     }
 }
