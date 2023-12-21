@@ -104,6 +104,7 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
 
     /**
      * Checks if it's dead
+     *
      * @return 'true' if it's dead, 'false' otherwise.
      */
     public boolean isDead(){

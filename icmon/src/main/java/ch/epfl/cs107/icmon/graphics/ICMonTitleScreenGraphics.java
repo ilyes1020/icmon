@@ -7,9 +7,9 @@ import ch.epfl.cs107.play.window.Canvas;
 
 import static ch.epfl.cs107.play.io.ResourcePath.getBackground;
 
-public class ICMonMainMenuGraphics implements Graphics {
+public class ICMonTitleScreenGraphics implements Graphics {
     private ImageGraphics background;
-    public ICMonMainMenuGraphics(float scaleFactor){
+    public ICMonTitleScreenGraphics(float scaleFactor){
         background = new ImageGraphics(getBackground("main_menu"), scaleFactor, scaleFactor);
         background.setRelativeTransform(Transform.I.translated(0, 0));
     }

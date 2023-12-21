@@ -131,6 +131,9 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
                         stage = FightStage.ACTIONSELECT;
                         selectionGraphics = new ICMonFightActionSelectionGraphics(CAMERA_SCALE_FACTOR, keyboard, playersPokemon.getActions());
                     }
+                    else {
+                        stage = FightStage.CONCLUSION;
+                    }
                 }else{
                     stage = FightStage.CONCLUSION;
                 }

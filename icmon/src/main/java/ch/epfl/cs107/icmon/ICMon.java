@@ -6,7 +6,6 @@ import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.icmon.area.maps.*;
 import ch.epfl.cs107.icmon.gamelogic.events.*;
-import ch.epfl.cs107.icmon.gamelogic.mainmenu.ICMonMainMenu;
 import ch.epfl.cs107.icmon.message.GamePlayMessage;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
@@ -47,7 +46,7 @@ public final class ICMon extends AreaGame {
             currentEvents = new ArrayList<>();
             eventsToRegister= new ArrayList<>();
             eventsToUnRegister = new ArrayList<>();
-            new MainMenuEvent(player).start();
+            new TitleScreenEvent(player).start();
             events(town);
             return true;
         }
@@ -166,6 +165,7 @@ public final class ICMon extends AreaGame {
         public ICMonEventManager getEventManager(){
             return eventManager;
         }
+
     }
     public class ICMonEventManager {
 
@@ -209,6 +209,13 @@ public final class ICMon extends AreaGame {
                 currentEvent.resume();
             }
             ((ICMonArea) getCurrentArea()).setAreaMusic(getWindow());
+        }
+
+        /**
+         * In order to restart the game from an event
+         */
+        public void restartTheGame() {
+            begin(getWindow(),getFileSystem());
         }
     }
 }

@@ -44,6 +44,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private boolean isDialog;
     private List<Pokemon> pokemonList;
     private SoundAcoustics soundItem;
+    private SoundAcoustics soundDialog;
 
     //wrapper for the number of berries, so it can be modified by fights
     private int[] nbBerry = new int [1];
@@ -65,15 +66,17 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         this.gameState = gameState;
         this.pokemonList = new ArrayList<>();
         soundItem = new SoundAcoustics("sound/collect_item_sound.wav");
+        soundDialog = new SoundAcoustics("sound/dialog_sound.wav");
     }
 
     @Override
     public void bip(Audio audio) {
         soundItem.bip(audio);
+        soundDialog.bip(audio);
     }
 
     /**
-     * Updates the game state based on the elapsed time (deltaTime),
+     * Updates the player based on the elapsed time (deltaTime),
      * manages dialog behavior and movement,
      * calls the super update method
      *
@@ -84,6 +87,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         //Managing dialog
         if (isDialog) {
             if (keyboard.get(Keyboard.SPACE).isPressed()) {
+                soundDialog.shouldBeStarted();
                 currentDialog.update(deltaTime);
                 if(currentDialog.isCompleted()){
                     clearDialog();
@@ -107,6 +111,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
                 System.out.println(getCurrentCells().get(0));
             }
         }
+        removeDeadPokemon();
         super.update(deltaTime);
     }
 
@@ -116,12 +121,14 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     }
 
     /**
-     * Adds a Pokémon to the collection of owned Pokémon.
+     * Adds a Pokémon to the collection of owned Pokémons.
      *
      * @param pokemon The Pokémon to be added.
      */
     public void addPokemon(Pokemon pokemon){
-        pokemonList.add(pokemon);
+        if(pokemon != null){
+            pokemonList.add(pokemon);
+        }
     }
 
     /**
@@ -130,6 +137,13 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      */
     public int[] getNbBerry() {
         return nbBerry;
+    }
+
+    /**
+     * Removes dead Pokemons from the List. Updated
+     */
+    private void removeDeadPokemon() {
+        pokemonList.removeIf(Pokemon::isDead);
     }
 
     /**
@@ -238,9 +252,11 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      * @param opponent The opponent to engage in a fight.
      */
     public void fight(ICMonFightableActor opponent){
-        ICMonEvent selectionEvent = new PokemonSelectionEvent(this, pokemonList,opponent,gameState);
-        SuspendWithEventMessage selectionMessage = new SuspendWithEventMessage(selectionEvent,getEventManager());
-        gameState.send(selectionMessage);
+        if (hasPokemons()) {
+            ICMonEvent selectionEvent = new PokemonSelectionEvent(this, pokemonList, opponent, gameState);
+            SuspendWithEventMessage selectionMessage = new SuspendWithEventMessage(selectionEvent, getEventManager());
+            gameState.send(selectionMessage);
+        }
     }
     /**
      * Do this Interactor interact with the given Interactable
@@ -275,7 +291,11 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         public void interactWith(ICBall ball, boolean isCellInteraction) {
             if (!isCellInteraction && wantsCellInteraction()){
                 soundItem.shouldBeStarted();
+                addPokemon(ball.getInsidePokemon());
                 ball.collect();
+                if (ball.getInsidePokemon() != null) {
+                    openDialog("collect_icball_with_"+ ball.getInsidePokemon().properties().name());
+                }
                 System.out.println("Player is interacting with Ball !");
             }
         }
@@ -322,7 +342,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
          */
         @Override
         public void interactWith(Pokemon pokemon, boolean isCellInteraction) {
-            if (isCellInteraction && hasPokemons()){
+            if (isCellInteraction){
                 fight(pokemon);
             }
         }

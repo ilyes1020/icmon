@@ -1,11 +1,11 @@
-package ch.epfl.cs107.icmon.gamelogic.mainmenu;
+package ch.epfl.cs107.icmon.gamelogic.titlescreen;
 /*
  *	Author:      Ilyes Rouibi
  *	Date:
  */
 
 import ch.epfl.cs107.icmon.gamelogic.fights.PauseMenuSelector;
-import ch.epfl.cs107.icmon.graphics.ICMonMainMenuGraphics;
+import ch.epfl.cs107.icmon.graphics.ICMonTitleScreenGraphics;
 import ch.epfl.cs107.play.engine.PauseMenu;
 import ch.epfl.cs107.play.engine.actor.SoundAcoustics;
 import ch.epfl.cs107.play.io.FileSystem;
@@ -13,15 +13,15 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
-public class ICMonMainMenu extends PauseMenu implements PauseMenuSelector {
+public class ICMonTitleScreen extends PauseMenu implements PauseMenuSelector {
     private boolean isRunning;
     private Keyboard keyboard;
-    private ICMonMainMenuGraphics menuGraphics;
+    private ICMonTitleScreenGraphics menuGraphics;
 
     /**
      * Constructor for creating a PokemonSelectionMenu.
      */
-    public ICMonMainMenu(){
+    public ICMonTitleScreen(){
         isRunning = true;
     }
 
@@ -30,7 +30,7 @@ public class ICMonMainMenu extends PauseMenu implements PauseMenuSelector {
         if (super.begin(window, fileSystem)) {
 
             keyboard = getKeyboard();
-            menuGraphics = new ICMonMainMenuGraphics(CAMERA_SCALE_FACTOR);
+            menuGraphics = new ICMonTitleScreenGraphics(CAMERA_SCALE_FACTOR);
             SoundAcoustics music = new SoundAcoustics("sound/main_menu_music.wav", 0.4f, false,false,true, true);
             music.shouldBeStarted();
             music.bip(window);

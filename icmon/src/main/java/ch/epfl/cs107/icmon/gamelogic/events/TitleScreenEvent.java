@@ -7,20 +7,20 @@ package ch.epfl.cs107.icmon.gamelogic.events;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.gamelogic.actions.ResumeEventAction;
 import ch.epfl.cs107.icmon.gamelogic.actions.SuspendEventAction;
-import ch.epfl.cs107.icmon.gamelogic.mainmenu.ICMonMainMenu;
+import ch.epfl.cs107.icmon.gamelogic.titlescreen.ICMonTitleScreen;
 import ch.epfl.cs107.play.engine.PauseMenu;
-public class MainMenuEvent extends ICMonEvent implements PauseMenuEvent{
+public class TitleScreenEvent extends ICMonEvent implements PauseMenuEvent{
 
-    private ICMonMainMenu pauseMenu;
+    private ICMonTitleScreen pauseMenu;
 
     /**
      * Constructor of a PokemonSelectionEvent.
      *
      * @param player The player
      */
-    public MainMenuEvent(ICMonPlayer player){
+    public TitleScreenEvent(ICMonPlayer player){
         super(player);
-        pauseMenu = new ICMonMainMenu();
+        pauseMenu = new ICMonTitleScreen();
         onStart(new SuspendEventAction(this, player.getEventManager()));
         onComplete(new ResumeEventAction(this, player.getEventManager()));
     }

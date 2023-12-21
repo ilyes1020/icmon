@@ -6,7 +6,6 @@ import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.gamelogic.actions.LogAction;
 import ch.epfl.cs107.icmon.gamelogic.actions.RegisterinAreaAction;
 import ch.epfl.cs107.play.areagame.area.Area;
-import ch.epfl.cs107.play.engine.actor.SoundAcoustics;
 
 /**
  * Event for collecting an item in the game.
@@ -14,6 +13,11 @@ import ch.epfl.cs107.play.engine.actor.SoundAcoustics;
 public class CollectItemEvent extends ICMonEvent{
 
     private ICMonItem item;
+    private int interactionNumber;
+
+    private ICShopAssistant assistant;
+
+    private boolean activateEasterEgg;
 
     /**
      * Constructor for creating a CollectItemEvent
@@ -37,6 +41,12 @@ public class CollectItemEvent extends ICMonEvent{
      */
     @Override
     public void update(float deltaTime) {
+        if (activateEasterEgg) {
+            if (!player.isDialog()){
+                activateEasterEgg = false;
+                player.fight(assistant);
+            }
+        }
         if (item.isCollected()){
             complete();
         }
@@ -51,5 +61,12 @@ public class CollectItemEvent extends ICMonEvent{
     public void interactWith(ICShopAssistant assistant , boolean isCellInteraction){
         System.out.println("This is an interaction between the player and ICShopAssistant based on events !");
         player.openDialog("collect_item_event_interaction_with_icshopassistant_advice");
+        // EasterEgg
+        this.assistant = assistant;
+        ++interactionNumber;
+        if (interactionNumber == 10){
+            player.openDialog("easter_egg_interaction");
+            activateEasterEgg = true;
+        }
     }
 }
