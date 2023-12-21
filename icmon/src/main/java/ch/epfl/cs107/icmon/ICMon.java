@@ -59,7 +59,7 @@ public final class ICMon extends AreaGame {
      * @param area   The ICMonArea in which the CollectItemEvent will take place.
      */
     private void events(ICMonArea area){
-        ICMonItem ball = new ICBall(area, new DiscreteCoordinates(6,6));
+        ICMonItem ball = new ICBall(area, new DiscreteCoordinates(6,6), "icball");
 
         ICMonEvent firstEvent = new IntroductionEvent(player);
         ICMonEvent talkOak = new FirstInteractionWithProfOakEvent(player);

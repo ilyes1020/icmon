@@ -358,6 +358,10 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
             if (!isCellInteraction && wantsCellInteraction()){
                 berry.collect();
                 nbBerry[0]++;
+                if (!ICBerry.isDiscovered()){
+                    openDialog("first_encounter_with_berry");
+                    ICBerry.setDiscovered(true);
+                }
                 System.out.println("Berry added to the inventory !");
             }
         }
