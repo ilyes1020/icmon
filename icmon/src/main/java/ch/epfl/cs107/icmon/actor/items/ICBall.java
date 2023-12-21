@@ -16,22 +16,23 @@ public class ICBall extends ICMonItem{
     private Pokemon insidePokemon;
 
     /**
-     * Empty ICBall
-     * @param area
-     * @param position
+     * Empty ICBall constructor
+     * @param area        The Area of the ball
+     * @param position    The position of the ball
+     * @param spriteName  The name of the png file
      */
-    public ICBall(Area area, DiscreteCoordinates position) {
-        super(area, position, "items/icball");
+    public ICBall(Area area, DiscreteCoordinates position, String spriteName) {
+        super(area, position, "items/" + spriteName);
     }
 
     /**
-     * ICBall containing a Pokemon
-     * @param area
-     * @param position
-     * @param insidePokemon
+     * ICBall containing a Pokémon
+     * @param area             The Area of the ball
+     * @param position         The position of the ball
+     * @param insidePokemon    The Pokémon inside
      */
     public ICBall(Area area, DiscreteCoordinates position, Pokemon insidePokemon) {
-        this(area, position);
+        this(area, position, "pokeball");
         this.insidePokemon=insidePokemon;
     }
     @Override
@@ -40,7 +41,7 @@ public class ICBall extends ICMonItem{
     }
 
     /**
-     * @return The captured Pokemon
+     * @return The captured Pokémon
      */
     public Pokemon getInsidePokemon() {
         return insidePokemon;

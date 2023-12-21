@@ -68,7 +68,6 @@ public abstract class ICMonActor extends MovableAreaEntity {
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         // To override if the ICMonActor is an Interactable
     }
-
     @Override
     public void draw(Canvas canvas) {
         // to override in order to draw

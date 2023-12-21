@@ -14,7 +14,7 @@ public class Mewtwo extends Pokemon{
     private PokemonProperties stats = new PokemonProperties();
 
     public Mewtwo(Area area, DiscreteCoordinates position) {
-        super(area, position, "mewtwo", 100, 100);
+        super(area, position, "mewtwo", 9, 50);
         actions = new ArrayList<>();
         actions.add(new RunAway());
         actions.add(new Attack(stats.damage()));

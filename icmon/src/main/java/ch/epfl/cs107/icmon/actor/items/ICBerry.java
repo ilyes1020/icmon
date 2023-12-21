@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ICBerry extends ICMonItem{
+    private static boolean discovered = false;
 
     public final static int HEALING_VALUE = 5;
     public ICBerry(Area area, DiscreteCoordinates position) {
@@ -30,11 +31,16 @@ public class ICBerry extends ICMonItem{
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICMonInteractionVisitor) v).interactWith(this , isCellInteraction);
     }
-
     @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
     }
 
+    public static boolean isDiscovered(){
+        return discovered;
+    }
+    public static void setDiscovered(boolean isDiscovered){
+        discovered = isDiscovered;
+    }
 }
 
