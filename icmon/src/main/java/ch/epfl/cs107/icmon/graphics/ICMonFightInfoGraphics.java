@@ -28,7 +28,6 @@ public final class ICMonFightInfoGraphics implements Graphics, Positionable {
 
     private final Vector position;
     private final Pokemon.PokemonProperties properties;
-
     private final ImageGraphics background;
     private final TextGraphics name;
     private final ImageGraphics hpBackground;
@@ -39,6 +38,7 @@ public final class ICMonFightInfoGraphics implements Graphics, Positionable {
         // HR : set the position
         this.position = position;
         this.properties = properties;
+
 
         // HR : Add the background
         background = new ImageGraphics(getSprite("dialog"), 6f, 2f);

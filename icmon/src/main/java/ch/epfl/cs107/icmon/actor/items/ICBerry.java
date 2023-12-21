@@ -9,11 +9,11 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.Collections;
 import java.util.List;
 
-public class ICBall extends ICMonItem{
+public class ICBerry extends ICMonItem{
 
-
-    public ICBall(Area area, DiscreteCoordinates position) {
-        super(area, position, "items/icball");
+    public final static int HEALING_VALUE = 5;
+    public ICBerry(Area area, DiscreteCoordinates position) {
+        super(area, position, "items/icberry");
     }
 
     @Override
@@ -37,3 +37,4 @@ public class ICBall extends ICMonItem{
     }
 
 }
+
