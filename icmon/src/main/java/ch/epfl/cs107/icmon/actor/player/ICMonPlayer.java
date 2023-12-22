@@ -49,10 +49,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private SoundAcoustics soundDialog;
     private ICMonQuestInfoGraphics questInfoGraphic;
     private boolean displayQuestInfo;
-
     public static int KEY_NUMBER;
-
-    //wrapper for the number of berries, so it can be modified by fights
     public static int BERRY_NUMBER;
 
     /**
@@ -78,6 +75,10 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         questInfoGraphic = new ICMonQuestInfoGraphics(this);
     }
 
+    /**
+     * To play sounds
+     * @param audio (Audio) target, not null
+     */
     @Override
     public void bip(Audio audio) {
         soundItem.bip(audio);
@@ -156,6 +157,21 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         super.update(deltaTime);
     }
 
+    /**
+     * Moves the player if a specified button is pressed
+     *
+     * @param orientation The orientation for the player movement
+     * @param b The button being pressed
+     */
+    private void moveIfPressed(Orientation orientation, Button b) {
+        if (b.isDown()) {
+            if (!isDisplacementOccurs()) {
+                orientate(orientation);
+                move(ANIMATION_DURATION);
+            }
+            currentAnimation.orientate(getOrientation());  //orientates the player
+        }
+    }
 
     private boolean hasPokemons(){
         return !pokemonList.isEmpty();
@@ -211,26 +227,6 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         currentDialog = null;
     }
 
-    /**
-     * Moves the player if a specified button is pressed
-     *
-     * @param orientation The orientation for the player movement
-     * @param b The button being pressed
-     */
-    private void moveIfPressed(Orientation orientation, Button b) {
-        if (b.isDown()) {
-            if (!isDisplacementOccurs()) {
-                orientate(orientation);
-                if (keyboard.get(Keyboard.TAB).isDown()){
-                    move(SPRINT_ANIMATION_DURATION);
-                }
-                else{
-                    move(ANIMATION_DURATION);
-                }
-                currentAnimation.orientate(getOrientation());  //orientates the player
-            }
-        }
-    }
 
     /**
      * Centers the camera on the player

@@ -40,11 +40,11 @@ public abstract class NPCActor extends ICMonActor {
         if (isDisplacementOccurs()){
             currentAnimation.update(deltaTime);
         }
-        else {
-            currentAnimation.reset();
-        }
         if (target!=null){
             moveTo(target);
+        }
+        else {
+            currentAnimation.reset();
         }
         super.update(deltaTime);
     }
@@ -74,15 +74,15 @@ public abstract class NPCActor extends ICMonActor {
 
     /**
      * Move with the computed orientation
-     * @param orientation the orientation the boy will have
+     * @param orientation the orientation the npc will have
      */
     private void move(Orientation orientation){
         orientate(orientation);
         super.move(ANIMATION_DURATION);
     }
     /**
-     * Move to a specific coordinates
-     * @param target (DiscreteCoordinates) the boy will go to
+     * Move to a specific coordinates (one step if not updated)
+     * @param target (DiscreteCoordinates) the npc will go to
      */
     public void moveTo(DiscreteCoordinates target){
         // Check the side coordinates of the boy
