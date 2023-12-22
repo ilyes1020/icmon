@@ -14,6 +14,7 @@ import java.util.List;
 
 public class Garry extends NPCActor implements ICMonFightableActor {
 
+    //garry has to stay after the fight until the event's end
     private List<Pokemon> pokemons = new ArrayList<>();
 
     /**
@@ -36,13 +37,16 @@ public class Garry extends NPCActor implements ICMonFightableActor {
         return pokemons;
     }
     @Override
-    public boolean hasToLeaveArea() {
+    public boolean hasPokemonLeft() {
         for (Pokemon pokemon:pokemons){
             if (!pokemon.isDead()){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+    public boolean hasToLeaveAfterFight(){
+        return false;
     }
 
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {

@@ -52,7 +52,7 @@ public class PokemonFightEvent extends ICMonEvent implements PauseMenuEvent {
      */
     @Override
     public void update(float deltaTime) {
-        if (opponent.hasToLeaveArea() && !hasAlreadyLeft){
+        if (opponent.hasToLeaveAfterFight() && !hasAlreadyLeft && !player.isDialog()){
             onComplete(new LeaveAreaAction((ICMonActor) opponent));
             hasAlreadyLeft = true;
         }

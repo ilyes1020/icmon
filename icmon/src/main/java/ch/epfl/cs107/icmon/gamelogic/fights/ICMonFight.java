@@ -77,8 +77,8 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
                 --playerBerryNb[0];
                 playersPokemon.heal(ICBerry.HEALING_VALUE);
                 stage = FightStage.OPPONENTACTION;
-                arena.setPlayerBerryNb(playerBerryNb[0]);
-                arena.update(deltaTime);
+
+                arena.setBerryNbText(playerBerryNb[0]);
             }else{
                 System.out.println("No more berries !");
             }

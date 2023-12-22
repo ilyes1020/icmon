@@ -14,7 +14,7 @@ public class TitleScreenEvent extends ICMonEvent implements PauseMenuEvent{
     private ICMonTitleScreen pauseMenu;
 
     /**
-     * Constructor of a PokemonSelectionEvent.
+     * Constructor of a TitleScreenEvent.
      *
      * @param player The player
      */
@@ -35,7 +35,7 @@ public class TitleScreenEvent extends ICMonEvent implements PauseMenuEvent{
     }
 
     /**
-     * Updates the event over time and performs actions after Pokémon selection and complete the event
+     * Updates the event over time, complete when pauseMenu is not running anymore
      *
      * @param deltaTime The time elapsed since the last update.
      */

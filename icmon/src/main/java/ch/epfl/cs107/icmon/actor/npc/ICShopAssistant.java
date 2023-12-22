@@ -17,6 +17,7 @@ public class ICShopAssistant extends NPCActor implements ICMonFightableActor {
 
     // Easter Egg
     private List<Pokemon> pokemons;
+
     /**
      * Default MovableAreaEntity constructor
      *
@@ -39,8 +40,14 @@ public class ICShopAssistant extends NPCActor implements ICMonFightableActor {
     }
 
     @Override
-    public boolean hasToLeaveArea() {
+    public boolean hasPokemonLeft() {
         return true;
+    }
+
+
+    @Override
+    public boolean hasToLeaveAfterFight() {
+        return false;
     }
 
     @Override

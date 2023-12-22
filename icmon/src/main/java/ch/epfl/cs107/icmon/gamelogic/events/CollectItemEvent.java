@@ -3,9 +3,12 @@ package ch.epfl.cs107.icmon.gamelogic.events;
 import ch.epfl.cs107.icmon.actor.items.ICMonItem;
 import ch.epfl.cs107.icmon.actor.npc.ICShopAssistant;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
+import ch.epfl.cs107.icmon.gamelogic.actions.DisplayQuestInfoAction;
 import ch.epfl.cs107.icmon.gamelogic.actions.LogAction;
 import ch.epfl.cs107.icmon.gamelogic.actions.RegisterinAreaAction;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Orientation;
 
 /**
  * Event for collecting an item in the game.
@@ -14,9 +17,10 @@ public class CollectItemEvent extends ICMonEvent{
 
     private ICMonItem item;
     private int interactionNumber;
-
     private ICShopAssistant assistant;
 
+    //For the questInfo in update
+    private boolean searchingICBall = false;
     private boolean activateEasterEgg;
 
     /**
@@ -30,6 +34,7 @@ public class CollectItemEvent extends ICMonEvent{
         super(player);
         this.item = item;
         onStart(new LogAction("ICMonItemCollect has started !"));
+        onStart(new DisplayQuestInfoAction(player, "Go find the shop to the east of the map", "cellOver"));
         onStart(new RegisterinAreaAction(area,item));
         onComplete(new LogAction("ICMonItemCollect has been completed !"));
     }
@@ -41,6 +46,10 @@ public class CollectItemEvent extends ICMonEvent{
      */
     @Override
     public void update(float deltaTime) {
+        if (player.getCurrentCells().get(0).equals(new DiscreteCoordinates(25,19)) && !searchingICBall){
+            player.setQuestInfoGraphic("Talk to the shop assistant", "actors/assistant_icon");
+            searchingICBall = true;
+        }
         if (activateEasterEgg) {
             if (!player.isDialog()){
                 activateEasterEgg = false;
@@ -61,6 +70,7 @@ public class CollectItemEvent extends ICMonEvent{
     public void interactWith(ICShopAssistant assistant , boolean isCellInteraction){
         System.out.println("This is an interaction between the player and ICShopAssistant based on events !");
         player.openDialog("collect_item_event_interaction_with_icshopassistant_advice");
+        player.setQuestInfoGraphic("Find the Super Ball", "items/icball");
         // EasterEgg
         this.assistant = assistant;
         ++interactionNumber;

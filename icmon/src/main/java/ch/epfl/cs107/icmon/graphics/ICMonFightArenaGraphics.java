@@ -23,7 +23,7 @@ import static java.util.Objects.nonNull;
  *
  * @author Hamza REMMAL (hamza.remmal@epfl.ch)
  */
-public final class ICMonFightArenaGraphics implements Graphics, Updatable{
+public final class ICMonFightArenaGraphics implements Graphics{
 
     private final ImageGraphics background;
     private static final float FONT_SIZE = .6f;
@@ -33,10 +33,8 @@ public final class ICMonFightArenaGraphics implements Graphics, Updatable{
     private final GraphicsEntity player;
     /** ??? */
     private final GraphicsEntity opponent;
-    //berry graphic
-    private final GraphicsEntity berry;
-    //berry number text
-    private final TextGraphics berryNbText;
+    //berry icon graphic
+    private final GraphicsEntity berryIcon;
     //berry number graphic
     private GraphicsEntity berryNb;
     private final ICMonFightInfoGraphics playerInfo;
@@ -53,14 +51,13 @@ public final class ICMonFightArenaGraphics implements Graphics, Updatable{
         this.playerBerryNb = playerBerryNb;
         this.opponent = new GraphicsEntity(new Vector(scaleFactor * 2 / 3 -.5f, scaleFactor * 2 / 3 - .5f), new ImageGraphics(getSprite("fight/" + opponent.name()), 5, 5, new RegionOfInterest(0, 0, 64, 64), true));
         this.player = new GraphicsEntity(new Vector(0f, scaleFactor / 3), new ImageGraphics(getSprite("fight/" + player.name()), 5, 5, new RegionOfInterest(128, 0, 64, 64), true));
-        this.berry = new GraphicsEntity(new Vector(0.2f, scaleFactor/2), new ImageGraphics(getSprite("fight/icberry"), 1, 1, new RegionOfInterest(0, 0, 64, 64), true));
+        this.berryIcon = new GraphicsEntity(new Vector(0.2f, scaleFactor/2), new ImageGraphics(getSprite("fight/icberry"), 1, 1, new RegionOfInterest(0, 0, 64, 64), true));
         // HR : Prepare the info's graphics
         this.opponentInfo = new ICMonFightInfoGraphics(new Vector(0.5f, scaleFactor - 2.5f), opponent);
         this.playerInfo = new ICMonFightInfoGraphics(new Vector(scaleFactor - 6.5f, scaleFactor / 3 + .5f), player);
         // Prepare the berries info's graphics
         this.berryKeybind = new GraphicsEntity(new Vector(0.3f, scaleFactor / 2 - .2f), new TextGraphics("F", FONT_SIZE, Color.BLACK, null, 0.0f, true, false, Vector.ZERO, TextAlign.Horizontal.CENTER, TextAlign.Vertical.MIDDLE,  1f, 1003));
-        this.berryNbText = new TextGraphics("" + playerBerryNb, FONT_SIZE, Color.BLACK, null, 0.0f, true, false, Vector.ZERO, TextAlign.Horizontal.CENTER, TextAlign.Vertical.MIDDLE,  1f, 1003);
-        this.berryNb = new GraphicsEntity(new Vector(1.3f, scaleFactor / 2 + 1.3f), berryNbText);
+        this.berryNb = new GraphicsEntity(new Vector(1.3f, scaleFactor / 2 + 1.3f), new TextGraphics(Integer.toString(playerBerryNb), FONT_SIZE * 2, Color.BLACK, null, 0.0f, true, false, Vector.ZERO, TextAlign.Horizontal.CENTER, TextAlign.Vertical.MIDDLE,  1f, 1003));
     }
 
     public void setInteractionGraphics(ICMonFightInteractionGraphics graphics){
@@ -75,7 +72,7 @@ public final class ICMonFightArenaGraphics implements Graphics, Updatable{
         player.draw(canvas);
         opponent.draw(canvas);
         // Draw the berry icon and the number of berries
-        berry.draw(canvas);
+        berryIcon.draw(canvas);
         berryNb.draw(canvas);
         berryKeybind.draw(canvas);
         // HR : Draw the infos
@@ -84,18 +81,10 @@ public final class ICMonFightArenaGraphics implements Graphics, Updatable{
         if(nonNull(interactionGraphics))
             interactionGraphics.draw(canvas);
     }
-
-    public void setPlayerBerryNb(int playerBerryNb) {
-        this.playerBerryNb = playerBerryNb;
+    public TextGraphics getBerryNbText() {
+        return (TextGraphics) berryNb.getGraphics();
     }
-
-    /**
-     * Simulates a single time step, updates the text displaying the number of remaining berries
-     *
-     * @param deltaTime elapsed time since last update, in seconds, non-negative
-     */
-    public void update(float deltaTime) {
-        berryNbText.setText("" + playerBerryNb);
-        berryNb = new GraphicsEntity(new Vector(1.3f, scaleFactor / 2 + 1.3f), berryNbText);
+    public void setBerryNbText(int berryNumber){
+        getBerryNbText().setText(Integer.toString(berryNumber));
     }
 }

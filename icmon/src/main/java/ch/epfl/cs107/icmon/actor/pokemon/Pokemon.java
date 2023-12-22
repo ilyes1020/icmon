@@ -29,12 +29,15 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
     private int attackDamage;
     private Sprite sprite;
 
+    //always true for Pokémon
+    private final boolean hasToLeaveAfterFight = true;
+
     /**
      * Default Pokemon constructor.
      *
      * @param area         The owner area. Not null.
      * @param position     The initial position of the entity. Not null.
-     * @param name         The name of the Pokemon.
+     * @param name         The name of the Pokémon.
      * @param attackDamage The number of damage inflicted to the opponent.
      * @param maxHp        The maximum health level that can reach the Pokémon.
      */
@@ -52,8 +55,12 @@ public abstract class Pokemon extends ICMonActor implements ICMonFightableActor 
      */
     public abstract ArrayList<ICMonFightAction> getActions();
 
+    public boolean hasToLeaveAfterFight(){
+        return hasToLeaveAfterFight;
+    }
+
     @Override
-    public boolean hasToLeaveArea() {
+    public boolean hasPokemonLeft() {
         return true;
     }
 

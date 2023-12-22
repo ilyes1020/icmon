@@ -9,6 +9,7 @@ import ch.epfl.cs107.icmon.actor.pokemon.*;
 import ch.epfl.cs107.icmon.area.ICMonBehavior;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
 import ch.epfl.cs107.icmon.gamelogic.events.PokemonSelectionEvent;
+import ch.epfl.cs107.icmon.graphics.ICMonQuestInfoGraphics;
 import ch.epfl.cs107.icmon.handler.ICMonInteractionVisitor;
 import ch.epfl.cs107.icmon.message.PassDoorMessage;
 import ch.epfl.cs107.icmon.message.SuspendWithEventMessage;
@@ -16,9 +17,7 @@ import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.engine.actor.Dialog;
-import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
-import ch.epfl.cs107.play.engine.actor.SoundAcoustics;
+import ch.epfl.cs107.play.engine.actor.*;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Audio;
@@ -45,6 +44,8 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private List<Pokemon> pokemonList;
     private SoundAcoustics soundItem;
     private SoundAcoustics soundDialog;
+    private ICMonQuestInfoGraphics questInfoGraphic;
+    private boolean displayQuestInfo;
 
     //wrapper for the number of berries, so it can be modified by fights
     private int[] nbBerry = new int [1];
@@ -67,12 +68,38 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         this.pokemonList = new ArrayList<>();
         soundItem = new SoundAcoustics("sound/collect_item_sound.wav");
         soundDialog = new SoundAcoustics("sound/dialog_sound.wav");
+        questInfoGraphic = new ICMonQuestInfoGraphics(this);
     }
 
     @Override
     public void bip(Audio audio) {
         soundItem.bip(audio);
         soundDialog.bip(audio);
+    }
+
+    /**
+     * Gets the quest info graphic
+     * @return (Type : ICMonQuestInfoGraphics) The quest info graphic
+     */
+    public ICMonQuestInfoGraphics getQuestInfoGraphic() {
+        return questInfoGraphic;
+    }
+
+    public void setQuestInfoGraphic(String text, String iconName) {
+        questInfoGraphic.setText(text);
+        questInfoGraphic.setIconImage(iconName);
+    }
+    public void resetQuestInfo(){
+        questInfoGraphic = new ICMonQuestInfoGraphics(this);
+    }
+    public void hideQuestInfoGraphic (){
+        displayQuestInfo = false;
+    }
+    public void displayQuestInfo() {
+        displayQuestInfo = true;
+    }
+    public void toggleDisplayQuestInfo(){
+        displayQuestInfo = !displayQuestInfo;
     }
 
     /**
@@ -84,6 +111,12 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      */
     @Override
     public void update(float deltaTime) {
+
+        //show and hide the current quest info when G is pressed
+        if(keyboard.get(Keyboard.G).isPressed()){
+            toggleDisplayQuestInfo();
+            System.out.println(getCurrentCells());
+        }
         //Managing dialog
         if (isDialog) {
             if (keyboard.get(Keyboard.SPACE).isPressed()) {
@@ -107,14 +140,10 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
             else {
                 currentAnimation.reset();                 //reset the player's animation when the player is not moving
             }
-            if (keyboard.get(Keyboard.G).isPressed()){
-                System.out.println(getCurrentCells().get(0));
-            }
         }
         removeDeadPokemon();
         super.update(deltaTime);
     }
-
 
     private boolean hasPokemons(){
         return !pokemonList.isEmpty();
@@ -205,12 +234,14 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         return true;
 
     }
-
     @Override
     public void draw(Canvas canvas){
         currentAnimation.draw(canvas);
         if (isDialog){
             currentDialog.draw(canvas);
+        }
+        if (displayQuestInfo){
+            questInfoGraphic.draw(canvas);
         }
     }
 
