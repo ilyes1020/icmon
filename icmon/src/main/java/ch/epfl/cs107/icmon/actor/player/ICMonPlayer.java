@@ -5,6 +5,9 @@ import ch.epfl.cs107.icmon.actor.Door;
 import ch.epfl.cs107.icmon.actor.ICMonActor;
 import ch.epfl.cs107.icmon.actor.items.ICBall;
 import ch.epfl.cs107.icmon.actor.items.ICBerry;
+import ch.epfl.cs107.icmon.actor.items.ICKey;
+import ch.epfl.cs107.icmon.actor.npc.ICBoy;
+import ch.epfl.cs107.icmon.actor.npc.ICBully;
 import ch.epfl.cs107.icmon.actor.pokemon.*;
 import ch.epfl.cs107.icmon.area.ICMonBehavior;
 import ch.epfl.cs107.icmon.gamelogic.events.ICMonEvent;
@@ -47,8 +50,10 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
     private ICMonQuestInfoGraphics questInfoGraphic;
     private boolean displayQuestInfo;
 
+    public static int KEY_NUMBER;
+
     //wrapper for the number of berries, so it can be modified by fights
-    private int[] nbBerry = new int [1];
+    public static int BERRY_NUMBER;
 
     /**
      * Default MovableAreaEntity constructor
@@ -68,6 +73,8 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         this.pokemonList = new ArrayList<>();
         soundItem = new SoundAcoustics("sound/collect_item_sound.wav");
         soundDialog = new SoundAcoustics("sound/dialog_sound.wav");
+        BERRY_NUMBER = 0;
+        KEY_NUMBER = 0;
         questInfoGraphic = new ICMonQuestInfoGraphics(this);
     }
 
@@ -119,6 +126,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         }
         //Managing dialog
         if (isDialog) {
+            currentAnimation.reset();
             if (keyboard.get(Keyboard.SPACE).isPressed()) {
                 soundDialog.shouldBeStarted();
                 currentDialog.update(deltaTime);
@@ -140,10 +148,14 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
             else {
                 currentAnimation.reset();                 //reset the player's animation when the player is not moving
             }
+            if (keyboard.get(Keyboard.G).isPressed()){
+                System.out.println(getCurrentCells().get(0));
+            }
         }
         removeDeadPokemon();
         super.update(deltaTime);
     }
+
 
     private boolean hasPokemons(){
         return !pokemonList.isEmpty();
@@ -164,9 +176,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
      * Gets the number of berry
      * @return (int) the number of berry
      */
-    public int[] getNbBerry() {
-        return nbBerry;
-    }
+
 
     /**
      * Removes dead Pokemons from the List. Updated
@@ -234,6 +244,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
         return true;
 
     }
+
     @Override
     public void draw(Canvas canvas){
         currentAnimation.draw(canvas);
@@ -320,7 +331,7 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
          */
         @Override
         public void interactWith(ICBall ball, boolean isCellInteraction) {
-            if (!isCellInteraction && wantsCellInteraction()){
+            if (!isCellInteraction){
                 soundItem.shouldBeStarted();
                 addPokemon(ball.getInsidePokemon());
                 ball.collect();
@@ -363,6 +374,16 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
                 PassDoorMessage message = new PassDoorMessage(door, gameState);
                 gameState.send(message);
             }
+            // Extension
+            if (!isCellInteraction){
+                if(KEY_NUMBER <=0){
+                    openDialog("closed_door");
+                }
+                else {
+                    openDialog("key_used");
+                    door.open();
+                }
+            }
         }
 
         /**
@@ -386,15 +407,35 @@ public class ICMonPlayer extends ICMonActor implements Interactor {
          */
         @Override
         public void interactWith(ICBerry berry, boolean isCellInteraction){
-            if (!isCellInteraction && wantsCellInteraction()){
+            if (!isCellInteraction){
                 berry.collect();
-                nbBerry[0]++;
+                BERRY_NUMBER++;
                 if (!ICBerry.isDiscovered()){
                     openDialog("first_encounter_with_berry");
                     ICBerry.setDiscovered(true);
                 }
                 System.out.println("Berry added to the inventory !");
             }
+        }
+
+        @Override
+        public void interactWith(ICKey key, boolean isCellInteraction) {
+            if (!isCellInteraction){
+                soundItem.shouldBeStarted();
+                key.collect();
+                KEY_NUMBER++;
+                openDialog("collect_key_event");
+            }
+        }
+
+        @Override
+        public void interactWith(ICBoy boy, boolean isCellInteraction) {
+            openDialog("boy_default");
+        }
+
+        @Override
+        public void interactWith(ICBully bully, boolean isCellInteraction) {
+            openDialog("bully_default");
         }
     }
 }

@@ -6,6 +6,7 @@ import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.actor.pokemon.Latios;
 import ch.epfl.cs107.icmon.area.maps.House;
 import ch.epfl.cs107.icmon.gamelogic.actions.AddPokemonToPlayerAction;
+import ch.epfl.cs107.icmon.gamelogic.actions.StartEventAction;
 import ch.epfl.cs107.icmon.gamelogic.actions.DisplayQuestInfoAction;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
@@ -15,10 +16,16 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 public class FirstInteractionWithProfOakEvent extends ICMonEvent{
 
     private boolean interacted = false;
-    public FirstInteractionWithProfOakEvent(ICMonPlayer player) {
+
+    public FirstInteractionWithProfOakEvent(ICMonPlayer player){
         super(player);
         onStart(new DisplayQuestInfoAction(player, "Talk to the professor Oak in his laboratory", "actors/prof_oak_icon"));
         onComplete(new AddPokemonToPlayerAction(new Latios(new House(),new DiscreteCoordinates(0,0)),player)); //null
+
+    }
+    public FirstInteractionWithProfOakEvent(ICMonPlayer player,ICMonChainedEvent chainedEvent) {
+        this(player);
+        onComplete(new StartEventAction(chainedEvent));
     }
 
     @Override
@@ -49,4 +56,5 @@ public class FirstInteractionWithProfOakEvent extends ICMonEvent{
     public void interactWith(ICShopAssistant assistant,boolean isCellInteraction){
         player.openDialog("first_interaction_with_oak_event_icshopassistant");
     }
+
 }

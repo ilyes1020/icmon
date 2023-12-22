@@ -18,6 +18,8 @@ public class Door extends AreaEntity {
     private final DiscreteCoordinates arrivalAreaPosition;
     private final DiscreteCoordinates mainCoords;
     private List<DiscreteCoordinates> additionalCoords = new ArrayList<>();
+
+    private boolean isClosed;
     /**
      * Default Door constructor.
      *
@@ -46,6 +48,16 @@ public class Door extends AreaEntity {
         this(currentArea, arrivalAreaName, arrivalAreaPosition, mainCoords);
         this.additionalCoords.addAll(Arrays.asList(additionalCoords));
     }
+
+    public Door(boolean isClosed,Area currentArea, String arrivalAreaName, DiscreteCoordinates arrivalAreaPosition, DiscreteCoordinates mainCoords){
+        this(currentArea,arrivalAreaName,arrivalAreaPosition,mainCoords);
+        this.isClosed = isClosed;
+    }
+    public Door(boolean isClosed,Area currentArea, String arrivalAreaName, DiscreteCoordinates arrivalAreaPosition, DiscreteCoordinates mainCoords, DiscreteCoordinates... additionalCoords){
+        this(isClosed,currentArea,arrivalAreaName,arrivalAreaPosition,mainCoords);
+        this.additionalCoords.addAll(Arrays.asList(additionalCoords));
+    }
+
 
     /**
      * Retrieves the current cells occupied by the door, including additional coordinates.
@@ -76,20 +88,21 @@ public class Door extends AreaEntity {
     public DiscreteCoordinates getArrivalAreaPosition(){
         return new DiscreteCoordinates(arrivalAreaPosition.x, arrivalAreaPosition.y);
     }
-
+    //Extension
     @Override
     public boolean takeCellSpace() {
-        return false;
+        return isClosed;
     }
+
 
     @Override
     public boolean isCellInteractable() {
         return true;
     }
-
+    //Extension
     @Override
     public boolean isViewInteractable() {
-        return false;
+        return isClosed;
     }
 
     @Override
@@ -100,5 +113,9 @@ public class Door extends AreaEntity {
 
     @Override
     public void draw(Canvas canvas) {
+    }
+
+    public void open(){
+        isClosed=false;
     }
 }

@@ -33,6 +33,8 @@ public final class Town extends ICMonArea {
         registerActor(new Door(this, "arena", new DiscreteCoordinates(4,2), new DiscreteCoordinates(20,16)));
         registerActor(new Door(this, "house", new DiscreteCoordinates(3,2), new DiscreteCoordinates(7,27)));
         registerActor(new Door(this, "shop", new DiscreteCoordinates(3,2), new DiscreteCoordinates(25,20)));
+        // Extension
+        registerActor(new Door(true,this,"house1",new DiscreteCoordinates(3,2),new DiscreteCoordinates(10,13)));
     }
 
     private void createBerry(){

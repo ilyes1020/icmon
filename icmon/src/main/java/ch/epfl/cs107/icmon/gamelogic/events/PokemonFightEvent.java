@@ -29,7 +29,7 @@ public class PokemonFightEvent extends ICMonEvent implements PauseMenuEvent {
      */
     public PokemonFightEvent(ICMonPlayer player, Pokemon playersPokemon, ICMonFightableActor opponent){
         super(player);
-        pauseMenu = new ICMonFight(playersPokemon,opponent.getPokemons().get(0), player.getNbBerry());
+        pauseMenu = new ICMonFight(playersPokemon,opponent.getPokemons().get(0));
         this.opponent=opponent;
         onStart(new SuspendEventAction(this, player.getEventManager()));
         onComplete(new ResumeEventAction(this, player.getEventManager()));

@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icmon.gamelogic.fights;
 
 import ch.epfl.cs107.icmon.actor.items.ICBerry;
+import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.actor.pokemon.Pokemon;
 import ch.epfl.cs107.icmon.actor.pokemon.actions.OnSelfAction;
 import ch.epfl.cs107.icmon.actor.pokemon.actions.OnTargetAction;
@@ -13,6 +14,8 @@ import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
+
+import static ch.epfl.cs107.icmon.actor.player.ICMonPlayer.BERRY_NUMBER;
 
 /**
  * Represents a Pokémon fight in the ICMon game
@@ -31,7 +34,7 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
     private ICMonFightAction opponentAction;
     private boolean playerDidAction;
     private boolean opponentDidAction;
-    private final int[] playerBerryNb;
+
 
     /**
      * Enum representing the different stages of a Pokemon fight
@@ -50,10 +53,9 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
      * @param playersPokemon The Pokémon controlled by the player.
      * @param opponent       The opponent Pokémon in the fight.
      */
-    public ICMonFight(Pokemon playersPokemon, Pokemon opponent, int[] playerBerryNb){
+    public ICMonFight(Pokemon playersPokemon, Pokemon opponent){
         this.playersPokemon = playersPokemon;
         this.opponent = opponent;
-        this.playerBerryNb = playerBerryNb;
         this.isRunning = true;
         stage = FightStage.INTRODUCTION;
     }
@@ -73,12 +75,12 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
 
         //Managing the usage of berries, if used, skip player's action Stage
         if (keyboard.get(Keyboard.F).isPressed()){
-            if (playerBerryNb[0] > 0){
-                --playerBerryNb[0];
+            if (BERRY_NUMBER > 0){
+                --BERRY_NUMBER;
                 playersPokemon.heal(ICBerry.HEALING_VALUE);
                 stage = FightStage.OPPONENTACTION;
-
-                arena.setBerryNbText(playerBerryNb[0]);
+                arena.setPlayerBerryNb(BERRY_NUMBER);
+                arena.update(deltaTime);
             }else{
                 System.out.println("No more berries !");
             }
@@ -175,7 +177,7 @@ public class ICMonFight extends PauseMenu implements PauseMenuSelector{
 
             keyboard = getKeyboard();
 
-            arena = new ICMonFightArenaGraphics (CAMERA_SCALE_FACTOR, playersPokemon.properties(), opponent.properties(), playerBerryNb[0]);
+            arena = new ICMonFightArenaGraphics (CAMERA_SCALE_FACTOR, playersPokemon.properties(), opponent.properties(), BERRY_NUMBER);
             selectionGraphics = new ICMonFightActionSelectionGraphics(CAMERA_SCALE_FACTOR, keyboard, playersPokemon.getActions());
 
             return true;

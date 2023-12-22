@@ -1,11 +1,17 @@
 package ch.epfl.cs107.icmon;
 
 import ch.epfl.cs107.icmon.actor.items.ICBall;
+import ch.epfl.cs107.icmon.actor.items.ICKey;
 import ch.epfl.cs107.icmon.actor.items.ICMonItem;
+import ch.epfl.cs107.icmon.actor.npc.ICBoy;
 import ch.epfl.cs107.icmon.actor.player.ICMonPlayer;
 import ch.epfl.cs107.icmon.area.ICMonArea;
 import ch.epfl.cs107.icmon.area.maps.*;
 import ch.epfl.cs107.icmon.gamelogic.events.*;
+import ch.epfl.cs107.icmon.gamelogic.events.sidestory.FindTheKeyEvent;
+import ch.epfl.cs107.icmon.gamelogic.events.sidestory.FirstInteractionWithBoyEvent;
+import ch.epfl.cs107.icmon.gamelogic.events.sidestory.FirstInteractionWithBullyEvent;
+import ch.epfl.cs107.icmon.gamelogic.events.sidestory.SecondInteractionWithBoyEvent;
 import ch.epfl.cs107.icmon.message.GamePlayMessage;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
@@ -38,9 +44,13 @@ public final class ICMon extends AreaGame {
             addArea(new Arena());
             addArea(new House());
             addArea(new Shop());
+            // Extension
+            addArea(new House1());
 
             // Initializes the first area
             initArea("house");
+
+
 
             // Initializes the event lists
             currentEvents = new ArrayList<>();
@@ -48,6 +58,7 @@ public final class ICMon extends AreaGame {
             eventsToUnRegister = new ArrayList<>();
             new TitleScreenEvent(player).start();
             events(town);
+            //sideStory(town); // Comment for the original story
             return true;
         }
         return false;
@@ -59,17 +70,37 @@ public final class ICMon extends AreaGame {
      * @param area   The ICMonArea in which the CollectItemEvent will take place.
      */
     private void events(ICMonArea area){
-        ICMonItem ball = new ICBall(area, new DiscreteCoordinates(6,6), "icball");
+        ICMonItem ball = new ICBall(area, new DiscreteCoordinates(6,6),"icball");
 
         ICMonEvent firstEvent = new IntroductionEvent(player);
-        ICMonEvent talkOak = new FirstInteractionWithProfOakEvent(player);
-        ICMonEvent ballCollect = new CollectItemEvent(ball,player,area);
+        // Launches the sideStory when completed. Remove second parameter for mainStory only
+        ICMonEvent talkOak = new FirstInteractionWithProfOakEvent(player,sideStory(area));
         ICMonEvent garryInteraction = new FirstInteractionWithGarryEvent(player);
+        ICMonEvent ballCollect = new CollectItemEvent(ball,player,area);
         ICMonEvent endGame = new EndOfTheGameEvent(player);
 
         ICMonChainedEvent chainedEvent= new ICMonChainedEvent(player,firstEvent,talkOak,garryInteraction,ballCollect,endGame);
 
         chainedEvent.start();
+    }
+
+    /**
+     * Side story based on extensions
+     * @param area Area in which the ICBoy will spawn.
+     * @return (ICMonChainedEvent) Needs to be started.
+     */
+    private ICMonChainedEvent sideStory(ICMonArea area){
+        ICBoy boy = new ICBoy(area,new DiscreteCoordinates(8,20));
+        ICKey key = new ICKey(area,new DiscreteCoordinates(19,30));
+
+        ICMonEvent firstInteractionWithBoy = new FirstInteractionWithBoyEvent(player,boy,area);
+        ICMonEvent keyEvent = new FindTheKeyEvent(player,area,key);
+        ICMonEvent firstInteractionWithBully = new FirstInteractionWithBullyEvent(player);
+        ICMonEvent secondInteractionWithBoy = new SecondInteractionWithBoyEvent(player);
+
+        ICMonChainedEvent chainedEvent = new ICMonChainedEvent(player,firstInteractionWithBoy,keyEvent,firstInteractionWithBully,secondInteractionWithBoy);
+
+        return chainedEvent;
     }
 
     @Override

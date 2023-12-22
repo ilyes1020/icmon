@@ -9,13 +9,9 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.Collections;
 import java.util.List;
 
-public class ICBerry extends ICMonItem{
-    private static boolean discovered;
-
-    public final static int HEALING_VALUE = 5;
-    public ICBerry(Area area, DiscreteCoordinates position) {
-        super(area, position, "items/icberry");
-        discovered = false; // So it sets to false after reset
+public class ICKey extends ICMonItem {
+    public ICKey(Area area, DiscreteCoordinates position) {
+        super(area, position, "items/key");
     }
 
     @Override
@@ -37,11 +33,4 @@ public class ICBerry extends ICMonItem{
         sprite.draw(canvas);
     }
 
-    public static boolean isDiscovered(){
-        return discovered;
-    }
-    public static void setDiscovered(boolean isDiscovered){
-        discovered = isDiscovered;
-    }
 }
-
