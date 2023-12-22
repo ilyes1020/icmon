@@ -40,9 +40,11 @@ public class FirstInteractionWithBoyEvent extends ICMonEvent {
             area.setViewCandidate(boy);
             player.openDialog("waiting");
             boy.setTarget(player.getCurrentCells().get(0));
+            player.hideQuestInfoGraphic();
             if (distance==1){
                 boy.stopTargeting();
                 area.setViewCandidate(player);
+                player.displayQuestInfo();
                 player.openDialog("first_interaction_with_boy");
                 complete();
             }
