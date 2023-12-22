@@ -35,7 +35,7 @@ public class FirstInteractionWithBoyEvent extends ICMonEvent {
             isCreated = true;
             area.registerActor(boy);
         }
-
+        // the boy follows the player for a moment
         if (distance<=8){
             area.setViewCandidate(boy);
             player.openDialog("waiting");

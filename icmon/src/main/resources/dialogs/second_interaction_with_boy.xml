@@ -1,9 +1,10 @@
 <dialog>
     <string>Did you find it ?</string>
-    <string>"You gave a : Bulbasaur"</string>
+    <string>You gave a : Bulbasaur</string>
     <string>My little creature ! Thank you very much.</string>
     <string>You're so kind !</string>
     <string>And just something before you go...</string>
     <string>...don't annoy too much the assistants.</string>
     <string>See ya !</string>
+    <string>You received a : Latios</string>
 </dialog>
