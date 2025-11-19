@@ -19,13 +19,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>gitlab-epfl</id>
-            <url>https://ic-gitlab.epfl.ch/api/v4/projects/16734/packages/maven</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <plugins>
             <plugin>
@@ -37,27 +30,13 @@
                     <target>17</target>
                 </configuration>
             </plugin>
-            <!--
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>ch.epfl.cs107.play.Play</mainClass>
+                    <mainClass>ch.epfl.cs107.Play</mainClass>
                 </configuration>
-            </plugin>
-            -->
-            <plugin>
-                <groupId>ch.epfl.cs107</groupId>
-                <artifactId>submission-maven-plugin</artifactId>
-                <version>1.0.0-RC1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>package-submission</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
