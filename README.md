@@ -24,6 +24,7 @@ mvn exec:java
 -   Space: Skip dialogues
 -   F: In battle, restores Pokemon's health points.
 -   G: Remove Quest Info from the screen.
+-   R: Reset the game
 
 ### ICMon Main Story Solution
 
