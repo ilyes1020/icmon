@@ -3,7 +3,7 @@
 
 ## Overview
 
-The ICMon game is an RPG that involves various elements in a grid-based gameplay. These elements can interact with each other, and these interactions have consequences for the game's progression.
+ICMon is an RPG that involves various elements in a grid-based gameplay. These elements can interact with each other, and these interactions have consequences for the game's progression.
 
 ## Run the game
 
