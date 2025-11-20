@@ -21,10 +21,10 @@ mvn exec:java
 -   WASD: Movement
 -   E: Interaction with the environment.
 -   Enter: Start the game + confirm certain menu selections.
--   Space: Skip dialogues
+-   Space: Skip dialogues.
 -   F: In battle, restores Pokemon's health points.
--   G: Remove Quest Info from the screen.
--   R: Reset the game
+-   G: Toggle Quest Info.
+-   R: Reset the game.
 
 ### ICMon Main Story Solution
 
